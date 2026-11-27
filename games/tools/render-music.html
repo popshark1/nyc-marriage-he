@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Render klezmer.mp3</title>
+<p>Renders the game's klezmer band to a WAV file (convert to MP3 with: <code>ffmpeg -i klezmer.wav -ac 1 -b:a 96k ../assets/klezmer.mp3</code>).</p>
+<button id="go">Render</button> <a id="dl" hidden download="klezmer.wav">Download WAV</a>
+<script type="module">
+import { renderKlezmer, wavBlob } from "../klezmer.js";
+async function render() {
+  const r = await renderKlezmer(44100);
+  return wavBlob(r.data, r.rate, r.gain);
+}
+window.renderWav = async () => { const b = await render(); return new Uint8Array(await b.arrayBuffer()); };
+document.getElementById("go").onclick = async () => { const b = await render(); const a = document.getElementById("dl"); a.href = URL.createObjectURL(b); a.hidden = false; };
+</script>
