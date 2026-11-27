@@ -9,52 +9,52 @@ const STR = {
     sub: "החתן והכלה התחבאו זה מזה בין האורחים בגן. בחרו דמות ומצאו את בן או בת הזוג כדי שהחופה תתחיל!",
     choose: "בחרו דמות", bride: "כלה", groom: "חתן",
     storyB: "בחרת להיות הכלה. החתן התחבא איפשהו בגן – מצאי אותו!", storyG: "בחרת להיות החתן. הכלה התחבאה איפשהו בגן – מצא אותה!",
-    easy: "קל", easyD: "נשאר/ת במקום, ויש מד חם־קר", hard: "קשה", hardD: "מחליף/ה מקום כל 45 שניות, בלי רמזים",
+    easy: "קל", easyD: "מחליף/ה מקום מדי פעם בהליכה איטית, עם מד חם־קר", hard: "קשה", hardD: "זז/ה הרבה ובורח/ת כשמתקרבים, בלי רמזים",
     start: "התחילו!", ctrlD: "WASD / חיצים – הליכה · עכבר – הסתכלות (לחצו על המסך) · Shift – ריצה",
     ctrlM: "ג׳ויסטיק בצד – הליכה · גרירה בצד השני – הסתכלות",
-    hints: ["קפוא", "קר", "פושר", "חם", "רותח!"], movedG: "שמעת צחקוק… החתן עבר מקום!", movedB: "שמעת צחקוק… הכלה עברה מקום!",
+    hints: ["קפוא", "קר", "פושר", "חם", "רותח!"], movedG: "שמעת צחקוק… החתן מתגנב למקום אחר!", movedB: "שמעת צחקוק… הכלה מתגנבת למקום אחר!",
     win: "מזל טוב!", foundG: "מצאת את החתן תוך {t} שניות", foundB: "מצאת את הכלה תוך {t} שניות",
     best: "השיא שלך: {t} שנ׳", newBest: "שיא חדש!", again: "שחקו שוב", back: "חזרה לחיפוש",
-    home: "חזרה לאתר", sound: "צלילים", menu: "תפריט", tip: "טיפ: חפשו מאחורי עוגות, עצים, הבמה של הלהקה ובין האורחים",
+    home: "חזרה לאתר", fledG: "החתן ברח ממך!", fledB: "הכלה ברחה ממך!", music: "מוזיקה", musicNote: "מוזיקה: לחנים מקוריים בסגנון כליזמר (פריילעכס ובולגר)", sound: "צלילים", menu: "תפריט", tip: "טיפ: חפשו מאחורי עוגות, עצים, הבמה של הלהקה ובין האורחים",
   },
   en: {
     dir: "ltr", title: "Wedding Hide & Seek",
     sub: "The bride and groom are hiding from each other among the guests. Pick a character and find your partner so the ceremony can begin!",
     choose: "Choose your character", bride: "Bride", groom: "Groom",
     storyB: "You're the bride. The groom is hiding somewhere in the garden — find him!", storyG: "You're the groom. The bride is hiding somewhere in the garden — find her!",
-    easy: "Easy", easyD: "Stays put, with a hot/cold meter", hard: "Hard", hardD: "Moves every 45 seconds, no hints",
+    easy: "Easy", easyD: "Sneaks to a new spot now and then, slowly, with a hot/cold meter", hard: "Hard", hardD: "Moves often and runs away when you get close, no hints",
     start: "Start!", ctrlD: "WASD / arrows — walk · mouse — look (click the scene) · Shift — run",
     ctrlM: "Joystick — walk · drag on the other side — look",
-    hints: ["Freezing", "Cold", "Warm", "Hot", "Burning!"], movedG: "You heard a giggle… the groom moved!", movedB: "You heard a giggle… the bride moved!",
+    hints: ["Freezing", "Cold", "Warm", "Hot", "Burning!"], movedG: "You heard a giggle… the groom is sneaking to a new spot!", movedB: "You heard a giggle… the bride is sneaking to a new spot!",
     win: "Mazel Tov!", foundG: "You found the groom in {t} seconds", foundB: "You found the bride in {t} seconds",
     best: "Your best: {t}s", newBest: "New record!", again: "Play again", back: "Back to search",
-    home: "Back to the site", sound: "Sound", menu: "Menu", tip: "Tip: look behind the cake, trees, the band stage and among the guests",
+    home: "Back to the site", fledG: "The groom ran away!", fledB: "The bride ran away!", music: "Music", musicNote: "Music: original klezmer-style tunes (a freylekhs and a bulgar)", sound: "Sound", menu: "Menu", tip: "Tip: look behind the cake, trees, the band stage and among the guests",
   },
   yi: {
     dir: "rtl", title: "באַהאַלטערלעך אויף דער חתונה",
     sub: "דער חתן און די כּלה האָבן זיך באַהאַלטן איינער פֿונעם אַנדערן צווישן די געסט. קלײַבט אויס אַ פֿיגור און געפֿינט דעם פּאַרטנער, כּדי די חופּה זאָל זיך אָנהייבן!",
     choose: "קלײַבט אויס אַ פֿיגור", bride: "כּלה", groom: "חתן",
     storyB: "דו ביסט די כּלה. דער חתן האָט זיך באַהאַלטן ערגעץ אין גאָרטן – געפֿין אים!", storyG: "דו ביסט דער חתן. די כּלה האָט זיך באַהאַלטן ערגעץ אין גאָרטן – געפֿין זי!",
-    easy: "גרינג", easyD: "בלײַבט אויפֿן אָרט, מיט אַ הייס־קאַלט מעסטער", hard: "שווער", hardD: "בײַט דעם אָרט יעדע 45 סעקונדעס, אָן אָנווײַזונגען",
+    easy: "גרינג", easyD: "גנבֿעט זיך פֿון צײַט צו צײַט צו אַן אַנדער אָרט, פּאַמעלעך, מיט אַ הייס־קאַלט מעסטער", hard: "שווער", hardD: "באַוועגט זיך אָפֿט און אַנטלויפֿט ווען מע קומט נאָענט, אָן אָנווײַזונגען",
     start: "הייבט אָן!", ctrlD: "WASD / פֿײַלן – גיין · מויז – קוקן (קליקט אויפֿן בילד) · Shift – לויפֿן",
     ctrlM: "דזשויסטיק – גיין · שלעפּן אויף דער אַנדערער זײַט – קוקן",
-    hints: ["פֿאַרפֿרוירן", "קאַלט", "וואַרעם", "הייס", "ברענט!"], movedG: "מע האָט געהערט אַ כיכיקען… דער חתן האָט געביטן דעם אָרט!", movedB: "מע האָט געהערט אַ כיכיקען… די כּלה האָט געביטן דעם אָרט!",
+    hints: ["פֿאַרפֿרוירן", "קאַלט", "וואַרעם", "הייס", "ברענט!"], movedG: "מע האָט געהערט אַ כיכיקען… דער חתן גנבֿעט זיך צו אַן אַנדער אָרט!", movedB: "מע האָט געהערט אַ כיכיקען… די כּלה גנבֿעט זיך צו אַן אַנדער אָרט!",
     win: "מזל־טובֿ!", foundG: "דו האָסט געפֿונען דעם חתן אין {t} סעקונדעס", foundB: "דו האָסט געפֿונען די כּלה אין {t} סעקונדעס",
     best: "דײַן רעקאָרד: {t} סעק׳", newBest: "אַ נײַער רעקאָרד!", again: "נאָך אַ מאָל", back: "צוריק צום זוכן",
-    home: "צוריק צום וועבזײַטל", sound: "קלאַנגען", menu: "מעניו", tip: "עצה: קוקט הינטער דעם טאָרט, די ביימער, די בינע פֿון דער קאַפּעליע און צווישן די געסט",
+    home: "צוריק צום וועבזײַטל", fledG: "דער חתן איז אַנטלאָפֿן!", fledB: "די כּלה איז אַנטלאָפֿן!", music: "מוזיק", musicNote: "מוזיק: אָריגינעלע ניגונים אין קלעזמער־סטיל (אַ פֿריילעכס און אַ בולגאַר)", sound: "קלאַנגען", menu: "מעניו", tip: "עצה: קוקט הינטער דעם טאָרט, די ביימער, די בינע פֿון דער קאַפּעליע און צווישן די געסט",
   },
   fr: {
     dir: "ltr", title: "Cache-cache au mariage",
     sub: "Les mariés se cachent l'un de l'autre parmi les invités. Choisissez un personnage et retrouvez votre moitié pour que la cérémonie commence !",
     choose: "Choisissez votre personnage", bride: "Mariée", groom: "Marié",
     storyB: "Vous êtes la mariée. Le marié se cache quelque part dans le jardin — trouvez-le !", storyG: "Vous êtes le marié. La mariée se cache quelque part dans le jardin — trouvez-la !",
-    easy: "Facile", easyD: "Reste sur place, avec un indicateur chaud/froid", hard: "Difficile", hardD: "Change de cachette toutes les 45 s, sans indices",
+    easy: "Facile", easyD: "Change de cachette de temps en temps, lentement, avec un indicateur chaud/froid", hard: "Difficile", hardD: "Bouge souvent et s'enfuit quand vous approchez, sans indices",
     start: "C'est parti !", ctrlD: "ZQSD / WASD / flèches — marcher · souris — regarder (cliquez sur la scène) · Maj — courir",
     ctrlM: "Joystick — marcher · glisser de l'autre côté — regarder",
-    hints: ["Glacial", "Froid", "Tiède", "Chaud", "Brûlant !"], movedG: "Un petit rire… le marié a changé de cachette !", movedB: "Un petit rire… la mariée a changé de cachette !",
+    hints: ["Glacial", "Froid", "Tiède", "Chaud", "Brûlant !"], movedG: "Un petit rire… le marié se faufile vers une autre cachette !", movedB: "Un petit rire… la mariée se faufile vers une autre cachette !",
     win: "Mazel Tov !", foundG: "Vous avez trouvé le marié en {t} secondes", foundB: "Vous avez trouvé la mariée en {t} secondes",
     best: "Votre record : {t} s", newBest: "Nouveau record !", again: "Rejouer", back: "Retour à la recherche",
-    home: "Retour au site", sound: "Son", menu: "Menu", tip: "Astuce : regardez derrière le gâteau, les arbres, la scène de l'orchestre et parmi les invités",
+    home: "Retour au site", fledG: "Le marié s'est enfui !", fledB: "La mariée s'est enfuie !", music: "Musique", musicNote: "Musique : airs originaux dans le style klezmer (un freylekhs et un bulgar)", sound: "Son", menu: "Menu", tip: "Astuce : regardez derrière le gâteau, les arbres, la scène de l'orchestre et parmi les invités",
   },
 };
 const LANGS = ["he", "en", "yi", "fr"];
@@ -320,20 +320,145 @@ function makePartner(r) {
     ? person({ skin: "#f1c9a5", hair: "#2b1d14", top: "#1c1f2b", legs: "#1c1f2b", kippah: "#ffffff", tie: true })
     : person({ skin: "#f1c9a5", hair: "#6b3f1f", top: "#fbfaf6", dress: "#fbfaf6", dressW: 1.0, veil: true, bride: true, sleeve: "#fbfaf6", glow: true });
 }
-function placePartner(exclude = -1) {
-  let i, tries = 0;
-  do { i = (Math.random() * SPOTS.length) | 0; tries++; }
-  while ((i === exclude || Math.hypot(SPOTS[i][0] - P.x, SPOTS[i][1] - P.z) < 12) && tries < 50);
+function pickSpot(exclude = [], minFromPlayer = 12) {
+  const ok = SPOTS.map((s, i) => i).filter(i => !exclude.includes(i) && Math.hypot(SPOTS[i][0] - P.x, SPOTS[i][1] - P.z) >= minFromPlayer);
+  const pool = ok.length ? ok : SPOTS.map((s, i) => i).filter(i => !exclude.includes(i));
+  return pool[(Math.random() * pool.length) | 0];
+}
+function placePartner() {
+  const last = +store.get("wed_last");
+  const i = pickSpot(Number.isFinite(last) ? [last] : []);      // a different hiding place every game
+  store.set("wed_last", String(i));
   partnerSpot = i;
   const [x, z] = SPOTS[i];
   partner.position.set(x, 0, z);
   partner.rotation.y = Math.atan2(START.x - x, START.z - z);
 }
-function collides(x, z, r = .3) {
+// partner AI: hide for a while, then sneak to another spot; in hard mode, run away when you get close
+const AI = { mover: null, mode: "hide", until: 0, fleeCool: 0 };
+const hideTime = () => (difficulty === "easy" ? 20 + Math.random() * 15 : 10 + Math.random() * 8) * 1000;
+function sneakTo(i, speed) {
+  const [x, z] = SPOTS[i];
+  const path = findPath(partner.position.x, partner.position.z, x, z);
+  if (!path) return false;
+  partnerSpot = i; AI.mover.path = path; AI.mover.speed = speed; AI.mode = "move";
+  return true;
+}
+const wanderers = [];
+function staticHit(x, z, r) {
   for (const [a, b, c, d] of solids) if (x + r > a && x - r < c && z + r > b && z - r < d) return true;
+  return false;
+}
+function collides(x, z, r = .3) {
+  if (staticHit(x, z, r)) return true;
   for (const p of hora) if (Math.hypot(p.position.x - x, p.position.z - z) < r + .3) return true;
+  for (const w of wanderers) if (Math.hypot(w.obj.position.x - x, w.obj.position.z - z) < r + .3) return true;
   if (partner && Math.hypot(partner.position.x - x, partner.position.z - z) < r + .35) return true;
   return false;
+}
+
+// ------------------------------------------------------------------ navigation grid + A*
+const NAV = { cell: .5, min: -W + .7 };
+NAV.n = Math.floor((2 * (W - .7)) / NAV.cell) + 1;
+NAV.blocked = new Uint8Array(NAV.n * NAV.n);
+for (let i = 0; i < NAV.n; i++) for (let j = 0; j < NAV.n; j++)
+  NAV.blocked[i * NAV.n + j] = staticHit(NAV.min + i * NAV.cell, NAV.min + j * NAV.cell, .38) ? 1 : 0;
+const clampI = v => Math.max(0, Math.min(NAV.n - 1, v));
+const cellOf = (x, z) => [clampI(Math.round((x - NAV.min) / NAV.cell)), clampI(Math.round((z - NAV.min) / NAV.cell))];
+const posOf = (i, j) => [NAV.min + i * NAV.cell, NAV.min + j * NAV.cell];
+function nearestFree(i, j) {
+  if (!NAV.blocked[i * NAV.n + j]) return [i, j];
+  for (let r = 1; r < 8; r++) for (let di = -r; di <= r; di++) for (let dj = -r; dj <= r; dj++) {
+    const a = clampI(i + di), b = clampI(j + dj);
+    if (!NAV.blocked[a * NAV.n + b]) return [a, b];
+  }
+  return [i, j];
+}
+function lineFree(x0, z0, x1, z1) {
+  const d = Math.hypot(x1 - x0, z1 - z0), n = Math.ceil(d / .25);
+  for (let k = 1; k <= n; k++) { const t = k / n; if (staticHit(x0 + (x1 - x0) * t, z0 + (z1 - z0) * t, .32)) return false; }
+  return true;
+}
+function findPath(x0, z0, x1, z1) {
+  const N = NAV.n, B = NAV.blocked;
+  const [si, sj] = nearestFree(...cellOf(x0, z0)), [ti, tj] = nearestFree(...cellOf(x1, z1));
+  const S = si * N + sj, Tn = ti * N + tj;
+  const g = new Float32Array(N * N).fill(Infinity), came = new Int32Array(N * N).fill(-1), closed = new Uint8Array(N * N);
+  const heap = [];
+  const push = (node, f) => { heap.push([f, node]); let i = heap.length - 1; while (i > 0) { const p = (i - 1) >> 1; if (heap[p][0] <= heap[i][0]) break; [heap[p], heap[i]] = [heap[i], heap[p]]; i = p; } };
+  const pop = () => { const top = heap[0], last = heap.pop(); if (heap.length) { heap[0] = last; let i = 0; for (;;) { const l = 2 * i + 1, r = l + 1; let m = i; if (l < heap.length && heap[l][0] < heap[m][0]) m = l; if (r < heap.length && heap[r][0] < heap[m][0]) m = r; if (m === i) break; [heap[m], heap[i]] = [heap[i], heap[m]]; i = m; } } return top[1]; };
+  const h = n => Math.hypot(((n / N) | 0) - ti, (n % N) - tj);
+  g[S] = 0; push(S, h(S));
+  while (heap.length) {
+    const cur = pop();
+    if (closed[cur]) continue;
+    if (cur === Tn) break;
+    closed[cur] = 1;
+    const ci = (cur / N) | 0, cj = cur % N;
+    for (let di = -1; di <= 1; di++) for (let dj = -1; dj <= 1; dj++) {
+      if (!di && !dj) continue;
+      const ni = ci + di, nj = cj + dj;
+      if (ni < 0 || nj < 0 || ni >= N || nj >= N) continue;
+      const nn = ni * N + nj;
+      if (B[nn] || closed[nn]) continue;
+      if (di && dj && (B[(ci + di) * N + cj] || B[ci * N + cj + dj])) continue;   // no corner cutting
+      const ng = g[cur] + (di && dj ? 1.4142 : 1);
+      if (ng < g[nn]) { g[nn] = ng; came[nn] = cur; push(nn, ng + h(nn)); }
+    }
+  }
+  if (S !== Tn && came[Tn] === -1) return null;
+  const cells = [];
+  for (let n = Tn; n !== -1 && n !== S; n = came[n]) cells.push(posOf((n / N) | 0, n % N));
+  cells.reverse();
+  // string-pulling: skip waypoints that are in direct line of sight
+  const out = []; let cx = x0, cz = z0, k = 0;
+  while (k < cells.length) {
+    let far = k;
+    for (let m = cells.length - 1; m > k; m--) if (lineFree(cx, cz, cells[m][0], cells[m][1])) { far = m; break; }
+    out.push(cells[far]); [cx, cz] = cells[far]; k = far + 1;
+  }
+  return out;
+}
+
+// ------------------------------------------------------------------ walking characters
+function stepMover(m, dt, ts) {
+  const o = m.obj, u = o.userData;
+  if (!m.path || !m.path.length) {
+    if (u.legL) { u.legL.rotation.x *= .8; u.legR.rotation.x *= .8; }
+    return false;
+  }
+  const [tx, tz] = m.path[0], dx = tx - o.position.x, dz = tz - o.position.z, dist = Math.hypot(dx, dz), step = m.speed * dt;
+  if (dist <= step) { o.position.x = tx; o.position.z = tz; m.path.shift(); }
+  else { o.position.x += dx / dist * step; o.position.z += dz / dist * step; }
+  if (dist > .01) {
+    const want = Math.atan2(dx, dz); let dy = want - o.rotation.y; dy = Math.atan2(Math.sin(dy), Math.cos(dy));
+    o.rotation.y += dy * Math.min(1, dt * 10);
+  }
+  const sw = Math.sin(ts * m.speed * 4.2) * Math.min(.7, m.speed * .3);
+  if (u.legL) { u.legL.rotation.x = sw; u.legR.rotation.x = -sw; }
+  u.armL.rotation.x = -sw * .8; u.armR.rotation.x = sw * .8; u.armL.rotation.z = 0; u.armR.rotation.z = 0;
+  o.position.y = Math.abs(Math.sin(ts * m.speed * 4.2)) * .05;
+  return true;
+}
+// guests who stroll around the garden
+for (let k = 0; k < 7; k++) {
+  let x, z, tries = 0;
+  do { x = (R() - .5) * 36; z = (R() - .5) * 36; tries++; } while ((staticHit(x, z, .6) || nearSpot(x, z) || Math.hypot(x - DF.x, z - DF.z) < 5) && tries < 100);
+  const g = randomGuest(); g.position.set(x, 0, z);
+  wanderers.push({ obj: g, path: [], speed: .9 + R() * .5, wait: R() * 4 });
+}
+function updateWanderers(dt, ts) {
+  for (const w of wanderers) {
+    if (stepMover(w, dt, ts)) continue;
+    w.wait -= dt;
+    if (w.wait > 0) continue;
+    const o = w.obj.position;
+    let tx, tz, tries = 0;
+    do { tx = o.x + (Math.random() - .5) * 20; tz = o.z + (Math.random() - .5) * 20; tries++; }
+    while ((Math.abs(tx) > W - 2 || Math.abs(tz) > W - 2 || staticHit(tx, tz, .5) || Math.hypot(tx - DF.x, tz - DF.z) < 4.5) && tries < 30);
+    w.path = findPath(o.x, o.z, tx, tz) || [];
+    w.wait = 2 + Math.random() * 6;
+  }
 }
 
 // ------------------------------------------------------------------ input
@@ -412,12 +537,152 @@ function glassBreak() {
   const g = a.createGain(); g.gain.value = .35;
   s.connect(hp).connect(g).connect(a.destination); s.start();
 }
-// "Siman Tov u'Mazal Tov" (traditional folk tune, public domain) — first phrase
-function mazalTovTune() {
-  const n = { D: 293.66, E: 329.63, F: 349.23, G: 392, A: 440, Bb: 466.16, C5: 523.25, D5: 587.33 };
-  const seq = [["D", .25], ["F", .25], ["A", .5], ["A", .25], ["Bb", .25], ["A", .25], ["G", .25], ["F", .5], ["G", .25], ["A", .25], ["G", .25], ["F", .25], ["E", .25], ["D", .75]];
-  let t = .55; for (const [k, d] of seq) { tone(n[k], t, d * .9, "square", .05); tone(n[k] * 2, t, d * .9, "triangle", .04); t += d * .6; }
+// win fanfare: an original run up the freygish scale, ending on a D major chord
+function winFanfare() {
+  const run = ["D4", "Eb4", "F#4", "G4", "A4", "Bb4", "C5", "D5"];
+  run.forEach((n, i) => tone(nf(n), .5 + i * .07, .12, "square", .045));
+  ["D4", "F#4", "A4", "D5"].forEach(n => tone(nf(n), 1.1, 1.0, "triangle", .06));
 }
+
+// ------------------------------------------------------------------ klezmer band (original tunes, synthesised live)
+const nf = n => { const m = /^([A-G])(#|b)?(\d)$/.exec(n); const st = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 }[m[1]] + (m[2] === "#" ? 1 : m[2] === "b" ? -1 : 0); return 440 * 2 ** (((+m[3] + 1) * 12 + st - 69) / 12); };
+const CHORD = { D: ["D3", "F#3", "A3"], Gm: ["G3", "Bb3", "D4"], Cm: ["C3", "Eb3", "G3"], Eb: ["Eb3", "G3", "Bb3"] };
+const ROOT = { D: "D2", Gm: "G2", Cm: "C2", Eb: "Eb2" };
+// Both tunes are original compositions in the freygish mode (D Eb F# G A Bb C), the classic klezmer scale.
+const TUNES = [
+  { name: "freylekhs", bpm: 152, beats: 2, rhythm: "freylekhs",
+    chords: ["D", "D", "Gm", "D", "D", "Cm", "D", "D", "Gm", "Gm", "D", "D", "Cm", "Cm", "D", "D"],
+    melody: [
+      ["A4", .5], ["A4", .5], ["Bb4", .5], ["A4", .5], ["F#4", .5], ["G4", .5], ["A4", 1],
+      ["Bb4", .5], ["C5", .5], ["D5", .5], ["Bb4", .5], ["A4", .5], ["G4", .5], ["F#4", .5], ["A4", .5],
+      ["D5", .5], ["C5", .5], ["Bb4", .5], ["A4", .5], ["G4", .5], ["Bb4", .5], ["A4", .5], ["G4", .5],
+      ["F#4", .5], ["G4", .5], ["Eb4", .5], ["F#4", .5], ["D4", 1], [null, 1],
+      ["D5", .5], ["D5", .5], ["Eb5", .5], ["D5", .5], ["C5", .5], ["Bb4", .5], ["C5", .5], ["D5", .5],
+      ["A4", .5], ["Bb4", .5], ["C5", .5], ["A4", .5], ["F#4", 1], ["A4", 1],
+      ["G4", .5], ["Bb4", .5], ["Eb5", .5], ["D5", .5], ["C5", .5], ["Bb4", .5], ["A4", .5], ["G4", .5],
+      ["F#4", .5], ["A4", .5], ["G4", .5], ["Eb4", .5], ["D4", 1.5], [null, .5],
+    ] },
+  { name: "bulgar", bpm: 132, beats: 4, rhythm: "bulgar",
+    chords: ["D", "D", "Gm", "D", "Cm", "D", "Eb", "D", "Gm", "Gm", "D", "D", "Cm", "D", "Eb", "D"],
+    melody: [
+      ["A4", .5], ["D5", 1], ["C5", .5], ["Bb4", .5], ["A4", .5], ["Bb4", .5], ["A4", .5],
+      ["F#4", 1.5], ["G4", 1.5], ["A4", 1],
+      ["Bb4", .5], ["A4", .5], ["Bb4", .5], ["D5", .5], ["C5", .5], ["Bb4", .5], ["A4", .5], ["G4", .5],
+      ["A4", 1.5], ["F#4", 1.5], ["D4", 1],
+      ["G4", .5], ["Eb4", .5], ["G4", .5], ["C5", 1], ["Bb4", .5], ["A4", .5], ["G4", .5],
+      ["F#4", .5], ["G4", .5], ["A4", 1], ["D5", .5], ["C5", .5], ["Bb4", .5], ["A4", .5],
+      ["Bb4", .5], ["A4", .5], ["G4", .5], ["F#4", .5], ["G4", .5], ["A4", .5], ["Bb4", .5], ["G4", .5],
+      ["A4", 2], ["D4", 1], [null, 1],
+      ["D5", 1.5], ["Bb4", 1.5], ["G4", 1],
+      ["A4", .5], ["Bb4", .5], ["C5", .5], ["D5", .5], ["Eb5", 1], ["D5", 1],
+      ["C5", .5], ["Bb4", .5], ["A4", .5], ["Bb4", .5], ["A4", .5], ["G4", .5], ["F#4", 1],
+      ["A4", 1.5], ["F#4", 1.5], ["D4", 1],
+      ["Eb5", 1.5], ["D5", 1.5], ["C5", 1],
+      ["D5", .5], ["C5", .5], ["Bb4", .5], ["A4", .5], ["F#4", 1], ["A4", 1],
+      ["G4", .5], ["Bb4", .5], ["Eb5", .5], ["D5", .5], ["C5", .5], ["Bb4", .5], ["A4", .5], ["G4", .5],
+      ["F#4", .5], ["A4", .5], ["D5", 1], ["D4", 1], [null, 1],
+    ] },
+];
+let musicOn = store.get("wed_music") !== "off";
+const band = { bus: null, noise: null, timer: 0, tune: 0, loops: 0, events: [], ev: 0, start: 0 };
+function buildEvents(tn) {
+  const ev = [], bt = tn.beats;
+  let b = 0;
+  for (const [n, d] of tn.melody) { if (n) ev.push({ b, k: "mel", n, d }); b += d; }
+  tn.chords.forEach((c, bar) => {
+    const o = bar * bt, root = nf(ROOT[c]);
+    const hits = tn.rhythm === "bulgar" ? [[0, 1], [1.5, 1.5], [3, 1]] : [[0, 1], [1, 1.5]];
+    for (const [h, fifthMul] of hits) ev.push({ b: o + h, k: "bass", f: root * fifthMul });
+    const stabs = tn.rhythm === "bulgar" ? [0, 1.5, 3] : [.5, 1.5];
+    for (const h of stabs) ev.push({ b: o + h, k: "chord", c });
+    const kicks = tn.rhythm === "bulgar" ? [0, 1.5, 3] : [0, 1];
+    const snares = tn.rhythm === "bulgar" ? [1, 2.5, 3.5] : [.5, 1.5];
+    kicks.forEach(h => ev.push({ b: o + h, k: "kick" })); snares.forEach(h => ev.push({ b: o + h, k: "snare" }));
+  });
+  ev.sort((a, c) => a.b - c.b);
+  return { ev, len: tn.chords.length * bt };
+}
+function clarinet(f, t, dur) {
+  const a = actx, o1 = a.createOscillator(), o2 = a.createOscillator(), lp = a.createBiquadFilter(), g = a.createGain();
+  o1.type = "sawtooth"; o2.type = "square"; o2.detune.value = 6;
+  lp.type = "lowpass"; lp.frequency.value = 2300; lp.Q.value = 1.2;
+  if (dur >= .3) {                                   // "krekhts": a sob-like slide from a semitone above
+    o1.frequency.setValueAtTime(f * 1.0595, t); o1.frequency.linearRampToValueAtTime(f, t + .07);
+    o2.frequency.setValueAtTime(f * 1.0595, t); o2.frequency.linearRampToValueAtTime(f, t + .07);
+    const lfo = a.createOscillator(), lg = a.createGain(); lfo.frequency.value = 5.6; lg.gain.value = f * .007;
+    lfo.connect(lg); lg.connect(o1.frequency); lg.connect(o2.frequency); lfo.start(t + .12); lfo.stop(t + dur + .05);
+  } else { o1.frequency.value = f; o2.frequency.value = f; }
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.16, t + .025);
+  g.gain.setValueAtTime(.13, t + Math.max(.03, dur - .05)); g.gain.linearRampToValueAtTime(0, t + dur);
+  const m = a.createGain(); m.gain.value = .5;
+  o1.connect(m); o2.connect(m); m.connect(lp).connect(g).connect(band.bus);
+  o1.start(t); o2.start(t); o1.stop(t + dur + .02); o2.stop(t + dur + .02);
+}
+function accordion(c, t) {
+  for (const n of CHORD[c]) {
+    const o = actx.createOscillator(), g = actx.createGain(), lp = actx.createBiquadFilter();
+    o.type = "square"; o.frequency.value = nf(n); o.detune.value = (Math.random() - .5) * 8;
+    lp.type = "lowpass"; lp.frequency.value = 1500;
+    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.028, t + .01); g.gain.exponentialRampToValueAtTime(.001, t + .2);
+    o.connect(lp).connect(g).connect(band.bus); o.start(t); o.stop(t + .22);
+  }
+}
+function tuba(f, t) {
+  const o = actx.createOscillator(), g = actx.createGain(); o.type = "triangle"; o.frequency.value = f;
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(.22, t + .02); g.gain.exponentialRampToValueAtTime(.001, t + .32);
+  o.connect(g).connect(band.bus); o.start(t); o.stop(t + .34);
+}
+function drum(kind, t) {
+  if (kind === "kick") {
+    const o = actx.createOscillator(), g = actx.createGain(); o.frequency.setValueAtTime(110, t); o.frequency.exponentialRampToValueAtTime(45, t + .12);
+    g.gain.setValueAtTime(.3, t); g.gain.exponentialRampToValueAtTime(.001, t + .15); o.connect(g).connect(band.bus); o.start(t); o.stop(t + .16);
+  } else {
+    const s = actx.createBufferSource(), bp = actx.createBiquadFilter(), g = actx.createGain(); s.buffer = band.noise;
+    bp.type = "bandpass"; bp.frequency.value = 1900; bp.Q.value = .8;
+    g.gain.setValueAtTime(.12, t); g.gain.exponentialRampToValueAtTime(.001, t + .09);
+    s.connect(bp).connect(g).connect(band.bus); s.start(t); s.stop(t + .1);
+  }
+}
+function loadTune(i, at) {
+  band.tune = i % TUNES.length; band.loops = 0;
+  const b = buildEvents(TUNES[band.tune]); band.events = b.ev; band.len = b.len; band.ev = 0; band.start = at;
+}
+function schedule() {
+  const a = actx, tn = TUNES[band.tune], spb = 60 / tn.bpm, horizon = a.currentTime + .3;
+  for (;;) {
+    if (band.ev >= band.events.length) {           // end of the tune: repeat once, then switch tunes
+      const next = band.start + band.len * spb;
+      if (++band.loops >= 2) loadTune(band.tune + 1, next); else { band.ev = 0; band.start = next; }
+      return;
+    }
+    const e = band.events[band.ev], t = band.start + e.b * spb;
+    if (t > horizon) return;
+    if (t >= a.currentTime - .02) {
+      if (e.k === "mel") clarinet(nf(e.n), t, e.d * spb * .95);
+      else if (e.k === "chord") accordion(e.c, t);
+      else if (e.k === "bass") tuba(e.f, t);
+      else drum(e.k, t);
+    }
+    band.ev++;
+  }
+}
+function startMusic() {
+  const a = ac(); if (!a || !musicOn || band.timer) return;
+  if (!band.bus) {
+    band.bus = a.createGain(); band.bus.gain.value = .55; band.bus.connect(a.destination);
+    const len = a.sampleRate * .2; band.noise = a.createBuffer(1, len, a.sampleRate);
+    const d = band.noise.getChannelData(0); for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+  }
+  band.bus.gain.setTargetAtTime(.55, a.currentTime, .1);
+  loadTune((Math.random() * TUNES.length) | 0, a.currentTime + .15);
+  band.timer = setInterval(schedule, 60); schedule();
+}
+function stopMusic() {
+  if (!band.timer) return;
+  clearInterval(band.timer); band.timer = 0;
+  if (band.bus) band.bus.gain.setTargetAtTime(0, actx.currentTime, .08);
+}
+document.addEventListener("visibilitychange", () => { if (!actx) return; if (document.hidden) actx.suspend(); else actx.resume(); });
 function giggle() { [880, 990, 1100, 990].forEach((f, i) => tone(f, i * .07, .09, "sine", .05)); }
 
 // ------------------------------------------------------------------ confetti
@@ -448,6 +713,7 @@ function applyLang() {
   $("#backLink2").href = "../index.html?lang=" + lang;
   document.querySelectorAll(".diff").forEach(b => b.classList.toggle("on", b.dataset.d === difficulty));
   $("#sound").classList.toggle("off", !soundOn);
+  $("#music").classList.toggle("off", !musicOn); $("#musicHud").classList.toggle("off", !musicOn);
 }
 document.querySelectorAll(".pick").forEach(b => b.onclick = () => {
   role = b.dataset.role;
@@ -457,6 +723,8 @@ document.querySelectorAll(".pick").forEach(b => b.onclick = () => {
 });
 document.querySelectorAll(".diff").forEach(b => b.onclick = () => { difficulty = b.dataset.d; store.set("wed_diff", difficulty); applyLang(); });
 $("#sound").onclick = () => { soundOn = !soundOn; store.set("wed_sound", soundOn ? "on" : "off"); applyLang(); };
+const toggleMusic = () => { musicOn = !musicOn; store.set("wed_music", musicOn ? "on" : "off"); ac(); if (musicOn && state !== "menu") startMusic(); else stopMusic(); applyLang(); };
+$("#music").onclick = toggleMusic; $("#musicHud").onclick = toggleMusic;
 $("#startBtn").onclick = startGame;
 $("#againBtn").onclick = () => { $("#win").hidden = true; startGame(); };
 $("#menuBtn").onclick = () => { if (document.pointerLockElement) document.exitPointerLock(); state = "menu"; $("#menu").hidden = false; $("#hud").hidden = true; };
@@ -467,6 +735,8 @@ function startGame() {
   makePartner(role);
   P.x = START.x; P.z = START.z; P.yaw = START.yaw; P.pitch = -0.05;
   placePartner();
+  AI.mover = { obj: partner, path: [], speed: 1.6 }; AI.mode = "hide"; AI.until = performance.now() + hideTime(); AI.fleeCool = 0;
+  startMusic();
   confetti.visible = false;
   state = "play"; t0 = performance.now(); lastMove = t0; elapsed = 0;
   $("#menu").hidden = true; $("#win").hidden = true; $("#hud").hidden = false;
@@ -484,7 +754,7 @@ function win() {
   const secs = Math.round(elapsed);
   const key = "wed_best_" + difficulty, best = +store.get(key) || 0, isBest = !best || secs < best;
   if (isBest) store.set(key, String(secs));
-  glassBreak(); mazalTovTune(); burst(partner.position.x, partner.position.z);
+  glassBreak(); winFanfare(); burst(partner.position.x, partner.position.z);
   setTimeout(() => {
     $("#winText").textContent = role === "bride" ? T("foundG", { t: secs }) : T("foundB", { t: secs });
     $("#winBest").textContent = isBest ? T("newBest") : T("best", { t: best });
@@ -513,6 +783,7 @@ function frame() {
     u.armL.rotation.z = -2.4; u.armR.rotation.z = 2.4;  // hands raised, linked
   });
   for (const p of idlers) { const u = p.userData; u.head.rotation.y = Math.sin(ts * .7 + u.phase) * .5; u.armR.rotation.x = Math.sin(ts * 1.3 + u.phase) * .25; }
+  updateWanderers(dt, ts);
 
   if (state === "play") {
     elapsed = (now - t0) / 1000;
@@ -535,17 +806,28 @@ function frame() {
       if (!collides(P.x, nz)) P.z = nz;
       P.bob += dt * 9;
     }
-    // partner: peeks and waves occasionally; looks at you when you're close
+    // partner AI
     const d = Math.hypot(partner.position.x - P.x, partner.position.z - P.z);
     const u = partner.userData;
-    u.armR.rotation.z = Math.sin(ts * 3) > .92 ? 2.6 + Math.sin(ts * 18) * .3 : 0;
-    u.head.rotation.y = Math.sin(ts * .9) * .6;
-    if (d < 7) partner.rotation.y = Math.atan2(P.x - partner.position.x, P.z - partner.position.z);
-    if (d < 2.1) win();
-    // hard mode: move every 45 seconds
-    if (difficulty === "hard" && now - lastMove > 45000) {
-      lastMove = now; placePartner(partnerSpot); giggle(); showMsg(role === "bride" ? T("movedG") : T("movedB"));
+    if (AI.mode === "move") {
+      if (!stepMover(AI.mover, dt, ts)) { AI.mode = "hide"; AI.until = now + hideTime(); partner.position.y = 0; if (u.legL) u.legL.rotation.x = u.legR.rotation.x = 0; }
+    } else {
+      // hiding: peeks and waves now and then, looks at you when you're close
+      u.armL.rotation.x = u.armR.rotation.x = 0;
+      u.armR.rotation.z = Math.sin(ts * 3) > .92 ? 2.6 + Math.sin(ts * 18) * .3 : 0;
+      u.head.rotation.y = Math.sin(ts * .9) * .6;
+      if (d < 7) partner.rotation.y = Math.atan2(P.x - partner.position.x, P.z - partner.position.z);
+      const flee = difficulty === "hard" && d < 6.5 && now > AI.fleeCool;
+      if (flee || now > AI.until) {
+        const i = pickSpot([partnerSpot], flee ? 14 : 10);
+        if (sneakTo(i, flee ? 3.3 : (difficulty === "hard" ? 2.3 : 1.5))) {
+          if (soundOn && d < 22) giggle();
+          if (flee) { AI.fleeCool = now + 9000; showMsg(role === "bride" ? T("fledG") : T("fledB"), 2500); }
+          else if (difficulty === "easy") showMsg(role === "bride" ? T("movedG") : T("movedB"), 2500);
+        } else AI.until = now + 3000;
+      }
     }
+    if (d < 2.1) win();
     // HUD
     $("#time").textContent = Math.floor(elapsed / 60) + ":" + String(Math.floor(elapsed % 60)).padStart(2, "0");
     if (difficulty === "easy") {
@@ -557,6 +839,7 @@ function frame() {
     }
   }
   if (state === "won") {
+    AI.mode = "hide";
     // turn to face the partner; partner raises both arms
     const ty = Math.atan2(-(partner.position.x - P.x), -(partner.position.z - P.z));
     let dy = ty - P.yaw; dy = Math.atan2(Math.sin(dy), Math.cos(dy)); P.yaw += dy * Math.min(1, dt * 4);
@@ -603,4 +886,4 @@ function portrait(cv, r) {
 document.querySelectorAll(".pick canvas").forEach(cv => portrait(cv, cv.dataset.role));
 applyLang();
 requestAnimationFrame(frame);
-window.__wedding = { get state() { return state; }, P, get partner() { return partner; }, SPOTS, collides };
+window.__wedding = { get state() { return state; }, P, get partner() { return partner; }, SPOTS, collides, staticHit, findPath, AI, band, wanderers };
