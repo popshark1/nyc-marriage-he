@@ -57,9 +57,25 @@ const STR = {
     best: "Votre record : {t} s", newBest: "Nouveau record !", again: "Rejouer", back: "Retour à la recherche",
     home: "Retour au site", fledG: "Le marié s'est enfui !", fledB: "La mariée s'est enfuie !", music: "Musique", musicNote: "Musique : airs originaux dans le style klezmer (un freylekhs et un bulgar)", rabbiHint: "Le rabbin : « Il me semble avoir vu {who} près de {place}… »", whoG: "le marié", whoB: "la mariée", sound: "Son", menu: "Menu", tip: "Astuce : allez voir le rabbin sous la houppa pour un indice. Regardez aussi derrière le gâteau, les arbres, la scène et parmi les invités",
   },
+  ru: {
+    dir: "ltr", title: "Прятки на свадьбе",
+    sub: "Жених и невеста спрятались друг от друга среди гостей в саду. Выберите персонажа и найдите свою половинку, чтобы началась хупа!",
+    choose: "Выберите персонажа", bride: "Невеста", groom: "Жених",
+    storyB: "Вы — невеста. Жених спрятался где-то в саду — найдите его!", storyG: "Вы — жених. Невеста спряталась где-то в саду — найдите её!",
+    easy: "Легко", easyD: "Иногда тихонько перебирается в другое место, есть индикатор «горячо-холодно»", hard: "Сложно", hardD: "Часто перемещается и убегает, когда вы рядом, без подсказок",
+    start: "Начать!", ctrlD: "WASD / стрелки — ходьба · мышь — обзор (нажмите на сцену) · Shift — бег",
+    ctrlM: "Джойстик — ходьба · проведите пальцем с другой стороны — обзор",
+    hints: ["Лёд", "Холодно", "Тепло", "Горячо", "Обжигает!"], movedG: "Послышался смешок… жених крадётся в другое место!", movedB: "Послышался смешок… невеста крадётся в другое место!",
+    fledG: "Жених убежал от вас!", fledB: "Невеста убежала от вас!",
+    win: "Мазл тов!", foundG: "Вы нашли жениха за {t} сек.", foundB: "Вы нашли невесту за {t} сек.",
+    best: "Ваш рекорд: {t} сек.", newBest: "Новый рекорд!", again: "Играть ещё", back: "Назад к поиску",
+    rabbiHint: "Раввин: «Кажется, я видел {who} возле {place}…»", whoG: "жениха", whoB: "невесту",
+    home: "Назад на сайт", music: "Музыка", musicNote: "Музыка: оригинальные мелодии в стиле клезмер (фрейлехс и булгар)", sound: "Звуки", menu: "Меню",
+    tip: "Совет: подойдите к раввину под хупой — он даст подсказку. Ищите также за тортом, деревьями, сценой и среди гостей",
+  },
 };
-const LANGS = ["he", "en", "yi", "fr"];
-const NAMES = { he: "עברית", en: "English", yi: "ייִדיש", fr: "Français" };
+const LANGS = ["he", "en", "yi", "fr", "ru"];
+const NAMES = { he: "עברית", en: "English", yi: "ייִדיש", fr: "Français", ru: "Русский" };
 let lang = (() => {
   const q = new URLSearchParams(location.search).get("lang");
   if (q && STR[q]) return q;
@@ -764,23 +780,23 @@ function showMsg(s, ms = 3000) { const m = $("#msg"); m.textContent = s; m.class
 let winAt = 0, rabbiCool = 0, rabbiTalk = 0;
 // landmarks the rabbi can point to
 const LMARKS = [
-  { p: [-18, 0], he: "שולחן העוגה", en: "the cake table", yi: "דעם טאָרט־טיש", fr: "la table du gâteau" },
-  { p: [20.5, 10], he: "הבמה של הלהקה", en: "the band stage", yi: "דער בינע פֿון דער קאַפּעליע", fr: "la scène de l'orchestre" },
-  { p: [19.5, -6], he: "הבר והחביות", en: "the bar and the barrels", yi: "דעם באַר מיט די פֿעסער", fr: "le bar et les tonneaux" },
-  { p: [-19.5, -8], he: "קיר הפרחים", en: "the flower wall", yi: "דער בלומען־וואַנט", fr: "le mur de fleurs" },
-  { p: [0, -17.5], he: "הפרחים שמאחורי החופה", en: "the flowers behind the chuppah", yi: "די בלומען הינטער דער חופּה", fr: "les fleurs derrière la houppa" },
-  { p: [13, 10], he: "רחבת הריקודים", en: "the dance floor", yi: "דעם טאַנץ־פּלאַץ", fr: "la piste de danse" },
-  { p: [-8, 14], he: "שולחנות האורחים", en: "the guests' tables", yi: "די טישן פֿון די געסט", fr: "les tables des invités" },
-  { p: [0, 21], he: "הכניסה לגן", en: "the garden entrance", yi: "דעם אַרײַנגאַנג פֿון גאָרטן", fr: "l'entrée du jardin" },
-  { p: [-0.5, -6], he: "הכיסאות של החופה", en: "the ceremony chairs", yi: "די שטולן פֿאַר דער חופּה", fr: "les chaises de la cérémonie" },
-  { p: [-18, -18], he: "העץ שמאחורי קיר הפרחים", en: "the tree behind the flower wall", yi: "דעם בוים הינטער דער בלומען־וואַנט", fr: "l'arbre derrière le mur de fleurs" },
-  { p: [18, -17], he: "העץ שמאחורי הבר", en: "the tree behind the bar", yi: "דעם בוים הינטערן באַר", fr: "l'arbre derrière le bar" },
-  { p: [-20, 18], he: "העץ שליד שולחנות האורחים", en: "the tree by the guests' tables", yi: "דעם בוים לעבן די טישן", fr: "l'arbre près des tables" },
-  { p: [20, 20], he: "העץ שמאחורי רחבת הריקודים", en: "the tree behind the dance floor", yi: "דעם בוים הינטערן טאַנץ־פּלאַץ", fr: "l'arbre derrière la piste de danse" },
-  { p: [8, 21], he: "העץ שליד הכניסה", en: "the tree near the entrance", yi: "דעם בוים לעבן אַרײַנגאַנג", fr: "l'arbre près de l'entrée" },
-  { p: [-9, -20], he: "העץ שמאחורי החופה", en: "the tree behind the chuppah", yi: "דעם בוים הינטער דער חופּה", fr: "l'arbre derrière la houppa" },
-  { p: [11, -12], he: "העץ שליד הכיסאות של החופה", en: "the tree by the ceremony chairs", yi: "דעם בוים לעבן די חופּה־שטולן", fr: "l'arbre près des chaises de la cérémonie" },
-  { p: [-22, 7], he: "העץ שליד שולחן העוגה", en: "the tree by the cake table", yi: "דעם בוים לעבן דעם טאָרט־טיש", fr: "l'arbre près de la table du gâteau" },
+  { p: [-18, 0], he: "שולחן העוגה", en: "the cake table", yi: "דעם טאָרט־טיש", fr: "la table du gâteau", ru: "стола с тортом" },
+  { p: [20.5, 10], he: "הבמה של הלהקה", en: "the band stage", yi: "דער בינע פֿון דער קאַפּעליע", fr: "la scène de l'orchestre", ru: "сцены оркестра" },
+  { p: [19.5, -6], he: "הבר והחביות", en: "the bar and the barrels", yi: "דעם באַר מיט די פֿעסער", fr: "le bar et les tonneaux", ru: "бара с бочками" },
+  { p: [-19.5, -8], he: "קיר הפרחים", en: "the flower wall", yi: "דער בלומען־וואַנט", fr: "le mur de fleurs", ru: "стены из цветов" },
+  { p: [0, -17.5], he: "הפרחים שמאחורי החופה", en: "the flowers behind the chuppah", yi: "די בלומען הינטער דער חופּה", fr: "les fleurs derrière la houppa", ru: "цветов за хупой" },
+  { p: [13, 10], he: "רחבת הריקודים", en: "the dance floor", yi: "דעם טאַנץ־פּלאַץ", fr: "la piste de danse", ru: "танцпола" },
+  { p: [-8, 14], he: "שולחנות האורחים", en: "the guests' tables", yi: "די טישן פֿון די געסט", fr: "les tables des invités", ru: "столов гостей" },
+  { p: [0, 21], he: "הכניסה לגן", en: "the garden entrance", yi: "דעם אַרײַנגאַנג פֿון גאָרטן", fr: "l'entrée du jardin", ru: "входа в сад" },
+  { p: [-0.5, -6], he: "הכיסאות של החופה", en: "the ceremony chairs", yi: "די שטולן פֿאַר דער חופּה", fr: "les chaises de la cérémonie", ru: "стульев для церемонии" },
+  { p: [-18, -18], he: "העץ שמאחורי קיר הפרחים", en: "the tree behind the flower wall", yi: "דעם בוים הינטער דער בלומען־וואַנט", fr: "l'arbre derrière le mur de fleurs", ru: "дерева за стеной из цветов" },
+  { p: [18, -17], he: "העץ שמאחורי הבר", en: "the tree behind the bar", yi: "דעם בוים הינטערן באַר", fr: "l'arbre derrière le bar", ru: "дерева за баром" },
+  { p: [-20, 18], he: "העץ שליד שולחנות האורחים", en: "the tree by the guests' tables", yi: "דעם בוים לעבן די טישן", fr: "l'arbre près des tables", ru: "дерева у столов гостей" },
+  { p: [20, 20], he: "העץ שמאחורי רחבת הריקודים", en: "the tree behind the dance floor", yi: "דעם בוים הינטערן טאַנץ־פּלאַץ", fr: "l'arbre derrière la piste de danse", ru: "дерева за танцполом" },
+  { p: [8, 21], he: "העץ שליד הכניסה", en: "the tree near the entrance", yi: "דעם בוים לעבן אַרײַנגאַנג", fr: "l'arbre près de l'entrée", ru: "дерева у входа" },
+  { p: [-9, -20], he: "העץ שמאחורי החופה", en: "the tree behind the chuppah", yi: "דעם בוים הינטער דער חופּה", fr: "l'arbre derrière la houppa", ru: "дерева за хупой" },
+  { p: [11, -12], he: "העץ שליד הכיסאות של החופה", en: "the tree by the ceremony chairs", yi: "דעם בוים לעבן די חופּה־שטולן", fr: "l'arbre près des chaises de la cérémonie", ru: "дерева у стульев для церемонии" },
+  { p: [-22, 7], he: "העץ שליד שולחן העוגה", en: "the tree by the cake table", yi: "דעם בוים לעבן דעם טאָרט־טיש", fr: "l'arbre près de la table du gâteau", ru: "дерева у стола с тортом" },
 ];
 function win() {
   state = "won"; winAt = performance.now();

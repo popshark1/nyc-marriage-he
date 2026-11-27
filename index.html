@@ -10,7 +10,7 @@
 <meta name="author" content="Amitay Dan">
 <title>אינדקס הנישואים של ניו יורק · 1950–2017</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700&family=PT+Serif:wght@700&family=Rubik:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#14213d; --ink-2:#2b3a5c; --paper:#f7f3ea; --card:#fffdf8; --line:#e4dccb;
@@ -173,6 +173,9 @@ footer{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-
 .credit .li{display:inline-flex;gap:6px;align-items:center;background:#0a66c2;color:#fff;text-decoration:none;font-size:13px;padding:5px 11px;border-radius:99px}
 .credit .li:hover{background:#004182}
 .privacy{font-size:13px}
+/* Russian: fonts with Cyrillic */
+:lang(ru) body{font-family:Rubik,Heebo,"Segoe UI",Arial,sans-serif}
+:lang(ru) h1,:lang(ru) h2,:lang(ru) h4,:lang(ru) .stat b,:lang(ru) .yr,:lang(ru) .game-txt b{font-family:"PT Serif","Frank Ruhl Libre",serif}
 /* direction-aware tweaks */
 [dir=ltr] .couple{justify-content:flex-start}
 .metaline{justify-content:flex-start !important}
@@ -219,6 +222,7 @@ body{padding-bottom:70px}
         <button type="button" data-lang="en" lang="en">English</button>
         <button type="button" data-lang="yi" lang="yi">ייִדיש</button>
         <button type="button" data-lang="fr" lang="fr">Français</button>
+        <button type="button" data-lang="ru" lang="ru">Русский</button>
       </nav>
     </div>
     <h1 data-i18n="h1"></h1>
@@ -365,6 +369,11 @@ const qfree = $("#qfree"), det = $("#detailed");
 
 const esc = s => (s ?? "").toString().replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt = n => Number(n).toLocaleString(I18N.L[I18N.lang]._locale);
+function countLabel(n){
+  const L = I18N.L[I18N.lang];
+  if (L.records_one) { const k = "records_" + new Intl.PluralRules(L._locale).select(n); if (L[k]) return t(k, {n: fmt(n)}); }
+  return n === 1 ? t("record1") : t("records", {n: fmt(n)});
+}
 const errMsg = e => (I18N.L.he[e.message] ? t(e.message) : e.message) + (e.detail ? ` (${e.detail})` : "");
 function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove("on"),1800)}
 
@@ -553,7 +562,7 @@ function render(d){
   const slice = view.slice((page-1)*PAGE, page*PAGE);
   out.innerHTML = `
     <div class="bar">
-      <h2>${t("results")}</h2><span class="count">${total === 1 ? t("record1") : t("records", {n: fmt(total)})} · <span dir="ltr">${d.ms} ${t("ms")}</span></span>
+      <h2>${t("results")}</h2><span class="count">${countLabel(total)} · <span dir="ltr">${d.ms} ${t("ms")}</span></span>
       <span class="sp"></span>
       <select id="sort">
         <option value="relevance">${t("sort.rel")}</option><option value="year">${t("sort.year")}</option>

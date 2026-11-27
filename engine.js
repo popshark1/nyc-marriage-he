@@ -318,6 +318,39 @@
     };
   }
 
+  // ------------------------------------------------------------ Russian (Cyrillic) input
+  const isCyr = s => /[\u0400-\u04FF]/.test(s || "");
+  const CYR = { а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e", ж: "zh", з: "z", и: "i", й: "y", к: "k", л: "l", м: "m",
+    н: "n", о: "o", п: "p", р: "r", с: "s", т: "t", у: "u", ф: "f", х: "kh", ц: "ts", ч: "ch", ш: "sh", щ: "shch", ъ: "",
+    ы: "y", ь: "", э: "e", ю: "yu", я: "ya" };
+  /** Cyrillic → the Latin spellings used in the records. Returns variants (Г is tried as G and as H: Горовиц → HOROWITZ). */
+  function cyrToLatin(s) {
+    const words = (s || "").toLowerCase().split(/[\s\-]+/).filter(Boolean);
+    const conv = (w, gh) => {
+      let x = [...w].map(c => c === "г" ? gh : (CYR[c] ?? c)).join("");
+      return x.replace(/(o|e)?vich$/, (m, v) => (v || "") + "vitz")      // Рабинович → Rabinovitz (≈ RABINOWITZ)
+              .replace(/(sk|tsk)(iy|ii|ij|yy)$/, "$1y").replace(/(iy|yy)$/, "y");
+    };
+    const out = [words.map(w => conv(w, "g")).join("").toUpperCase()];
+    if (/г/.test(s.toLowerCase())) out.push(words.map(w => conv(w, "h")).join("").toUpperCase());
+    return out;
+  }
+  const RU_FIRST = {
+    "моисей": "MOSES MORRIS MOSHE", "моше": "MOSES MORRIS MOSHE", "исаак": "ISAAC IRVING", "ицхак": "ISAAC IRVING ITZHAK",
+    "яков": "JACOB JACK", "абрам": "ABRAHAM ABRAM ABE", "авраам": "ABRAHAM ABE", "давид": "DAVID", "самуил": "SAMUEL SAM",
+    "шмуэль": "SAMUEL SHMUEL", "иосиф": "JOSEPH", "соломон": "SOLOMON SAUL", "лев": "LEO LOUIS LEON", "борис": "BORIS BARUCH",
+    "михаил": "MICHAEL", "хаим": "HYMAN CHAIM HAIM", "наум": "NATHAN NORMAN NACHUM", "григорий": "GREGORY HARRY HIRSCH",
+    "гирш": "HIRSCH HARRY HERMAN", "залман": "SOLOMON ZALMAN", "мендель": "MENDEL MAX", "меир": "MEYER MEIR",
+    "сара": "SARAH SADIE", "ревекка": "REBECCA RIVKA", "рива": "REBECCA RIVKA", "рахиль": "RACHEL", "рахель": "RACHEL",
+    "лея": "LEAH LENA", "мария": "MARY MARIA MARIE", "анна": "ANNA ANN", "хана": "HANNAH ANNA", "роза": "ROSE ROSA",
+    "фаина": "FAY FANNIE", "двойра": "DORA DEBORAH", "голда": "GOLDIE GOLDA", "эстер": "ESTHER", "эсфирь": "ESTHER",
+    "мириам": "MIRIAM", "елена": "HELEN ELLEN LENA", "ирина": "IRENE IRINA", "ольга": "OLGA", "наталья": "NATALIE NATALIA",
+    "екатерина": "KATHERINE CATHERINE", "татьяна": "TATIANA", "софья": "SOPHIE SOFIA", "шейла": "SHEILA",
+  };
+  const ruFirstNames = s => (RU_FIRST[(s || "").toLowerCase().replace(/ё/g, "е").trim()] || "").split(" ").filter(Boolean);
+  const RU_BORO = [["манх", "Manhattan"], ["бруклин", "Brooklyn"], ["бронкс", "Bronx"], ["куинс", "Queens"], ["квинс", "Queens"],
+    ["статен", "Staten Island"], ["стейтен", "Staten Island"]];
+
   // ------------------------------------------------------------ free-text parsing
   const BORO_WORDS = {
     "מנהטן": "Manhattan", "manhattan": "Manhattan", "ברוקלין": "Brooklyn", "brooklyn": "Brooklyn",
@@ -327,18 +360,20 @@
   };
   const STOP = new Set(["של", "עם", "בשנת", "שנת", "בין", "נישואים", "נישואין", "חתונה", "רישיון", "איילנד", "island",
     "married", "marriage", "with", "in", "the", "nyc", "license", "ניו", "יורק", "new", "york", "שנות", "ה",
-    "de", "du", "la", "le", "mariage", "licence", "en", "à", "פֿון", "פון", "חתונה", "יאָר", "יאר", "דער", "אין", "יאָרן"]);
-  const SEP_WORDS = ["et", "און", "un"];
+    "de", "du", "la", "le", "mariage", "licence", "en", "à", "פֿון", "פון", "חתונה", "יאָר", "יאר", "דער", "אין", "יאָרן",
+    "в", "во", "на", "из", "год", "году", "годы", "годов", "годах", "г", "свадьба", "свадьбы", "брак", "лицензия", "нью", "йорк",
+    "нью-йорк", "нью-йорке", "айленд", "айленде"]);
+  const SEP_WORDS = ["et", "און", "un", "и"];
   const SEP = new Set(["&", "+", "ו", "and", "/", "עם"]);
 
   function parseFree(text) {
     const out = { persons: [[]], year_from: null, year_to: null, boroughs: [], license: "", notes: [] };
-    let t = " " + (text || "").replace(/[,;:()"״]/g, " ") + " ";
-    t = t.replace(/(?:#|רישיון\s*|license\s*(?:no\.?|#)?\s*)(\d{1,6})\b/gi, (_, d) => { out.license = d; return " "; });
+    let t = " " + (text || "").replace(/[,;:()"״«»]/g, " ") + " ";
+    t = t.replace(/(?:#|№\s*|רישיון\s*|лицензия\s*(?:№\s*)?|license\s*(?:no\.?|#)?\s*)(\d{1,6})(?!\d)/gi, (_, d) => { out.license = d; return " "; });
     t = t.replace(/\b(19[5-9]\d|20[01]\d)\s*[-–]\s*(19[5-9]\d|20[01]\d|\d{2})\b/g, (_, a, b) => {
       out.year_from = +a; out.year_to = b.length === 2 ? +(a.slice(0, 2) + b) : +b; return " "; });
-    t = t.replace(/(?:שנות\s*ה[-־]?\s*|années\s*|די\s*|\b)(19)?([5-9]0)(?:'?s|ער)?(?=\s)/gi, (m, c, d) => {
-      if (!/שנות|années|ער|s/i.test(m)) return m;
+    t = t.replace(/(?:שנות\s*ה[-־]?\s*|années\s*|די\s*|\b)(19)?([5-9]0)(?:'?s|ער|-?(?:ые|ых|е|х))?(?=\s)/gi, (m, c, d) => {
+      if (!/שנות|années|ער|s|е|х/i.test(m)) return m;
       out.year_from = 1900 + +d; out.year_to = 1909 + +d; return " "; });
     t = t.replace(/\b(19[5-9]\d|20[01]\d)\b/g, (_, y) => {
       if (out.year_from === null) { out.year_from = out.year_to = +y; } return " "; });
@@ -346,10 +381,10 @@
       if (!raw) continue;
       const low = raw.toLowerCase();
       if (SEP.has(low) || SEP_WORDS.includes(low)) { if (out.persons[out.persons.length - 1].length) out.persons.push([]); continue; }
-      const bw = BORO_WORDS[low] || BORO_WORDS[low.replace(/^ב/, "")];
+      const bw = BORO_WORDS[low] || BORO_WORDS[low.replace(/^ב/, "")] || (RU_BORO.find(([st]) => low.startsWith(st)) || [])[1];
       if (bw) { if (!out.boroughs.includes(bw)) out.boroughs.push(bw); continue; }
       if (STOP.has(low)) continue;
-      let w = raw.replace(/[^A-Za-z\u0591-\u05F4\uFB1D-\uFB4F'׳*?\-]/g, "");
+      let w = raw.replace(/[^A-Za-z\u0400-\u04FF\u0591-\u05F4\uFB1D-\uFB4F'׳*?\-]/g, "");
       if (isHebrew(w) && plainHeb(w)[0] === "ו" && out.persons[out.persons.length - 1].length && HEB_FIRST[plainHeb(w).slice(1)]) {
         // "ודוד", "ושרה" – ו' החיבור לפני שם פרטי מוכר מתחילה בן/בת זוג שני/ה (וייס, וולף נשארים שמות)
         out.persons.push([]); w = plainHeb(w).slice(1);
@@ -419,6 +454,13 @@
     async matcher(value, part, mode) {
       value = (value || "").trim();
       if (!value) return null;
+      let cyrVariants = null, cyrFirst = [];
+      if (isCyr(value)) {
+        cyrVariants = cyrToLatin(value);
+        if (part === "first") cyrFirst = ruFirstNames(value);
+        value = cyrVariants[0];
+        mode = "phonetic";                                  // a transliteration is never exact
+      }
       const heb = isHebrew(value);
       const n = normLatin(value);
       const finish = (list, exact = new Set([n])) => {
@@ -453,15 +495,20 @@
         keys = keysForQuery(value);
         if (part === "first") { extra = hebFirstNames(value); keys = keys.concat(extra.map(latinKey)); }
       } else {
-        extra = part === "first" ? nickGroup(n) : [];
-        keys = [latinKey(n)].concat(extra.map(latinKey));
+        extra = (part === "first" ? nickGroup(n) : []).concat(cyrFirst);
+        keys = [latinKey(n)].concat(extra.map(latinKey), (cyrVariants || []).slice(1).map(latinKey));
       }
       const idx = await this.namesByKeys(part, keys);
       const cands = [...idx.entries()].map(([nm, v]) => [nm, v.cnt]).sort((a, b) => b[1] - a[1]).slice(0, 1500);
-      const ranked = rankNames(value, cands, extra);
+      let ranked = rankNames(value, cands, extra);
+      if (cyrVariants && cyrVariants.length > 1) {          // best of the G and H readings
+        const best = new Map(ranked.map(r => [r.n, r]));
+        for (const v of cyrVariants.slice(1)) for (const r of rankNames(v, cands, extra)) if (r.score < best.get(r.n).score) best.set(r.n, r);
+        ranked = [...best.values()].sort((a, b) => a.score - b.score);
+      }
       const strong = ranked.filter(r => r.d <= 1.0);
       const list = (strong.length ? strong : ranked).slice(0, 200).map(r => Object.assign(r, { k: idx.get(r.n).k }));
-      return finish(list, new Set([n, ...extra]));
+      return finish(list, new Set([n, ...extra, ...(cyrVariants || [])]));
     }
 
     // ---------------------------------------------------------- row retrieval
@@ -653,14 +700,14 @@
           if (!o) byName.set(v.n, { ...v });
           else { o.cnt += v.cnt; o.d = Math.min(o.d, v.d); if (o.part !== v.part) o.part = "both"; }
         }
-        const uniq = [...byName.values()].sort((a, b) => b.cnt - a.cnt);
+        const uniq = [...byName.values()].sort((a, b) => (Math.round(a.d * 4) - Math.round(b.d * 4)) || b.cnt - a.cnt);   // closest spellings first, then most common
         variants[`t${i}`] = { tok: t.tok, list: uniq.filter(v => v.d <= 0.6 || v.cnt > 50).slice(0, 24) };
       });
       return { results, variants, files, via, truncated, parsed: { ...P, year_from: F.yf || null, year_to: F.yt || null, boroughs: [...F.boros], license: F.lic } };
     }
   }
 
-  const api = { Engine, parseFree, normYiddish, normLatin, latinKey, hebrewKeys, keysForQuery, latinSeq, hebrewSeqs, wdist, rankNames, fnv1a, isHebrew };
+  const api = { Engine, parseFree, normYiddish, cyrToLatin, normLatin, latinKey, hebrewKeys, keysForQuery, latinSeq, hebrewSeqs, wdist, rankNames, fnv1a, isHebrew };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.NYCEngine = api;
 })(typeof window !== "undefined" ? window : globalThis);
