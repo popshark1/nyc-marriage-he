@@ -163,6 +163,12 @@ footer{color:var(--muted);font-size:13px;padding:24px 0 40px;border-top:1px soli
 .game-note{font-size:12px;color:var(--gold-2)}
 .game-play{background:var(--gold);color:var(--ink);font-weight:700;border-radius:6px;padding:10px 18px;border:2px solid #f7f3ea;white-space:nowrap}
 
+.stat-card{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;background:var(--card);color:var(--ink);border-radius:var(--r);padding:16px 18px;text-decoration:none;border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .12s}
+.stat-card:hover{transform:translateY(-2px)}
+.stat-art{width:120px;height:64px}
+.stat-card .game-txt p{color:var(--muted)}
+.stat-go{background:var(--ink);color:#fff;font-weight:500;border-radius:10px;padding:10px 18px;white-space:nowrap}
+@media (max-width:640px){.stat-card{grid-template-columns:1fr}.stat-art{display:none}}
 /* sources + footer */
 .sources{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:0 0 30px}
 .sources h4{margin:0 0 8px;font-family:"Frank Ruhl Libre",serif;font-size:18px}
@@ -316,6 +322,15 @@ body{padding-bottom:70px}
     </a>
   </section>
 
+  <section class="games" id="statsSec">
+    <h4 data-i18n="stats.h"></h4>
+    <a class="stat-card" id="statsLink" href="stats.html">
+      <svg class="stat-art" viewBox="0 0 120 64" aria-hidden="true"><g fill="#257de0"><rect x="6" y="40" width="10" height="20" rx="2"/><rect x="20" y="32" width="10" height="28" rx="2"/><rect x="34" y="36" width="10" height="24" rx="2"/><rect x="48" y="22" width="10" height="38" rx="2"/><rect x="62" y="26" width="10" height="34" rx="2"/><rect x="76" y="14" width="10" height="46" rx="2"/><rect x="90" y="18" width="10" height="42" rx="2"/><rect x="104" y="6" width="10" height="54" rx="2"/></g><g fill="#f2a600"><rect x="6" y="52" width="10" height="8"/><rect x="20" y="48" width="10" height="12"/><rect x="34" y="50" width="10" height="10"/><rect x="48" y="44" width="10" height="16"/><rect x="62" y="46" width="10" height="14"/><rect x="76" y="40" width="10" height="20"/><rect x="90" y="42" width="10" height="18"/><rect x="104" y="36" width="10" height="24"/></g></svg>
+      <div class="game-txt"><b data-i18n="stats.t"></b><p data-i18n="stats.p"></p></div>
+      <span class="stat-go" data-i18n="stats.go"></span>
+    </a>
+  </section>
+
   <section class="about" id="about">
     <div><h4 data-i18n="about1.h"></h4><p data-i18n="about1.p"></p></div>
     <div><h4 data-i18n="about2.h"></h4><p data-i18n="about2.p"></p></div>
@@ -426,7 +441,7 @@ function paintGameArt(){
   g.fillStyle = "#14213d"; g.font = "bold 18px monospace"; g.fillText("?", 52, 50); g.fillText("?", 112, 50);
 }
 paintGameArt();
-function syncGameLink(){ const a = $("#gameLink"); if (a) a.href = "games/wedding.html?lang=" + I18N.lang; }
+function syncGameLink(){ const a = $("#gameLink"); if (a) a.href = "games/wedding.html?lang=" + I18N.lang; const s = $("#statsLink"); if (s) s.href = "stats.html?lang=" + I18N.lang; }
 syncGameLink();
 
 function setLang(lang){
