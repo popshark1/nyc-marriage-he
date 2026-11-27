@@ -1,7 +1,7 @@
 // Wedding hide-and-seek — a small blocky (voxel-style) 3D game.
 // All textures are generated in code; no external assets.
 import * as THREE from "./lib/three.module.min.js";
-import { TUNES, nf, wavBlob } from "./klezmer.js";
+import { TUNES, nf, wavBlob, LOOP_SECONDS } from "./klezmer.js";
 
 // ------------------------------------------------------------------ i18n
 const STR = {
@@ -227,6 +227,51 @@ function faceTex(skin, hair, bride) {
     g.fillStyle = "#9b4a43"; g.fillRect(6, 12, 4, 1);
   }, 16, 1);
 }
+
+// ------------------------------------------------------------------ the couple's faces (pixel art, loosely based on reference photos)
+function mapTex(rows, pal, seed = 1) {
+  return pixTex((g, n, r) => rows.forEach((row, y) => [...row].forEach((ch, x) => {
+    const c = pal[ch]; g.fillStyle = Array.isArray(c) ? c[(r() * c.length) | 0] : c; g.fillRect(x, y, 1, 1);
+  })), 16, seed);
+}
+const GROOM_PAL = {
+  s: "#e7b48f", S: "#d39e79", e: "#3b2a20", w: "#dfe8ee", k: "#161616", b: "#4a423d", m: "#b0604e", W: "#fbfaf4",
+  g: ["#8c867f", "#6c6762", "#a6a09a", "#57524e"], d: ["#57524e", "#45413e", "#6c6762"], h: ["#5e5955", "#7a746e", "#4a4643"], r: "#d8957c", l: "#f2c9a8",
+};
+const GROOM_HEAD = {          // bald, dark square glasses, short salt-and-pepper beard, wide smile
+  front: ["ssssslllssssssss", "ssssllllssssssss", "ssssssssssssssss", "ssssssssssssssss",
+          "hssssssssssssssh", "hsbbbbsssbbbbssh", "skkkkkkkkkkkkkks", "skweewksskweewks",
+          "skwwwwksskwwwwks", "skkkkkksskkkkkks", "gssssssSSssssssg", "ggsssddddddsssgg",
+          "ggmWWWWWWWWWWmgg", "gggdmmmmmmmmdggg", "ggggddddddddgggg", "gdggggggggggggdg"],
+  side:  ["ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss",
+          "ssssssssssssssss", "hsssssssssssssss", "kkkkkkssrrssssss", "hssssssrSrsssssh",
+          "hssssssrSrssssshh".slice(0, 16), "hhssssssrrssshhh", "gghhssssssshhhhh", "ggghhhhhhhhhhhhh",
+          "gggghhhhhhhhhhhh", "ggggghhhhhhhhhhh", "gggggghhhhhhhhhh", "ggggggghhhhhhhhh"],
+  back:  ["ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss",
+          "ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss", "hsssssssssssssh".padEnd(16, "h"),
+          "hhssssssssssshhh", "hhhhsssssssshhhh", "hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh",
+          "hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh"],
+  top:   Array.from({ length: 16 }, (_, y) => y > 4 && y < 9 ? "sssssslllsssssss" : "ssssssssssssssss"),
+};
+const BRIDE_PAL = {
+  H: ["#7a3a2b", "#8f4535", "#64302a", "#a0543e"], s: "#f3d2be", S: "#e4b9a3", e: "#4b3428", b: "#6b3a2c",
+  p: "#eba798", m: "#c76a6c", W: "#fffdf8",
+};
+const BRIDE_HEAD = {          // wavy auburn hair to the shoulders, warm smile
+  front: ["HHHHHHHHHHHHHHHH", "HHHHHHHHHHHHHHHH", "HHHssssssssssHHH", "HHssssssssssssHH",
+          "HHssssssssssssHH", "HsbbbsssssbbbssH", "HssssssssssssssH", "HsseessssssseesH",
+          "HssssssSSssssssH", "HspssssSSsssspsH", "HssssssssssssssH", "HssmWWWWWWWWmssH",
+          "HHssmmmmmmmmssHH", "HHHssssssssssHHH", "HHHHssssssssHHHH", "HHHHHssssssHHHHH"],
+  side:  Array.from({ length: 16 }, () => "HHHHHHHHHHHHHHHH"),
+  back:  Array.from({ length: 16 }, () => "HHHHHHHHHHHHHHHH"),
+  top:   Array.from({ length: 16 }, (_, y) => y === 7 ? "HHHHHHHsHHHHHHHH" : "HHHHHHHHHHHHHHHH"),
+};
+for (const H of [GROOM_HEAD, BRIDE_HEAD]) for (const k in H) H[k] = H[k].map(r => (r + r.slice(-1).repeat(16)).slice(0, 16));
+function headMats(H, pal, seed) {
+  const f = mapTex(H.front, pal, seed), sd = mapTex(H.side, pal, seed + 1), bk = mapTex(H.back, pal, seed + 2), tp = mapTex(H.top, pal, seed + 3);
+  const M = t => new THREE.MeshLambertMaterial({ map: t });
+  return [M(sd), M(sd), M(tp), col(pal.s), M(f), M(bk)];
+}
 const SKINS = ["#f1c9a5", "#e0ac7e", "#c68c5a", "#8d5a3b", "#f6d7bf"];
 const HAIRS = ["#2b1d14", "#5a3a22", "#a0662c", "#d8b25a", "#1a1a1a", "#7d7d7d"];
 const CLOTHES = ["#2c3e66", "#7a2e3a", "#3c6e47", "#5b4a8a", "#b5651d", "#2e7d8c", "#6d6d6d", "#a33b6b", "#1f2a44", "#c9a227"];
@@ -236,7 +281,7 @@ function person(o) {
   const g = new THREE.Group();
   const skin = o.skin || SKINS[(R() * SKINS.length) | 0], hair = o.hair || HAIRS[(R() * HAIRS.length) | 0];
   const top = o.top || CLOTHES[(R() * CLOTHES.length) | 0], legs = o.legs || shade(top, .6);
-  const headM = [col(hair), col(hair), col(hair), col(skin), new THREE.MeshLambertMaterial({ map: faceTex(skin, hair, o.bride) }), col(hair)];
+  const headM = o.headMats || [col(hair), col(hair), col(hair), col(skin), new THREE.MeshLambertMaterial({ map: faceTex(skin, hair, o.bride) }), col(hair)];
   const head = new THREE.Mesh(new THREE.BoxGeometry(.5, .5, .5), headM); head.position.y = 1.55; g.add(head);
   // head faces +z (the box's +z face is index 4)
   const C = o.glow ? glow : col;
@@ -259,11 +304,25 @@ function person(o) {
   if (o.hat) { const h1 = new THREE.Mesh(new THREE.BoxGeometry(.62, .06, .62), col(o.hat)); h1.position.y = 1.83; const h2 = new THREE.Mesh(new THREE.BoxGeometry(.44, .26, .44), col(o.hat)); h2.position.y = 1.97; g.add(h1, h2); }
   if (o.veil) {
     const vm = new THREE.MeshLambertMaterial({ color: "#ffffff", transparent: true, opacity: .55 });
-    const v = new THREE.Mesh(new THREE.BoxGeometry(.6, 1.1, .08), vm); v.position.set(0, 1.35, -.3); g.add(v);
-    const crown = new THREE.Mesh(new THREE.BoxGeometry(.54, .08, .54), col("#f5d76e")); crown.position.y = 1.83; g.add(crown);
+    const v = new THREE.Mesh(new THREE.BoxGeometry(.66, 1.15, .08), vm); v.position.set(0, 1.32, -.4); g.add(v);
+    if (!o.longHair) { const crown = new THREE.Mesh(new THREE.BoxGeometry(.54, .08, .54), col("#f5d76e")); crown.position.y = 1.83; g.add(crown); }
     const bouquet = new THREE.Mesh(new THREE.BoxGeometry(.26, .26, .2), MAT.flowers); bouquet.position.set(0, -.42, .14); armR.children[0].add(bouquet);
   }
   if (o.tie) { const t = new THREE.Mesh(new THREE.BoxGeometry(.18, .5, .02), col("#ffffff")); t.position.set(0, 1.08, .16); g.add(t); const b = new THREE.Mesh(new THREE.BoxGeometry(.12, .07, .03), col("#111")); b.position.set(0, 1.3, .17); g.add(b); }
+  if (o.longHair) {             // wavy hair falling to the shoulders
+    const hm = new THREE.MeshLambertMaterial({ map: mapTex(Array.from({ length: 16 }, () => "HHHHHHHHHHHHHHHH"), BRIDE_PAL, 9) });
+    const back = new THREE.Mesh(new THREE.BoxGeometry(.6, .72, .14), hm); back.position.set(0, 1.33, -.29); g.add(back);
+    for (const sx of [-1, 1]) {
+      const side = new THREE.Mesh(new THREE.BoxGeometry(.1, .62, .4), hm); side.position.set(sx * .3, 1.36, -.03); g.add(side);
+      const curl = new THREE.Mesh(new THREE.BoxGeometry(.14, .16, .2), hm); curl.position.set(sx * .31, 1.02, .02); g.add(curl);
+    }
+    const crown = new THREE.Mesh(new THREE.BoxGeometry(.58, .1, .58), MAT.flowers); crown.position.y = 1.84; g.add(crown);
+  }
+  if (o.necklace) { const nk = new THREE.Mesh(new THREE.BoxGeometry(.3, .05, .32), glow(o.necklace)); nk.position.set(0, 1.3, .01); g.add(nk); }
+  if (o.glasses) {               // a thin 3D frame in front of the face
+    const fm = col("#121212");
+    for (const sx of [-1, 1]) { const fr = new THREE.Mesh(new THREE.BoxGeometry(.2, .02, .02), fm); fr.position.set(sx * .12, 1.6, .26); g.add(fr); }
+  }
   if (o.tallit) { const tl = new THREE.Mesh(new THREE.BoxGeometry(.64, .34, .34), MAT.canopy); tl.position.y = 1.2; g.add(tl); }
   if (o.beard) {
     const b1 = new THREE.Mesh(new THREE.BoxGeometry(.5, .24, .1), glow(o.beard)); b1.position.set(0, 1.36, .27); g.add(b1);
@@ -334,8 +393,9 @@ const P = { x: START.x, z: START.z, yaw: START.yaw, pitch: -0.05, bob: 0 };
 function makePartner(r) {
   if (partner) scene.remove(partner);
   partner = r === "bride"
-    ? person({ skin: "#f1c9a5", hair: "#2b1d14", top: "#1c1f2b", legs: "#1c1f2b", kippah: "#ffffff", tie: true })
-    : person({ skin: "#f1c9a5", hair: "#6b3f1f", top: "#fbfaf6", dress: "#fbfaf6", dressW: 1.0, veil: true, bride: true, sleeve: "#fbfaf6", glow: true });
+    ? person({ skin: GROOM_PAL.s, top: "#1c1f2b", legs: "#1c1f2b", kippah: "#ffffff", tie: true, glasses: true, headMats: headMats(GROOM_HEAD, GROOM_PAL, 31) })
+    : person({ skin: BRIDE_PAL.s, top: "#fbfaf6", dress: "#fbfaf6", dressW: 1.0, veil: true, bride: true, sleeve: "#fbfaf6", glow: true,
+               longHair: true, necklace: "#2bb3a0", headMats: headMats(BRIDE_HEAD, BRIDE_PAL, 41) });
 }
 function pickSpot(exclude = [], minFromPlayer = 12) {
   const ok = SPOTS.map((s, i) => i).filter(i => !exclude.includes(i) && Math.hypot(SPOTS[i][0] - P.x, SPOTS[i][1] - P.z) >= minFromPlayer);
@@ -567,36 +627,74 @@ function winFanfare() {
 }
 
 let musicOn = store.get("wed_music") !== "off";
-// The klezmer band is pre-rendered (tools/render-music.html → assets/klezmer.mp3) and played with an
-// <audio> element: loud, normalised, and reliable on phones (live Web Audio can be silenced there).
+// The klezmer band is pre-rendered (tools/render-music.html → assets/klezmer.mp3). The file is an exact
+// musical loop; it is decoded once and looped sample-accurately with Web Audio, so there is no gap or
+// stutter at the loop point. A silent <audio> element started in the same tap keeps phones from muting
+// Web Audio; if Web Audio is not available, the file falls back to a plain looping <audio> element.
 const MUSIC_URL = "assets/klezmer.mp3";
-const music = { el: null, url: MUSIC_URL, ready: true, want: false,
+const music = { buf: null, src: null, gain: null, loading: null, want: false, t0: 0, offset: 0, el: null, unlock: null,
   durA: TUNES[0].chords.length * TUNES[0].beats * 2 * 60 / TUNES[0].bpm };
-const SILENT_URL = URL.createObjectURL(wavBlob(new Float32Array(2205), 22050));
+const SILENT_URL = URL.createObjectURL(wavBlob(new Float32Array(4410), 22050));
+async function loadMusic() {
+  const a = ac();
+  const data = await (await fetch(MUSIC_URL)).arrayBuffer();
+  music.buf = await new Promise((res, rej) => { const p = a.decodeAudioData(data, res, rej); if (p && p.then) p.then(res, rej); });
+  // skip any encoder padding at the very start: the music begins on a downbeat
+  const d = music.buf.getChannelData(0); let i = 0; while (i < d.length && Math.abs(d[i]) < .0005) i++;
+  music.offset = i / music.buf.sampleRate;
+}
+function playFallback() {
+  if (!music.el) { music.el = new Audio(MUSIC_URL); music.el.loop = true; music.el.setAttribute("playsinline", ""); }
+  music.el.play().catch(() => {});
+}
 function startMusic() {
   if (!musicOn) return;
   music.want = true;
-  if (!music.el) { music.el = new Audio(); music.el.loop = true; music.el.preload = "auto"; music.el.setAttribute("playsinline", ""); }
-  if (music.ready) {
-    if (!music.el.src.endsWith(music.url)) music.el.src = music.url;
-    music.el.volume = 1;
-    music.el.play().catch(() => {});
-  } else {                                           // not rendered yet: unlock the element inside this tap, start when ready
-    music.el.src = SILENT_URL; music.el.play().catch(() => {});
+  const a = ac();
+  if (!a) { playFallback(); return; }
+  if (a.state === "suspended") a.resume();
+  if (!music.unlock) {                               // inside the tap: unlock audio output on phones
+    music.unlock = new Audio(SILENT_URL); music.unlock.loop = true; music.unlock.setAttribute("playsinline", "");
+    music.unlock.play().catch(() => {});
+    try { if (navigator.audioSession) navigator.audioSession.type = "playback"; } catch (e) { /* */ }
+  } else music.unlock.play().catch(() => {});
+  if (!music.buf) {
+    if (!music.loading) music.loading = loadMusic().then(() => { if (music.want) startMusic(); }).catch(() => { music.loading = null; if (music.want) playFallback(); });
+    return;
   }
+  if (music.src) return;
+  const loop = LOOP_SECONDS, s = a.createBufferSource(), g = a.createGain();
+  s.buffer = music.buf; s.loop = true;
+  s.loopStart = music.offset; s.loopEnd = Math.min(music.buf.duration, music.offset + loop);
+  g.gain.setValueAtTime(0, a.currentTime); g.gain.setTargetAtTime(.95, a.currentTime, .25);    // gentle fade-in
+  s.connect(g).connect(a.destination);
+  s.start(a.currentTime + .02, music.offset);
+  music.src = s; music.gain = g; music.t0 = a.currentTime + .02;
+  // if the audio clock is not running a second later (blocked), use the plain <audio> fallback
+  setTimeout(() => { if (music.want && a.state !== "running") { stopMusic(); music.want = true; playFallback(); } }, 1200);
 }
-function stopMusic() { music.want = false; if (music.el) music.el.pause(); }
-// current beat of the music, so the dancers can move in time with it
-function musicBeat(ts) {
-  if (music.el && !music.el.paused && music.ready) {
-    const t = music.el.currentTime, [A, B] = TUNES;
-    return t < music.durA ? t * A.bpm / 60 : (t - music.durA) * B.bpm / 60;
+function stopMusic() {
+  music.want = false;
+  if (music.src) {
+    const a = actx, s = music.src;
+    music.gain.gain.setTargetAtTime(0, a.currentTime, .12); s.stop(a.currentTime + .6);
+    music.src = null;
   }
-  return ts * 2.3;
+  if (music.el) music.el.pause();
+  if (music.unlock) music.unlock.pause();
+}
+// current beat of the music, so the dancers move in time with it
+function musicBeat(ts) {
+  const [A, B] = TUNES;
+  let t = null;
+  if (music.src && actx) t = ((actx.currentTime - music.t0) % LOOP_SECONDS + LOOP_SECONDS) % LOOP_SECONDS;
+  else if (music.el && !music.el.paused) t = music.el.currentTime % LOOP_SECONDS;
+  if (t === null) return ts * 2.3;
+  return t < music.durA ? t * A.bpm / 60 : (t - music.durA) * B.bpm / 60;
 }
 document.addEventListener("visibilitychange", () => {
   if (actx) { if (document.hidden) actx.suspend(); else actx.resume(); }
-  if (music.el) { if (document.hidden) music.el.pause(); else if (music.want && musicOn) music.el.play().catch(() => {}); }
+  if (music.el && music.want) { if (document.hidden) music.el.pause(); else music.el.play().catch(() => {}); }
 });
 function giggle() { [880, 990, 1100, 990].forEach((f, i) => tone(f, i * .07, .09, "sine", .05)); }
 
@@ -843,14 +941,15 @@ function frame() {
 // menu portraits — small original pixel-art figures
 function portrait(cv, r) {
   const g = cv.getContext("2d"), P0 = r === "bride"
-    ? ["....hhhhhh....", "...hvvvvvvh...", "...hssssssh...", "..vhseesesv...", "..vhssssssv...", "..v.smmmms.v..", "..v..ssss..v..",
-       "...wwwwwwww...", "..swwwwwwwws..", "..swwwffwwws..", "..swwwffwwws..", "...wwwwwwww...", "..wwwwwwwwww..", "..wwwwwwwwww..",
+    ? ["...HHHHHHHH...", "..HHHHHHHHHH..", ".HHHssssssHHH.", ".HHsbssssbsHH.", ".HHseessseeHH.", ".HHssspssssHH.", ".HHsmWWWWmsHH.",
+       ".HHHssmmssHHH.", "HHH.wwwwww.HHH", "HH.wttttttw.HH", "H..swwffwws..H", "...swwffwws...", "...wwwwwwww...", "..wwwwwwwwww..",
        ".wwwwwwwwwwww.", ".wwwwwwwwwwww.", "wwwwwwwwwwwwww", "wwwwwwwwwwwwww"]
-    : ["..............", "....kkkkkk....", "...hhhhhhhh...", "...hssssssh...", "...seesseses..", "...ssssssss...", "....smmmms....",
-       ".....ssss.....", "...bbbtwbbb...", "..sbbbtwbbbs..", "..sbbbtwbbbs..", "..sbbbbbbbbs..", "...bbbbbbbb...", "...bbb..bbb...",
-       "...bbb..bbb...", "...bbb..bbb...", "...ddd..ddd...", ".............."];
-  const C = { h: r === "bride" ? "#6b3f1f" : "#2b1d14", s: "#f1c9a5", e: "#2b2b2b", m: "#9b4a43", w: "#fbfaf6", v: "#e9eef5",
-              f: "#f2a7c3", k: "#ffffff", b: "#1c1f2b", t: "#111111", d: "#0d0d0d" };
+    : ["....kkkkkk....", "...ssssssss...", "...ssssssss...", "..hssssssssh..", "..sGGGsGGGss..", "..sGeGGGeGss..", "..ggssssssgg..",
+       "..gmWWWWWWmg..", "...gggggggg...", "....gggggg....", "...bbbwwbbb...", "..sbbbxwbbbs..", "..sbbbxwbbbs..", "..sbbbbbbbbs..",
+       "...bbbbbbbb...", "...bbb..bbb...", "...bbb..bbb...", "...ddd..ddd..."];
+  const C = { H: "#7f3d2d", s: r === "bride" ? "#f3d2be" : "#e7b48f", e: "#2b2b2b", m: "#a85b4b", W: "#ffffff", p: "#eba798",
+              w: "#fbfaf6", t: "#2bb3a0", f: "#f2a7c3", k: "#ffffff", h: "#6c6762", G: "#161616", g: "#7d7771",
+              b: "#1c1f2b", d: "#0d0d0d", x: "#111111" };
   const px = Math.floor(cv.width / 14);
   g.clearRect(0, 0, cv.width, cv.height);
   P0.forEach((row, y) => [...row].forEach((ch, x) => { if (C[ch]) { g.fillStyle = C[ch]; g.fillRect(x * px, y * px, px, px); } }));
