@@ -99,6 +99,11 @@ details.adv summary::-webkit-details-marker{display:none}
 .vchip i{font-style:normal;color:var(--muted);margin-left:5px;font-size:11px}
 .vchip:hover{border-color:var(--ink-2);background:#f1ece1}
 .vchip.far{opacity:.6}
+.vchip.on{background:var(--ink);border-color:var(--ink);color:#fff;opacity:1}
+.vchip.on i{color:var(--gold-2)}
+.fand{font-weight:700;color:var(--gold);margin:0 4px}
+.fgroup{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center;border:1px dashed var(--line);border-radius:99px;padding:2px}
+.for{color:var(--muted);margin:0 2px}
 .vnote{font-size:12px;color:var(--muted)}
 .list{display:grid;gap:10px}
 .rec{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;display:grid;grid-template-columns:86px 1fr auto;gap:18px;align-items:center;transition:transform .12s,box-shadow .12s}
@@ -306,7 +311,8 @@ const $ = s => document.querySelector(s);
 const f = $("#f"), out = $("#out");
 const engine = new NYCEngine.Engine("data/");
 let mode = "phonetic", boros = new Set(), page = 1, sort = "relevance", current = null, lastQ = null;
-let kind = "free", nameFilter = null;
+let kind = "free";
+const filters = new Map();            // קבוצה (מילה / שדה) → קבוצת כתיבים נבחרים
 const qfree = $("#qfree"), det = $("#detailed");
 
 const esc = s => (s ?? "").toString().replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -335,7 +341,7 @@ function paintDynamic(){
     $("#boros").querySelectorAll(".chip").forEach(c=>c.onclick=()=>{c.classList.toggle("on");c.classList.contains("on")?boros.add(c.dataset.v):boros.delete(c.dataset.v)});
   }
   $("#examples").innerHTML = t("examples").map(x => `<button type="button" dir="auto">${esc(x)}</button>`).join("");
-  $("#examples").querySelectorAll("button").forEach(b => b.onclick = () => { qfree.value = b.textContent; kind = "free"; page = 1; nameFilter = null; run(); });
+  $("#examples").querySelectorAll("button").forEach(b => b.onclick = () => { qfree.value = b.textContent; kind = "free"; page = 1; filters.clear(); run(); });
   $("#toggleAdv").textContent = det.hidden ? t("adv.open") : t("adv.close");
 }
 
@@ -382,10 +388,10 @@ f.onsubmit = e => {
   const inDet = e.submitter && e.submitter.id === "goDet" || det.contains(document.activeElement);
   kind = inDet ? "det" : "free";
   if (kind === "free" && !qfree.value.trim()) { qfree.focus(); return; }
-  page = 1; nameFilter = null; run();
+  page = 1; filters.clear(); run();
 };
 $("#toggleAdv").onclick = () => { det.hidden = !det.hidden; $("#toggleAdv").textContent = det.hidden ? t("adv.open") : t("adv.close"); };
-$("#reset").onclick = () => { f.reset(); qfree.value = ""; nameFilter = null; boros.clear(); document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on")); out.innerHTML=""; current=null; history.replaceState(null,"",location.pathname + location.search); };
+$("#reset").onclick = () => { f.reset(); qfree.value = ""; filters.clear(); boros.clear(); document.querySelectorAll(".chip").forEach(c=>c.classList.remove("on")); out.innerHTML=""; current=null; history.replaceState(null,"",location.pathname + location.search); };
 
 const SORTERS = {
   relevance: (a,b) => a.score-b.score || (a.year??9999)-(b.year??9999),
@@ -424,19 +430,28 @@ function variantsHTML(d){
   if (d.kind === "free") {
     const rows = Object.values(v).filter(t => t.list && t.list.length);
     if (!rows.length) return "";
-    return `<div class="vars">${rows.map(tk => `<div class="vrow"><span class="lbl">${esc(t("spellTok", {t: tk.tok}))}</span>${
-      tk.list.map(x => `<button class="vchip ${x.d > 0.6 ? "far" : ""}" data-fn="${esc(x.n)}" title="${t(x.part === "last" ? "chip.last" : "chip.first")}">${esc(x.n)}<i>${fmt(x.cnt)}</i></button>`).join("")}</div>`).join("")}
+    return `<div class="vars">${Object.entries(v).filter(([, tk]) => tk.list && tk.list.length).map(([g, tk]) => `<div class="vrow"><span class="lbl">${esc(t("spellTok", {t: tk.tok}))}</span>${
+      tk.list.map(x => `<button class="vchip ${x.d > 0.6 ? "far" : ""} ${filters.get(g)?.has(x.n) ? "on" : ""}" data-g="${g}" data-fn="${esc(x.n)}" title="${t(x.part === "last" ? "chip.last" : x.part === "first" ? "chip.first" : "chip.both")}">${esc(x.n)}<i>${fmt(x.cnt)}</i></button>`).join("")}</div>`).join("")}
       <div class="vnote">${t("vnote.free")}</div></div>`;
   }
   const slots = SLOTS.filter(k => v[k] && v[k].length);
   if (!slots.length) return "";
   return `<div class="vars">${slots.map(k => `<div class="vrow"><span class="lbl">${t("slot")[k]} ${t("spellings")}</span>${
-    v[k].slice(0, 14).map(x => `<button class="vchip ${x.d > 0.6 ? "far" : ""}" data-slot="${k}" data-n="${esc(x.n)}">${esc(x.n)}<i>${fmt(x.cnt)}</i></button>`).join("")
+    v[k].slice(0, 14).map(x => `<button class="vchip ${x.d > 0.6 ? "far" : ""} ${filters.get(k)?.has(x.n) ? "on" : ""}" data-g="${k}" data-fn="${esc(x.n)}">${esc(x.n)}<i>${fmt(x.cnt)}</i></button>`).join("")
   }${v[k].length > 14 ? `<span class="vnote">${t("moreN", {n: v[k].length - 14})}</span>` : ""}</div>`).join("")}
-  <div class="vnote">${t("vnote.det")}</div></div>`;
+  <div class="vnote">${t("vnote.free")}</div></div>`;
 }
 
 const rowHas = (r, n) => [r.s1, r.s2].some(s => s.ln === n || s.fn === n || s.mids.includes(n) || s.lws.includes(n));
+/** בין קבוצות: וגם. בתוך קבוצה: או */
+const passFilters = r => [...filters.values()].every(set => [...set].some(n => rowHas(r, n)));
+function toggleFilter(group, n){
+  if (!filters.has(group)) filters.set(group, new Set());
+  const set = filters.get(group);
+  set.has(n) ? set.delete(n) : set.add(n);
+  if (!set.size) filters.delete(group);
+  page = 1; render(current);
+}
 
 function parsedHTML(d){
   if (d.kind !== "free" || !d.parsed) return "";
@@ -451,7 +466,7 @@ function parsedHTML(d){
 function render(d){
   const all = d.results;
   all.forEach((r, i) => r._i = i);
-  const view = nameFilter ? all.filter(r => rowHas(r, nameFilter)) : all;
+  const view = filters.size ? all.filter(passFilters) : all;
   const total = view.length;
   if (!total){
     out.innerHTML = `${parsedHTML(d)}${variantsHTML(d)}<div class="empty"><div class="big">${t("empty.big")}</div>${t("empty.p")}</div>`;
@@ -472,7 +487,9 @@ function render(d){
     </div>
     ${parsedHTML(d)}
     ${d.truncated ? `<div class="notice">${t("trunc")}</div>` : ""}
-    ${nameFilter ? `<div class="parsed">${t("filtered")} <span class="ffilter">${esc(nameFilter)}<button id="clrF" title="${t("clear")}">✕</button></span></div>` : ""}
+    ${filters.size ? `<div class="parsed">${t("filtered")} ${[...filters.entries()].map(([g, set], gi) =>
+        (gi ? `<span class="fand">+</span>` : "") + `<span class="fgroup">${[...set].map(n => `<span class="ffilter">${esc(n)}<button data-rmg="${esc(g)}" data-rmn="${esc(n)}" title="${t("clear")}">✕</button></span>`).join(`<span class="for">/</span>`)}</span>`).join("")}
+        ${[...filters.values()].reduce((a, s) => a + s.size, 0) > 1 ? `<button class="linkbtn" id="clrAll" style="margin:0 8px">${t("clearAll")}</button>` : ""}</div>` : ""}
     ${variantsHTML(d)}
     <div class="list">${slice.map((r,i)=>`
       <article class="rec" data-i="${r._i}">
@@ -493,7 +510,8 @@ function render(d){
   $("#sort").value = sort;
   $("#sort").onchange = e => { sort = e.target.value; page = 1; run(); };
   $("#csv").onclick = () => exportCSV(view);
-  const cf = $("#clrF"); if (cf) cf.onclick = () => { nameFilter = null; page = 1; render(d); };
+  out.querySelectorAll("[data-rmg]").forEach(b => b.onclick = () => toggleFilter(b.dataset.rmg, b.dataset.rmn));
+  const ca = $("#clrAll"); if (ca) ca.onclick = () => { filters.clear(); page = 1; render(d); };
   out.querySelectorAll(".pager button[data-p]").forEach(b=>b.onclick=()=>{page=+b.dataset.p;run();window.scrollTo({top:out.offsetTop-20,behavior:"smooth"})});
   bindVariants();
   out.querySelectorAll("[data-copy]").forEach(b=>b.onclick=()=>{
@@ -505,14 +523,7 @@ function render(d){
 }
 
 function bindVariants(){
-  out.querySelectorAll(".vchip[data-fn]").forEach(b=>b.onclick=()=>{
-    nameFilter = nameFilter === b.dataset.fn ? null : b.dataset.fn; page = 1; render(current);
-  });
-  out.querySelectorAll(".vchip[data-slot]").forEach(b=>b.onclick=()=>{
-    f.elements[b.dataset.slot].value = b.dataset.n; kind = "det";
-    mode = "exact"; $("#mode").querySelectorAll("button").forEach(x=>x.classList.toggle("on", x.dataset.v==="exact"));
-    page = 1; run();
-  });
+  out.querySelectorAll(".vchip[data-fn]").forEach(b => b.onclick = () => toggleFilter(b.dataset.g, b.dataset.fn));
 }
 
 function exportCSV(rows){

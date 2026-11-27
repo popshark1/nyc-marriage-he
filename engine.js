@@ -647,8 +647,14 @@
         const firstOnly = isHebrew(t.tok) && hebFirstNames(t.tok).length;
         if (t.L && t.L.list && !firstOnly) merged.push(...t.L.list.slice(0, 20).map(v => ({ n: v.n, cnt: v.cnt, d: v.d, part: "last" })));
         if (t.Fi && t.Fi.list) merged.push(...t.Fi.list.slice(0, 20).map(v => ({ n: v.n, cnt: v.cnt, d: v.d, part: "first" })));
-        merged.sort((a, b) => b.cnt - a.cnt);
-        variants[`t${i}`] = { tok: t.tok, list: merged.filter(v => v.d <= 0.6 || v.cnt > 50).slice(0, 24) };
+        const byName = new Map();                       // אותו כתיב גם כשם משפחה וגם כשם פרטי – צ'יפ אחד
+        for (const v of merged) {
+          const o = byName.get(v.n);
+          if (!o) byName.set(v.n, { ...v });
+          else { o.cnt += v.cnt; o.d = Math.min(o.d, v.d); if (o.part !== v.part) o.part = "both"; }
+        }
+        const uniq = [...byName.values()].sort((a, b) => b.cnt - a.cnt);
+        variants[`t${i}`] = { tok: t.tok, list: uniq.filter(v => v.d <= 0.6 || v.cnt > 50).slice(0, 24) };
       });
       return { results, variants, files, via, truncated, parsed: { ...P, year_from: F.yf || null, year_to: F.yt || null, boroughs: [...F.boros], license: F.lic } };
     }
