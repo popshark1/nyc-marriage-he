@@ -50,7 +50,16 @@
   const HEB = { "ב": "B", "ג": "G", "ד": "T", "ז": "S", "ח": "K", "ט": "T", "כ": "K", "ך": "K",
     "ל": "L", "מ": "M", "ם": "M", "נ": "N", "ן": "N", "ס": "S", "פ": "P", "ף": "P",
     "צ": "S", "ץ": "S", "ק": "K", "ר": "R", "ש": "S", "ת": "T" };
-  const isHebrew = s => /[֐-׿]/.test(s || "");
+  const isHebrew = s => /[\u0590-\u05FF\uFB1D-\uFB4F]/.test(s || "");
+
+  /** יידיש: ליגטורות (װ ײ ױ), אותיות עם ניקוד מוכן מראש (אַ אָ פֿ שׂ) ופתח/קמץ/רפה – לאותיות בסיס */
+  function normYiddish(s) {
+    return (s || "").normalize("NFKD")
+      .replace(/\u05F0/g, "וו").replace(/\u05F1/g, "וי").replace(/\u05F2/g, "יי")
+      .replace(/(?<=[\u05D0-\u05EA][\u0591-\u05C7]*)\u05D0\u05B8/g, "°")   // אָ באמצע מילה = O (סימן פנימי)
+      .replace(/[\u0591-\u05C7]/g, "")
+      .replace(/דזש/g, "ג").replace(/טש/g, "צ");      // דזשאָן = John, ־וויטש = -WITZ / -WICZ
+  }
 
   function* product(slots, idx = 0, acc = "") {      // סדר זהה ל-itertools.product
     if (idx === slots.length) { yield acc; return; }
@@ -58,7 +67,7 @@
   }
 
   function hebrewKeys(s, maxVariants = 16) {
-    s = (s || "").replace(/[֑-ׇ]/g, "").replace(/['׳"״]/g, "").replace(/[^א-ת]/g, "");
+    s = normYiddish(s).replace(/[֑-ׇ]/g, "").replace(/['׳"״]/g, "").replace(/[^א-ת]/g, "");
     if (!s) return [];
     const slots = [], n = s.length;
     let i = 0;
@@ -136,17 +145,18 @@
   }
 
   function hebrewSeqs(s, maxVariants = 48) {
-    s = (s || "").replace(/[֑-ׇ]/g, "");
+    s = normYiddish(s);
     const geresh = new Set(), letters = [];
     for (const ch of s) {
       if ((ch === "'" || ch === "׳") && letters.length) geresh.add(letters.length - 1);
-      else if (ch >= "א" && ch <= "ת") letters.push(ch);
+      else if ((ch >= "א" && ch <= "ת") || ch === "°") letters.push(ch);
     }
     const n = letters.length, slots = [];
     let i = 0;
     while (i < n) {
       const c = letters[i], nxt = letters[i + 1] || "";
       if (geresh.has(i) && "גזצץ".includes(c)) slots.push(c === "ג" ? ["G"] : ["S"]);
+      else if (c === "°") slots.push(["o"]);
       else if (c === "ו") {
         if (nxt === "ו") { slots.push(["B"]); i++; }
         else if (i === 0) slots.push(["B"]);
@@ -238,8 +248,18 @@
     "מרי": "MARY MARIE", "ג'ון": "JOHN", "יוחנן": "JOHN JOHANAN", "פרץ": "PERETZ", "גולדה": "GOLDIE GOLDA",
     "בלומה": "BLANCHE BLUMA", "פייגה": "FAY FANNIE FEIGA", "פרומה": "FRIEDA FRUMA", "שיינדל": "JEANETTE SHAINDEL",
     "רייזל": "ROSE ROSA", "שושנה": "ROSE SUSAN SHOSHANA", "ציפורה": "CELIA ZIPPORAH",
+    // יידיש (אחרי הסרת ניקוד)
+    "יאנקל": "JACOB JACK YANKEL", "יאנקעל": "JACOB JACK YANKEL", "הערשל": "HERSCHEL HARRY HERSHEL",
+    "הירש": "HARRY HIRSCH HERMAN", "פייגע": "FAY FANNIE FEIGA FAYE", "גאלדע": "GOLDIE GOLDA",
+    "בלומע": "BLANCHE BLUMA", "פרומע": "FRIEDA FRUMA", "שיינדעל": "JEANETTE SHAINDEL",
+    "לייב": "LEO LOUIS LEIB LEON", "וואלף": "WOLF WILLIAM", "בערל": "BERNARD BERL",
+    "מענדל": "MENDEL MAX", "מאטל": "MAX MOTEL", "זעליג": "SELIG SIGMUND", "מאיר": "MEYER MEIER MAYER",
+    "איציק": "ISAAC IRVING ITZIK", "סארע": "SARAH SADIE", "ריווקע": "REBECCA RIVKA BETTY",
+    "ליבע": "LIBBY LIBA", "חאנע": "HANNAH ANNA ANNIE", "מאלקע": "MOLLY MALKA", "דבורע": "DEBORAH DORA",
+    "שמעון": "SIMON SAM", "פנחס": "PINCUS PAUL PINCHAS", "נחום": "NATHAN NORMAN NACHUM",
   };
-  const hebFirstNames = s => (HEB_FIRST[(s || "").replace(/[֑-ׇ]/g, "").trim()] || "").split(" ").filter(Boolean);
+  const plainHeb = s => normYiddish(s).replace(/°/g, "א");
+  const hebFirstNames = s => (HEB_FIRST[plainHeb(s).trim()] || "").split(" ").filter(Boolean);
 
   const NICKNAMES = {
     WILLIAM: ["BILL", "WILL", "BILLY", "WILLIE", "WM"], ROBERT: ["BOB", "ROB", "BOBBY", "ROBT"],
@@ -277,7 +297,7 @@
   async function fetchGz(url) {
     const r = await fetch(url);
     if (r.status === 404) return "";
-    if (!r.ok) throw new Error(`שגיאה בטעינת ${url} (${r.status})`);
+    if (!r.ok) { const e = new Error("E_LOAD"); e.detail = `${url} (${r.status})`; throw e; }
     const buf = new Uint8Array(await r.arrayBuffer());
     if (buf[0] === 0x1f && buf[1] === 0x8b) {         // השרת לא פתח את הדחיסה – פותחים כאן
       const ds = new Blob([buf]).stream().pipeThrough(new DecompressionStream("gzip"));
@@ -303,9 +323,12 @@
     "מנהטן": "Manhattan", "manhattan": "Manhattan", "ברוקלין": "Brooklyn", "brooklyn": "Brooklyn",
     "ברונקס": "Bronx", "bronx": "Bronx", "קווינס": "Queens", "קוינס": "Queens", "queens": "Queens",
     "סטטן": "Staten Island", "staten": "Staten Island", "statenisland": "Staten Island",
+    "מאַנהעטן": "Manhattan", "מאנהעטן": "Manhattan", "בראָנקס": "Bronx", "בראנקס": "Bronx", "סטעטן": "Staten Island",
   };
   const STOP = new Set(["של", "עם", "בשנת", "שנת", "בין", "נישואים", "נישואין", "חתונה", "רישיון", "איילנד", "island",
-    "married", "marriage", "with", "in", "the", "nyc", "license", "ניו", "יורק", "new", "york", "שנות", "ה"]);
+    "married", "marriage", "with", "in", "the", "nyc", "license", "ניו", "יורק", "new", "york", "שנות", "ה",
+    "de", "du", "la", "le", "mariage", "licence", "en", "à", "פֿון", "פון", "חתונה", "יאָר", "יאר", "דער", "אין", "יאָרן"]);
+  const SEP_WORDS = ["et", "און", "un"];
   const SEP = new Set(["&", "+", "ו", "and", "/", "עם"]);
 
   function parseFree(text) {
@@ -314,24 +337,24 @@
     t = t.replace(/(?:#|רישיון\s*|license\s*(?:no\.?|#)?\s*)(\d{1,6})\b/gi, (_, d) => { out.license = d; return " "; });
     t = t.replace(/\b(19[5-9]\d|20[01]\d)\s*[-–]\s*(19[5-9]\d|20[01]\d|\d{2})\b/g, (_, a, b) => {
       out.year_from = +a; out.year_to = b.length === 2 ? +(a.slice(0, 2) + b) : +b; return " "; });
-    t = t.replace(/(?:שנות\s*ה[-־]?\s*|\b)(19)?([5-9]0)'?s?(?=\s)/g, (m, c, d) => {
-      if (!/שנות|s/.test(m)) return m;
+    t = t.replace(/(?:שנות\s*ה[-־]?\s*|années\s*|די\s*|\b)(19)?([5-9]0)(?:'?s|ער)?(?=\s)/gi, (m, c, d) => {
+      if (!/שנות|années|ער|s/i.test(m)) return m;
       out.year_from = 1900 + +d; out.year_to = 1909 + +d; return " "; });
     t = t.replace(/\b(19[5-9]\d|20[01]\d)\b/g, (_, y) => {
       if (out.year_from === null) { out.year_from = out.year_to = +y; } return " "; });
     for (let raw of t.split(/\s+/)) {
       if (!raw) continue;
       const low = raw.toLowerCase();
-      if (SEP.has(low)) { if (out.persons[out.persons.length - 1].length) out.persons.push([]); continue; }
+      if (SEP.has(low) || SEP_WORDS.includes(low)) { if (out.persons[out.persons.length - 1].length) out.persons.push([]); continue; }
       const bw = BORO_WORDS[low] || BORO_WORDS[low.replace(/^ב/, "")];
       if (bw) { if (!out.boroughs.includes(bw)) out.boroughs.push(bw); continue; }
       if (STOP.has(low)) continue;
-      let w = raw.replace(/[^A-Za-zא-ת'׳*?\-]/g, "");
-      if (isHebrew(w) && w[0] === "ו" && out.persons[out.persons.length - 1].length && HEB_FIRST[w.slice(1)]) {
+      let w = raw.replace(/[^A-Za-z\u0591-\u05F4\uFB1D-\uFB4F'׳*?\-]/g, "");
+      if (isHebrew(w) && plainHeb(w)[0] === "ו" && out.persons[out.persons.length - 1].length && HEB_FIRST[plainHeb(w).slice(1)]) {
         // "ודוד", "ושרה" – ו' החיבור לפני שם פרטי מוכר מתחילה בן/בת זוג שני/ה (וייס, וולף נשארים שמות)
-        out.persons.push([]); w = w.slice(1);
+        out.persons.push([]); w = plainHeb(w).slice(1);
       }
-      if (w.replace(/[*?'׳\-]/g, "").length < 2) continue;
+      if (w.replace(/[*?'׳\-\u0591-\u05C7]/g, "").length < 2) continue;
       out.persons[out.persons.length - 1].push(w);
     }
     out.persons = out.persons.filter(p => p.length).slice(0, 2);
@@ -346,7 +369,7 @@
     }
     async init() {
       const r = await fetch(this.base + "meta.json");
-      if (!r.ok) throw new Error("לא נמצא data/meta.json");
+      if (!r.ok) throw new Error("E_META");
       this.meta = await r.json();
       this.heavy = new Set(this.meta.heavy_first || []);
       return this.meta;
@@ -480,7 +503,7 @@
     /** בוחר את השדה הממקד ביותר (הכי מעט רשומות) ומוריד רק אותו */
     async retrieve(cands, yf, yt) {
       const usable = cands.filter(c => c.m && c.m.list && c.m.list.length);
-      if (!usable.length) throw new Error("הקלידו לפחות שם אחד מלא (שתי אותיות ומעלה) לחיפוש");
+      if (!usable.length) throw new Error("E_NAME_FULL");
       usable.sort((a, b) => a.cost - b.cost);
       const best = usable[0];
       const files = best.files || this.filesFor(best.part, best.m.list, yf, yt);
@@ -509,7 +532,7 @@
       const slots = ["a_last", "a_first", "b_last", "b_first"];
       const ms = {};
       await Promise.all(slots.map(async s => { ms[s] = await this.matcher(q[s], s.endsWith("last") ? "last" : "first", mode); }));
-      if (!slots.some(s => ms[s])) throw new Error("יש להזין לפחות שם אחד (פרטי או משפחה)");
+      if (!slots.some(s => ms[s])) throw new Error("E_NAME");
       const cands = slots.map(s => {
         const part = s.endsWith("last") ? "last" : "first";
         const m = ms[s];
@@ -555,7 +578,7 @@
         license: extra.license || P.license,
       });
       const tokens = P.persons.flat();
-      if (!tokens.length) throw new Error("לא זוהה שם בחיפוש. הקלידו לפחות שם אחד, למשל: משה שוורץ 1955");
+      if (!tokens.length) throw new Error("E_FREE_NAME");
       const tm = await Promise.all(tokens.map(async tok => {
         const [L, Fi] = await Promise.all([this.matcher(tok, "last", "phonetic"), this.matcher(tok, "first", "phonetic")]);
         // שם פרטי עברי מוכר (חיים, שרה) – עדיפות לפירוש כשם פרטי
@@ -631,7 +654,7 @@
     }
   }
 
-  const api = { Engine, parseFree, normLatin, latinKey, hebrewKeys, keysForQuery, latinSeq, hebrewSeqs, wdist, rankNames, fnv1a, isHebrew };
+  const api = { Engine, parseFree, normYiddish, normLatin, latinKey, hebrewKeys, keysForQuery, latinSeq, hebrewSeqs, wdist, rankNames, fnv1a, isHebrew };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.NYCEngine = api;
 })(typeof window !== "undefined" ? window : globalThis);
