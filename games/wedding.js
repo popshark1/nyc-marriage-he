@@ -256,36 +256,30 @@ function mapTex(rows, pal, seed = 1) {
   })), 16, seed);
 }
 const GROOM_PAL = {
-  s: "#e7b48f", S: "#d39e79", e: "#3b2a20", w: "#dfe8ee", k: "#161616", b: "#4a423d", m: "#b0604e", W: "#fbfaf4",
-  g: ["#8c867f", "#6c6762", "#a6a09a", "#57524e"], d: ["#57524e", "#45413e", "#6c6762"], h: ["#5e5955", "#7a746e", "#4a4643"], r: "#d8957c", l: "#f2c9a8", x: "#7a2f2a",
+  s: "#e8b896", S: "#d29f7d", h: ["#3a2a1e", "#4a3626", "#2f2219", "#433022"], b: "#2e2118", e: "#2b211b",
+  r: "#e39a86", m: "#a8584a", W: "#fbfaf4", x: "#7a2f2a",
 };
-const GROOM_HEAD = {          // bald, dark square glasses, short salt-and-pepper beard, laughing: smiling eyes, rosy cheeks, open grin
-  front: ["ssssslllssssssss", "ssssllllssssssss", "ssssssssssssssss", "ssssssssssssssss",
-          "hsbbbbsssbbbbssh", "hssssssssssssssh", "skkkkkkkkkkkkkks", "skweewksskweewks",
-          "skewweksskewweks", "skkkkkksskkkkkks", "grsssssSSsssssrg", "gmsddddddddddsmg",
-          "gmWWWWWWWWWWWWmg", "ggmxxxxxxxxxxmgg", "gggdmmmmmmmmdggg", "ggggddddddddgggg"],
-  side:  ["ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss",
-          "ssssssssssssssss", "hsssssssssssssss", "kkkkkkssrrssssss", "hssssssrSrsssssh",
-          "hssssssrSrssssshh".slice(0, 16), "hhssssssrrssshhh", "gghhssssssshhhhh", "ggghhhhhhhhhhhhh",
-          "gggghhhhhhhhhhhh", "ggggghhhhhhhhhhh", "gggggghhhhhhhhhh", "ggggggghhhhhhhhh"],
-  back:  ["ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss",
-          "ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss", "hsssssssssssssh".padEnd(16, "h"),
-          "hhssssssssssshhh", "hhhhsssssssshhhh", "hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh",
-          "hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh"],
-  top:   Array.from({ length: 16 }, (_, y) => y > 4 && y < 9 ? "sssssslllsssssss" : "ssssssssssssssss"),
+const GROOM_HEAD = {          // a generic young groom: short dark hair, clean-shaven, laughing
+  front: ["hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh", "hhhhshhhhhhhhhhh",
+          "hssssssssssssssh", "ssbbbbssssbbbbss", "ssssssssssssssss", "ssseesssssseesss",
+          "ssessessssessess", "srrssssSSssssrrs", "sssssssSSsssssss", "ssmssssssssssmss",
+          "sssmWWWWWWWWmsss", "ssssmxxxxxxmssss", "sssssmmmmmmsssss", "ssssssssssssssss"],
+  side:  [...Array(5).fill("hhhhhhhhhhhhhhhh"), ...Array(2).fill("sssssssssssshhhh"), ...Array(3).fill("sssssssSSsssshhh"), ...Array(6).fill("ssssssssssssssss")],
+  back:  [...Array(12).fill("hhhhhhhhhhhhhhhh"), ...Array(4).fill("ssssssssssssssss")],
+  top:   Array.from({ length: 16 }, () => "hhhhhhhhhhhhhhhh"),
 };
 const BRIDE_PAL = {
-  H: ["#7a3a2b", "#8f4535", "#64302a", "#a0543e"], s: "#f3d2be", S: "#e4b9a3", e: "#4b3428", b: "#6b3a2c",
-  p: "#eba798", m: "#c76a6c", W: "#fffdf8", r: "#9c3f4a",
+  H: ["#3b2a20", "#4a3428", "#2f211a", "#55392b"], s: "#efc8ad", S: "#dcae92", e: "#3a2a22", b: "#3b2a20",
+  p: "#eca295", m: "#c86d70", W: "#fffdf8", r: "#9c3f4a",
 };
-const BRIDE_HEAD = {          // wavy auburn hair to the shoulders, beaming: smiling eyes, blushing cheeks, open smile
-  front: ["HHHHHHHHHHHHHHHH", "HHHHHHHHHHHHHHHH", "HHHssssssssssHHH", "HHsbbbssssbbbsHH",
-          "HHssssssssssssHH", "HssssssssssssssH", "HsseesssssseessH", "HsessessssessesH",
-          "HsppsssSSsssppsH", "HsppssssssssppsH", "HsmssssssssssmsH", "HssmWWWWWWWWmssH",
-          "HHssmrrrrrrmssHH", "HHHssmmmmmmssHHH", "HHHHssssssssHHHH", "HHHHHssssssHHHHH"],
-  side:  Array.from({ length: 16 }, () => "HHHHHHHHHHHHHHHH"),
-  back:  Array.from({ length: 16 }, () => "HHHHHHHHHHHHHHHH"),
-  top:   Array.from({ length: 16 }, (_, y) => y === 7 ? "HHHHHHHsHHHHHHHH" : "HHHHHHHHHHHHHHHH"),
+const BRIDE_HEAD = {          // a generic bride: dark hair in an up-do under the veil, beaming
+  front: ["HHHHHHHHHHHHHHHH", "HHHHHHHHHHHHHHHH", "HHHHHHHHHHHHHHHH", "HHssssssssssssHH",
+          "HsbbbssssssbbbsH", "HssssssssssssssH", "HsseesssssseessH", "HsessessssessesH",
+          "HsppsssSSsssppsH", "HsppssssssssppsH", "ssmssssssssssmss", "sssmWWWWWWWWmsss",
+          "ssssmrrrrrrmssss", "sssssmmmmmmsssss", "ssssssssssssssss", "ssssssssssssssss"],
+  side:  [...Array(5).fill("HHHHHHHHHHHHHHHH"), ...Array(5).fill("ssssssssssssHHHH"), ...Array(6).fill("ssssssssssssssss")],
+  back:  [...Array(13).fill("HHHHHHHHHHHHHHHH"), ...Array(3).fill("ssssssssssssssss")],
+  top:   Array.from({ length: 16 }, () => "HHHHHHHHHHHHHHHH"),
 };
 for (const H of [GROOM_HEAD, BRIDE_HEAD]) for (const k in H) H[k] = H[k].map(r => (r + r.slice(-1).repeat(16)).slice(0, 16));
 function headMats(H, pal, seed) {
@@ -338,6 +332,10 @@ function person(o) {
       const curl = new THREE.Mesh(new THREE.BoxGeometry(.14, .16, .2), hm); curl.position.set(sx * .31, 1.02, .02); g.add(curl);
     }
     const crown = new THREE.Mesh(new THREE.BoxGeometry(.58, .1, .58), MAT.flowers); crown.position.y = 1.84; g.add(crown);
+  }
+  if (o.bun) {                  // hair gathered in a bun behind the veil
+    const hm = new THREE.MeshLambertMaterial({ map: mapTex(Array.from({ length: 16 }, () => "HHHHHHHHHHHHHHHH"), BRIDE_PAL, 9) });
+    const bn = new THREE.Mesh(new THREE.BoxGeometry(.3, .26, .18), hm); bn.position.set(0, 1.66, -.33); g.add(bn);
   }
   if (o.necklace) { const nk = new THREE.Mesh(new THREE.BoxGeometry(.3, .05, .32), glow(o.necklace)); nk.position.set(0, 1.3, .01); g.add(nk); }
   if (o.glasses) {               // a thin 3D frame in front of the face
@@ -411,9 +409,9 @@ const START = { x: 0, z: -11.2, yaw: Math.PI };
 // ------------------------------------------------------------------ player / partner
 let role = null, partner = null, partnerSpot = -1, difficulty = store.get("wed_diff") || "easy";
 const P = { x: START.x, z: START.z, yaw: START.yaw, pitch: -0.05, bob: 0 };
-const makeGroom = () => person({ skin: GROOM_PAL.s, top: "#1c1f2b", legs: "#1c1f2b", kippah: "#ffffff", tie: true, glasses: true, headMats: headMats(GROOM_HEAD, GROOM_PAL, 31) });
+const makeGroom = () => person({ skin: GROOM_PAL.s, top: "#1c1f2b", legs: "#1c1f2b", kippah: "#ffffff", tie: true, headMats: headMats(GROOM_HEAD, GROOM_PAL, 31) });
 const makeBride = () => person({ skin: BRIDE_PAL.s, top: "#fbfaf6", dress: "#fbfaf6", dressW: 1.0, veil: true, bride: true, sleeve: "#fbfaf6", glow: true,
-                                 longHair: true, necklace: "#2bb3a0", headMats: headMats(BRIDE_HEAD, BRIDE_PAL, 41) });
+                                 bun: true, necklace: "#f4efe0", headMats: headMats(BRIDE_HEAD, BRIDE_PAL, 41) });
 function makePartner(r) {
   if (partner) scene.remove(partner);
   partner = r === "bride" ? makeGroom() : makeBride();
@@ -1110,14 +1108,14 @@ function frame() {
 // menu portraits — small original pixel-art figures
 function portrait(cv, r) {
   const g = cv.getContext("2d"), P0 = r === "bride"
-    ? ["...HHHHHHHH...", "..HHHHHHHHHH..", ".HHHssssssHHH.", ".HHsbssssbsHH.", ".HHseessseeHH.", ".HHpsssssspHH.", ".HHsmWWWWmsHH.",
-       ".HHHssmmssHHH.", "HHH.wwwwww.HHH", "HH.wttttttw.HH", "H..swwffwws..H", "...swwffwws...", "...wwwwwwww...", "..wwwwwwwwww..",
+    ? ["....HHHHHH....", "...HHHHHHHH...", "..HHssssssHH..", "..HsBssssBsH..", "..sseesseess..", "..srssssssrs..", "..smWWWWWWms..",
+       "...ssmmmmss...", "vvv.wwwwww.vvv", "vv.wqqqqqqw.vv", "v..swwffwws..v", "...swwffwws...", "...wwwwwwww...", "..wwwwwwwwww..",
        ".wwwwwwwwwwww.", ".wwwwwwwwwwww.", "wwwwwwwwwwwwww", "wwwwwwwwwwwwww"]
-    : ["....kkkkkk....", "...ssssssss...", "...ssssssss...", "..hssssssssh..", "..sGGGsGGGss..", "..sGeGGGeGss..", "..grssssssrg..",
-       "..gmWWWWWWmg..", "...gggggggg...", "....gggggg....", "...bbbwwbbb...", "..sbbbxwbbbs..", "..sbbbxwbbbs..", "..sbbbbbbbbs..",
+    : ["....kkkkkk....", "...hhhhhhhh...", "..hssssssssh..", "..sBBssssBBs..", "..seessssees..", "..rssssssssr..", "..smWWWWWWms..",
+       "...smmmmmms...", "....ssssss....", "...bbbwwbbb...", "..sbbbxwbbbs..", "..sbbbxwbbbs..", "..sbbbbbbbbs..", "..sbbbbbbbbs..",
        "...bbbbbbbb...", "...bbb..bbb...", "...bbb..bbb...", "...ddd..ddd..."];
-  const C = { H: "#7f3d2d", s: r === "bride" ? "#f3d2be" : "#e7b48f", e: "#2b2b2b", m: "#a85b4b", W: "#ffffff", p: "#eba798", r: "#e08a78",
-              w: "#fbfaf6", t: "#2bb3a0", f: "#f2a7c3", k: "#ffffff", h: "#6c6762", G: "#161616", g: "#7d7771",
+  const C = { H: "#3b2a20", h: "#3a2a1e", s: r === "bride" ? "#efc8ad" : "#e8b896", e: "#2b2b2b", m: "#a85b4b", W: "#ffffff", p: "#eba798", r: "#e08a78",
+              w: "#fbfaf6", q: "#f4efe0", f: "#f2a7c3", k: "#ffffff", B: "#2e2118", v: "#e3e9ef",
               b: "#1c1f2b", d: "#0d0d0d", x: "#111111" };
   const px = Math.floor(cv.width / 14);
   g.clearRect(0, 0, cv.width, cv.height);
