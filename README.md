@@ -74,3 +74,7 @@ Netlify, Vercel, S3, Nginx – פשוט מעלים את התיקייה כמו ש
 הנתונים: [NYC Marriage Index](https://www.nycmarriageindex.com/) מאת [Reclaim The Records](https://www.reclaimtherecords.org/), נחלת הכלל.
 קובצי המקור ב־Internet Archive: [1950–1995](https://archive.org/details/nycmarriageindex_1950-1995_data_sql) · [1996–2017](https://archive.org/details/nycmarriageindex_1996-2017_data_sql).
 האתר אינו קשור לעיריית ניו יורק או ל־Reclaim The Records.
+
+## עדכון גרסה
+
+לפני כל עדכון של קוד מריצים `python3 tools/bump-version.py`. הסקריפט מוסיף מספר גרסה (`?v=…`) לכל קובצי ה־JS וה־CSS, כדי שדפדפנים לא ימשיכו להריץ קוד ישן ששמור אצלם.

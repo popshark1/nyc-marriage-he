@@ -1,7 +1,7 @@
 // Wedding hide-and-seek — a small blocky (voxel-style) 3D game.
 // All textures are generated in code; no external assets.
-import * as THREE from "./lib/three.module.min.js";
-import { TUNES, nf, wavBlob, LOOP_SECONDS } from "./klezmer.js";
+import * as THREE from "./lib/three.module.min.js?v=202611281042";
+import { TUNES, nf, wavBlob, LOOP_SECONDS } from "./klezmer.js?v=202611281042";
 
 // ------------------------------------------------------------------ i18n
 const STR = {
