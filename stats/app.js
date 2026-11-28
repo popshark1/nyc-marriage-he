@@ -175,7 +175,7 @@ function renderAll() { kpis(); chartB(); tables(); chartA();
   document.querySelectorAll(".tblbtn").forEach(b => b.textContent = t($("#" + b.dataset.t).classList.contains("on") ? "tbl.hide" : "tbl.show"));
 }
 function setLang(l) {
-  I18N.set(l); $("#back").href = "index.html?lang=" + l;
+  I18N.set(l); $("#tabSearch").href = "index.html?lang=" + l; $("#tabStats").href = "stats.html?lang=" + l;
   const u = new URL(location.href); u.searchParams.set("lang", l); history.replaceState(null, "", u);
   if (D) renderAll();
 }

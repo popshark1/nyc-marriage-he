@@ -69,7 +69,7 @@ function paintGameArt(){
   g.fillStyle = "#14213d"; g.font = "bold 18px monospace"; g.fillText("?", 52, 50); g.fillText("?", 112, 50);
 }
 paintGameArt();
-function syncGameLink(){ const a = $("#gameLink"); if (a) a.href = "games/wedding.html?lang=" + I18N.lang; const s = $("#statsLink"); if (s) s.href = "stats.html?lang=" + I18N.lang; }
+function syncGameLink(){ const a = $("#gameLink"); if (a) a.href = "games/wedding.html?lang=" + I18N.lang; const s = $("#tabStats"); if (s) s.href = "stats.html?lang=" + I18N.lang; }
 syncGameLink();
 
 function setLang(lang){

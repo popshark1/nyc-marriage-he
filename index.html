@@ -147,6 +147,10 @@ footer{color:var(--muted);font-size:13px;padding:24px 0 40px;border-top:1px soli
 
 
 /* header bar + languages */
+.tabs{display:flex;gap:2px;margin-top:22px;border-bottom:1px solid rgba(233,211,166,.25)}
+.tabs a{color:#d7d2c4;text-decoration:none;font-size:15px;padding:9px 18px 10px;border-radius:10px 10px 0 0;border:1px solid transparent;border-bottom:0;margin-bottom:-1px}
+.tabs a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.tabs a[aria-current=page]{color:var(--ink);background:var(--paper);border-color:rgba(233,211,166,.35);font-weight:500}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 .langs{display:flex;gap:4px;background:rgba(255,255,255,.08);border-radius:99px;padding:3px}
 .langs button{font:inherit;font-size:13px;border:0;background:transparent;color:#d7d2c4;padding:5px 12px;border-radius:99px;cursor:pointer}
@@ -164,12 +168,6 @@ footer{color:var(--muted);font-size:13px;padding:24px 0 40px;border-top:1px soli
 .game-note{font-size:12px;color:var(--gold-2)}
 .game-play{background:var(--gold);color:var(--ink);font-weight:700;border-radius:6px;padding:10px 18px;border:2px solid #f7f3ea;white-space:nowrap}
 
-.stat-card{display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;background:var(--card);color:var(--ink);border-radius:var(--r);padding:16px 18px;text-decoration:none;border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .12s}
-.stat-card:hover{transform:translateY(-2px)}
-.stat-art{width:120px;height:64px}
-.stat-card .game-txt p{color:var(--muted)}
-.stat-go{background:var(--ink);color:#fff;font-weight:500;border-radius:10px;padding:10px 18px;white-space:nowrap}
-@media (max-width:640px){.stat-card{grid-template-columns:1fr}.stat-art{display:none}}
 /* sources + footer */
 .sources{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;margin:0 0 30px}
 .sources h4{margin:0 0 8px;font-family:"Frank Ruhl Libre",serif;font-size:18px}
@@ -232,6 +230,10 @@ body{padding-bottom:70px}
         <button type="button" data-lang="ru" lang="ru">Русский</button>
       </nav>
     </div>
+    <nav class="tabs" data-i18n-aria="nav.aria">
+      <a href="index.html" id="tabSearch" aria-current="page" data-i18n="nav.search"></a>
+      <a href="stats.html" id="tabStats" data-i18n="nav.stats"></a>
+    </nav>
     <h1 data-i18n="h1"></h1>
     <p class="lede" data-i18n="lede"></p>
     <div class="stats" id="stats"></div>
@@ -320,15 +322,6 @@ body{padding-bottom:70px}
         <span class="game-note" data-i18n="games.note"></span>
       </div>
       <span class="game-play" data-i18n="games.play"></span>
-    </a>
-  </section>
-
-  <section class="games" id="statsSec">
-    <h4 data-i18n="stats.h"></h4>
-    <a class="stat-card" id="statsLink" href="stats.html">
-      <svg class="stat-art" viewBox="0 0 120 64" aria-hidden="true"><g fill="#257de0"><rect x="6" y="40" width="10" height="20" rx="2"/><rect x="20" y="32" width="10" height="28" rx="2"/><rect x="34" y="36" width="10" height="24" rx="2"/><rect x="48" y="22" width="10" height="38" rx="2"/><rect x="62" y="26" width="10" height="34" rx="2"/><rect x="76" y="14" width="10" height="46" rx="2"/><rect x="90" y="18" width="10" height="42" rx="2"/><rect x="104" y="6" width="10" height="54" rx="2"/></g><g fill="#f2a600"><rect x="6" y="52" width="10" height="8"/><rect x="20" y="48" width="10" height="12"/><rect x="34" y="50" width="10" height="10"/><rect x="48" y="44" width="10" height="16"/><rect x="62" y="46" width="10" height="14"/><rect x="76" y="40" width="10" height="20"/><rect x="90" y="42" width="10" height="18"/><rect x="104" y="36" width="10" height="24"/></g></svg>
-      <div class="game-txt"><b data-i18n="stats.t"></b><p data-i18n="stats.p"></p></div>
-      <span class="stat-go" data-i18n="stats.go"></span>
     </a>
   </section>
 
