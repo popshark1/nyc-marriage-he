@@ -1,7 +1,8 @@
 // Wedding hide-and-seek — a small blocky (voxel-style) 3D game.
 // All textures are generated in code; no external assets.
-import * as THREE from "./lib/three.module.min.js?v=202611281054";
-import { TUNES, nf, wavBlob, LOOP_SECONDS } from "./klezmer.js?v=202611281054";
+import * as THREE from "./lib/three.module.min.js?v=202611281114";
+import { buildCity } from "./city.js?v=202611281114";
+import { TUNES, nf, wavBlob, LOOP_SECONDS } from "./klezmer.js?v=202611281114";
 
 // ------------------------------------------------------------------ i18n
 const STR = {
@@ -18,6 +19,7 @@ const STR = {
     best: "השיא שלך: {t} שנ׳", newBest: "שיא חדש!", again: "שחקו שוב", back: "חזרה לחיפוש",
     procession: "ההורים של שני הצדדים מלווים את החתן והכלה אל החופה", skip: "לחיצה לדילוג",
     rabbi: "רב", storyR: "אתה הרב! החתן והכלה התחבאו שניהם בגן, והחופה מתעכבת. מצא את שניהם – כל מי שתמצא ימתין לך ליד החופה.", foundOneG: "מצאת את החתן! הוא ממתין ליד החופה. עכשיו מצא את הכלה", foundOneB: "מצאת את הכלה! היא ממתינה ליד החופה. עכשיו מצא את החתן", foundBoth: "מצאת את החתן והכלה תוך {t} שניות", tipR: "טיפ: חפשו מאחורי העוגה, העצים והבמה, ובין האורחים. במצב קל, המד מראה כמה חם ביחס למי שעוד מתחבא", subR: "או היו הרב, ומצאו את שניהם!",
+    cityHi: "ברוכים הבאים לעיר – ניו יורק, 1910",
     home: "חזרה לאתר", fledG: "החתן ברח ממך!", fledB: "הכלה ברחה ממך!", music: "מוזיקה", musicNote: "מוזיקה: לחנים מקוריים בסגנון כליזמר (פריילעכס ובולגר)", rabbiHint: "הרב: „נדמה לי שראיתי {who} ליד {place}…”", whoG: "את החתן", whoB: "את הכלה", sound: "צלילים", menu: "תפריט", tip: "טיפ: לכו אל הרב שמתחת לחופה והוא ייתן לכם רמז. חפשו גם מאחורי העוגה, העצים והבמה, ובין האורחים",
   },
   en: {
@@ -33,6 +35,7 @@ const STR = {
     best: "Your best: {t}s", newBest: "New record!", again: "Play again", back: "Back to search",
     procession: "Both sets of parents walk the groom and the bride to the chuppah", skip: "Tap to skip",
     rabbi: "Rabbi", storyR: "You're the rabbi! The bride and groom are both hiding in the garden and the ceremony is running late. Find them both — each one you find will wait for you by the chuppah.", foundOneG: "You found the groom! He's waiting by the chuppah. Now find the bride", foundOneB: "You found the bride! She's waiting by the chuppah. Now find the groom", foundBoth: "You found the bride and the groom in {t} seconds", tipR: "Tip: look behind the cake, the trees and the stage, and among the guests. On Easy, the meter shows how close you are to whoever is still hiding", subR: "Or be the rabbi and find them both!",
+    cityHi: "Welcome to the city — New York, 1910",
     home: "Back to the site", fledG: "The groom ran away!", fledB: "The bride ran away!", music: "Music", musicNote: "Music: original klezmer-style tunes (a freylekhs and a bulgar)", rabbiHint: "Rabbi: “I think I saw {who} near {place}…”", whoG: "the groom", whoB: "the bride", sound: "Sound", menu: "Menu", tip: "Tip: walk up to the rabbi under the chuppah for a hint. Also look behind the cake, the trees, the stage and among the guests",
   },
   yi: {
@@ -48,6 +51,7 @@ const STR = {
     best: "דײַן רעקאָרד: {t} סעק׳", newBest: "אַ נײַער רעקאָרד!", again: "נאָך אַ מאָל", back: "צוריק צום זוכן",
     procession: "די עלטערן פֿון ביידע צדדים פֿירן דעם חתן און די כּלה צו דער חופּה", skip: "דריקט צו איבערשפּרינגען",
     rabbi: "רבֿ", storyR: "דו ביסט דער רבֿ! דער חתן און די כּלה האָבן זיך ביידע באַהאַלטן אינעם גאָרטן, און די חופּה פֿאַרשפּעטיקט זיך. געפֿין זיי ביידע – ווער דו געפֿינסט וועט וואַרטן בײַ דער חופּה.", foundOneG: "דו האָסט געפֿונען דעם חתן! ער וואַרט בײַ דער חופּה. איצט געפֿין די כּלה", foundOneB: "דו האָסט געפֿונען די כּלה! זי וואַרט בײַ דער חופּה. איצט געפֿין דעם חתן", foundBoth: "דו האָסט געפֿונען דעם חתן און די כּלה אין {t} סעקונדעס", tipR: "עצה: זוכט הינטערן טאָרט, די ביימער און די בינע, און צווישן די געסט", subR: "אָדער זײַט דער רבֿ און געפֿינט זיי ביידע!",
+    cityHi: "ברוך־הבא אין שטאָט – ניו־יאָרק, 1910",
     home: "צוריק צום וועבזײַטל", fledG: "דער חתן איז אַנטלאָפֿן!", fledB: "די כּלה איז אַנטלאָפֿן!", music: "מוזיק", musicNote: "מוזיק: אָריגינעלע ניגונים אין קלעזמער־סטיל (אַ פֿריילעכס און אַ בולגאַר)", rabbiHint: "דער רבֿ: „מיר דאַכט זיך, אַז איך האָב געזען {who} לעבן {place}…“", whoG: "דעם חתן", whoB: "די כּלה", sound: "קלאַנגען", menu: "מעניו", tip: "עצה: גייט צום רבֿ אונטער דער חופּה, ער וועט אײַך געבן אַ רמז. קוקט אויך הינטער דעם טאָרט, די ביימער, די בינע און צווישן די געסט",
   },
   fr: {
@@ -63,6 +67,7 @@ const STR = {
     best: "Votre record : {t} s", newBest: "Nouveau record !", again: "Rejouer", back: "Retour à la recherche",
     procession: "Les parents des deux familles accompagnent le marié et la mariée jusqu’à la houppa", skip: "Toucher pour passer",
     rabbi: "Rabbin", storyR: "Vous êtes le rabbin ! Les mariés se cachent tous les deux dans le jardin et la cérémonie prend du retard. Trouvez-les — chacun attendra près de la houppa.", foundOneG: "Vous avez trouvé le marié ! Il attend près de la houppa. Trouvez maintenant la mariée", foundOneB: "Vous avez trouvé la mariée ! Elle attend près de la houppa. Trouvez maintenant le marié", foundBoth: "Vous avez trouvé les mariés en {t} secondes", tipR: "Astuce : cherchez derrière le gâteau, les arbres et la scène, et parmi les invités. En mode facile, la jauge indique si vous approchez de celui qui se cache encore", subR: "Ou jouez le rabbin et trouvez-les tous les deux !",
+    cityHi: "Bienvenue en ville — New York, 1910",
     home: "Retour au site", fledG: "Le marié s'est enfui !", fledB: "La mariée s'est enfuie !", music: "Musique", musicNote: "Musique : airs originaux dans le style klezmer (un freylekhs et un bulgar)", rabbiHint: "Le rabbin : « Il me semble avoir vu {who} près de {place}… »", whoG: "le marié", whoB: "la mariée", sound: "Son", menu: "Menu", tip: "Astuce : allez voir le rabbin sous la houppa pour un indice. Regardez aussi derrière le gâteau, les arbres, la scène et parmi les invités",
   },
   ru: {
@@ -80,6 +85,7 @@ const STR = {
     rabbiHint: "Раввин: «Кажется, я видел {who} возле {place}…»", whoG: "жениха", whoB: "невесту",
     procession: "Родители с обеих сторон ведут жениха и невесту к хупе", skip: "Нажмите, чтобы пропустить",
     rabbi: "Раввин", storyR: "Вы раввин! Жених и невеста оба спрятались в саду, и церемония задерживается. Найдите обоих — каждый найденный будет ждать у хупы.", foundOneG: "Вы нашли жениха! Он ждёт у хупы. Теперь найдите невесту", foundOneB: "Вы нашли невесту! Она ждёт у хупы. Теперь найдите жениха", foundBoth: "Вы нашли жениха и невесту за {t} сек.", tipR: "Совет: ищите за тортом, деревьями и сценой, и среди гостей. На лёгком уровне шкала показывает, насколько вы близко к тому, кто ещё прячется", subR: "Или сыграйте раввина и найдите обоих!",
+    cityHi: "Добро пожаловать в город — Нью-Йорк, 1910",
     home: "Назад на сайт", music: "Музыка", musicNote: "Музыка: оригинальные мелодии в стиле клезмер (фрейлехс и булгар)", sound: "Звуки", menu: "Меню",
     tip: "Совет: подойдите к раввину под хупой — он даст подсказку. Ищите также за тортом, деревьями, сценой и среди гостей",
   },
@@ -127,7 +133,7 @@ const TEX = {
   cake: pixTex((g, n, r) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { g.fillStyle = y % 5 === 0 ? "#f2c6d6" : (x + y) % 7 === 0 ? "#fffbe8" : shade("#fff6ec", .96 + r() * .05); g.fillRect(x, y, 1, 1); } }, 16, 25),
   barrel: pixTex((g, n, r) => { for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { g.fillStyle = (y === 2 || y === 13) ? "#555" : shade("#7a5230", .85 + r() * .25); g.fillRect(x, y, 1, 1); } }, 16, 27),
 };
-TEX.grass.repeat.set(64, 64);
+TEX.grass.repeat.set(49, 49);
 const MAT = {};
 for (const [k, t] of Object.entries(TEX)) MAT[k] = new THREE.MeshLambertMaterial({ map: t });
 const flat = {};
@@ -140,20 +146,21 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPrefer
 renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 const scene = new THREE.Scene();
 scene.background = new THREE.Color("#9fd3ff");
-scene.fog = new THREE.Fog("#cfe8ff", 22, 60);
+scene.fog = new THREE.Fog("#cfe8ff", 24, 85);
 const camera = new THREE.PerspectiveCamera(72, 1, 0.05, 120);
 const hemi = new THREE.HemisphereLight("#dff1ff", "#4c7a3a", 1.15); scene.add(hemi);
 const sun = new THREE.DirectionalLight("#fff3d6", 1.6); sun.position.set(18, 30, 10); scene.add(sun);
 
-const ground = new THREE.Mesh(new THREE.PlaneGeometry(64, 64), MAT.grass);
+const ground = new THREE.Mesh(new THREE.PlaneGeometry(49, 49), MAT.grass);   // the garden; the city of 1910 is outside the hedge
 ground.rotation.x = -Math.PI / 2; scene.add(ground);
 
 // batched blocks: one InstancedMesh per material
 const UNIT = new THREE.BoxGeometry(1, 1, 1);
 const batches = new Map();
-function block(mat, x, y, z, sx = 1, sy = 1, sz = 1) {
+function block(mat, x, y, z, sx = 1, sy = 1, sz = 1, rx = 0, ry = 0, rz = 0) {
   if (!batches.has(mat)) batches.set(mat, []);
-  batches.get(mat).push(new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion(), new THREE.Vector3(sx, sy, sz)));
+  const q = (rx || ry || rz) ? new THREE.Quaternion().setFromEuler(new THREE.Euler(rx, ry, rz)) : new THREE.Quaternion();
+  batches.get(mat).push(new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), q, new THREE.Vector3(sx, sy, sz)));
 }
 function flushBlocks() {
   for (const [mat, list] of batches) {
@@ -239,6 +246,8 @@ function tree(x, z, h = 4) {
 for (const [x, z] of [[-18, -18], [18, -17], [-20, 18], [20, 20], [8, 21], [-9, -20], [11, -12], [-22, 7]]) tree(x, z, 3.6 + R() * 1.2);
 // bushes
 for (const [x, z] of [[-14, -4], [14, 2], [-2, 22], [6, -18], [-16, 10], [16, 17]]) prop(MAT.hedge, x, .6, z, 1.4, 1.2, 1.4);
+// the city of 1910 outside the garden gate
+const city = buildCity({ THREE, scene, block, solid, col, pixTex, shade, MAT, rng });
 flushBlocks();
 
 // ------------------------------------------------------------------ blocky people
@@ -521,6 +530,7 @@ function staticHit(x, z, r) {
 }
 function collides(x, z, r = .3) {
   if (staticHit(x, z, r)) return true;
+  if (city.blocked(x, z, r)) return true;
   for (const p of hora) if (Math.hypot(p.position.x - x, p.position.z - z) < r + .3) return true;
   for (const w of wanderers) if (Math.hypot(w.obj.position.x - x, w.obj.position.z - z) < r + .3) return true;
   for (const h of hiders) if (Math.hypot(h.obj.position.x - x, h.obj.position.z - z) < r + .35) return true;
@@ -635,6 +645,10 @@ function updateWanderers(dt, ts) {
     w.wait = w.waiter ? .5 + Math.random() * 2 : 1.5 + Math.random() * 4;
   }
 }
+
+city.populate({ person });
+let gardenHidden = false;
+const gardenPeople = () => [...seatedPeople, ...idlers, ...hora, ...wanderers.map(w => w.obj)];
 
 // ------------------------------------------------------------------ input
 const keys = new Set();
@@ -842,6 +856,7 @@ function startGame() {
   P.x = START.x; P.z = START.z; P.yaw = START.yaw; P.pitch = -0.05;
   setupHiders();
   makeMe();
+  P.inCity = false;
   rabbi.visible = role !== "rabbi";                     // when you are the rabbi, he is you
   rabbiCool = 0; rabbiTalk = 0;
   $("#who").hidden = role !== "rabbi";
@@ -904,7 +919,7 @@ function win() {
 // ------------------------------------------------------------------ ceremony
 // After the couple find each other the lights go down, and both sets of parents walk them to the chuppah.
 const DAY = { bg: scene.background.clone(), fog: scene.fog.color.clone(), near: scene.fog.near, far: scene.fog.far, hemi: hemi.intensity, sun: sun.intensity, hsky: hemi.color.clone() };
-const NIGHT = { bg: new THREE.Color("#0a0f24"), fog: new THREE.Color("#0d1330"), near: 16, far: 50, hemi: .2, sun: .05, hsky: new THREE.Color("#7d8cc4") };
+const NIGHT = { bg: new THREE.Color("#0a0f24"), fog: new THREE.Color("#0d1330"), near: 20, far: 75, hemi: .2, sun: .05, hsky: new THREE.Color("#7d8cc4") };
 const nightSet = new THREE.Group(); nightSet.visible = false; scene.add(nightSet);
 const lampMat = new THREE.MeshBasicMaterial({ color: "#ffd27a" });
 for (let z = 3; z >= -11; z -= 2) for (const x of [-1.85, 1.85]) {                 // lanterns along the aisle
@@ -925,6 +940,7 @@ function setNight(k) {
   hemi.intensity = DAY.hemi + (NIGHT.hemi - DAY.hemi) * k; hemi.color.copy(DAY.hsky).lerp(NIGHT.hsky, k);
   sun.intensity = DAY.sun + (NIGHT.sun - DAY.sun) * k;
   nightSet.visible = k > .02;
+  city.setNight(k);
   chLight.intensity = 9 * k; aisleLights.forEach(l => l.intensity = 3.2 * k);
 }
 
@@ -1096,6 +1112,11 @@ function frame() {
     u.armR.rotation.x = rabbiTalk > now ? -1.6 + Math.sin(ts * 9) * .3 : -.2;
   }
   updateWanderers(dt, ts);
+  city.update(dt, ts, P, stepMover);
+  {                                                       // far out in the city, the garden's guests are behind buildings
+    const away = state === "play" && (Math.abs(P.x) > 36 || P.z > 40 || P.z < -36);
+    if (away !== gardenHidden) { gardenHidden = away; for (const g of gardenPeople()) g.visible = !away; }
+  }
 
   if (state === "play") {
     elapsed = (now - t0) / 1000;
@@ -1109,6 +1130,7 @@ function frame() {
     if (joy.id !== null) { fx += joy.dx; fz += -joy.dy; }
     const m = Math.hypot(fx, fz);
     P.moving = m > 0;
+    if (!P.inCity && (Math.abs(P.x) > 24.6 || Math.abs(P.z) > 24.6)) { P.inCity = true; showMsg(T("cityHi"), 4500); }
     if (m > 0) {
       if (m > 1) { fx /= m; fz /= m; }
       const sp = (keys.has("ShiftLeft") || keys.has("ShiftRight") || Math.hypot(joy.dx, joy.dy) > .95 ? 5.6 : 3.4) * dt;
@@ -1230,4 +1252,4 @@ function portrait(cv, r) {
 document.querySelectorAll(".pick canvas, .whoc").forEach(cv => portrait(cv, cv.dataset.role));
 applyLang();
 requestAnimationFrame(frame);
-window.__wedding = { get state() { return state; }, cer, skipCeremony, win: () => win(), P, get partner() { return partner; }, get hiders() { return hiders; }, SPOTS, collides, staticHit, findPath, music, wanderers, RABBI, LMARKS };
+window.__wedding = { get state() { return state; }, get draws() { return renderer.info.render.calls; }, cer, skipCeremony, win: () => win(), P, get partner() { return partner; }, get hiders() { return hiders; }, SPOTS, collides, staticHit, findPath, music, wanderers, RABBI, LMARKS };
