@@ -64,6 +64,10 @@ Netlify, Vercel, S3, Nginx – פשוט מעלים את התיקייה כמו ש
 יש בו שתי רמות קושי, ג׳ויסטיק מגע לטלפון ותמיכה בארבע השפות. כל הגרפיקה והצלילים נוצרים בקוד.
 המשחק משתמש ב־three.js ‏(MIT, ‏`games/lib/three-LICENSE.txt`), ששמור בתוך האתר ולא נטען משרת חיצוני.
 
+## גופנים
+
+הגופנים (Frank Ruhl Libre, ‏Heebo, ‏PT Serif, ‏Rubik) מאוחסנים באתר עצמו, בתיקייה `fonts/`, ולא נטענים מ־Google. כך כתובות ה־IP של המבקרים לא נשלחות לצד שלישי. הקבצים לקוחים מ־Fontsource 5.3.0, ברישיון SIL Open Font License 1.1 (קובצי הרישיון נמצאים באותה תיקייה). הדפדפן מוריד רק את המשקלים ואת מערכות הכתב שהעמוד צריך.
+
 ## קרדיט ומקורות
 נבנה על ידי עמיתי דן ([LinkedIn](https://www.linkedin.com/in/amitay-dan-a63647aa)).
 הנתונים: [NYC Marriage Index](https://www.nycmarriageindex.com/) מאת [Reclaim The Records](https://www.reclaimtherecords.org/), נחלת הכלל.
