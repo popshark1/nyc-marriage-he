@@ -257,26 +257,26 @@ function mapTex(rows, pal, seed = 1) {
 }
 const GROOM_PAL = {
   s: "#e8b896", S: "#d29f7d", h: ["#3a2a1e", "#4a3626", "#2f2219", "#433022"], b: "#2e2118", e: "#2b211b",
-  r: "#e39a86", m: "#a8584a", W: "#fbfaf4", x: "#7a2f2a",
+  r: "#e39a86", m: "#8f4a3e", W: "#ffffff", x: "#7a2f2a",
 };
-const GROOM_HEAD = {          // a generic young groom: short dark hair, clean-shaven, laughing
+const GROOM_HEAD = {          // a generic young groom: short dark hair, clean-shaven, friendly smile
   front: ["hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh", "hhhhhhhhhhhhhhhh", "hhhhshhhhhhhhhhh",
-          "hssssssssssssssh", "ssbbbbssssbbbbss", "ssssssssssssssss", "ssseesssssseesss",
-          "ssessessssessess", "srrssssSSssssrrs", "sssssssSSsssssss", "ssmssssssssssmss",
-          "sssmWWWWWWWWmsss", "ssssmxxxxxxmssss", "sssssmmmmmmsssss", "ssssssssssssssss"],
+          "hssssssssssssssh", "sssbbbssssbbbsss", "sssseWsssseWssss", "sssseesssseessss",
+          "ssssssssssssssss", "ssrrsssSSsssrrss", "ssssssssssssssss", "sssssmssssmsssss",
+          "ssssssmmmmssssss", "ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss"],
   side:  [...Array(5).fill("hhhhhhhhhhhhhhhh"), ...Array(2).fill("sssssssssssshhhh"), ...Array(3).fill("sssssssSSsssshhh"), ...Array(6).fill("ssssssssssssssss")],
   back:  [...Array(12).fill("hhhhhhhhhhhhhhhh"), ...Array(4).fill("ssssssssssssssss")],
   top:   Array.from({ length: 16 }, () => "hhhhhhhhhhhhhhhh"),
 };
 const BRIDE_PAL = {
   H: ["#3b2a20", "#4a3428", "#2f211a", "#55392b"], s: "#efc8ad", S: "#dcae92", e: "#3a2a22", b: "#3b2a20",
-  p: "#eca295", m: "#c86d70", W: "#fffdf8", r: "#9c3f4a",
+  p: "#eca295", m: "#b5555c", W: "#ffffff", r: "#9c3f4a", l: "#3a2a22",
 };
-const BRIDE_HEAD = {          // a generic bride: dark hair in an up-do under the veil, beaming
+const BRIDE_HEAD = {          // a generic bride: dark hair in an up-do under the veil, friendly smile
   front: ["HHHHHHHHHHHHHHHH", "HHHHHHHHHHHHHHHH", "HHHHHHHHHHHHHHHH", "HHssssssssssssHH",
-          "HsbbbssssssbbbsH", "HssssssssssssssH", "HsseesssssseessH", "HsessessssessesH",
-          "HsppsssSSsssppsH", "HsppssssssssppsH", "ssmssssssssssmss", "sssmWWWWWWWWmsss",
-          "ssssmrrrrrrmssss", "sssssmmmmmmsssss", "ssssssssssssssss", "ssssssssssssssss"],
+          "HssssssssssssssH", "HssbbbssssbbbssH", "HssleWsssseWlssH", "HssseesssseesssH",
+          "HssssssssssssssH", "HsppsssSSsssppsH", "ssssssssssssssss", "sssssmssssmsssss",
+          "ssssssmmmmssssss", "ssssssssssssssss", "ssssssssssssssss", "ssssssssssssssss"],
   side:  [...Array(5).fill("HHHHHHHHHHHHHHHH"), ...Array(5).fill("ssssssssssssHHHH"), ...Array(6).fill("ssssssssssssssss")],
   back:  [...Array(13).fill("HHHHHHHHHHHHHHHH"), ...Array(3).fill("ssssssssssssssss")],
   top:   Array.from({ length: 16 }, () => "HHHHHHHHHHHHHHHH"),
@@ -1108,18 +1108,21 @@ function frame() {
 // menu portraits — small original pixel-art figures
 function portrait(cv, r) {
   const g = cv.getContext("2d"), P0 = r === "bride"
-    ? ["....HHHHHH....", "...HHHHHHHH...", "..HHssssssHH..", "..HsBssssBsH..", "..sseesseess..", "..srssssssrs..", "..smWWWWWWms..",
-       "...ssmmmmss...", "vvv.wwwwww.vvv", "vv.wqqqqqqw.vv", "v..swwffwws..v", "...swwffwws...", "...wwwwwwww...", "..wwwwwwwwww..",
-       ".wwwwwwwwwwww.", ".wwwwwwwwwwww.", "wwwwwwwwwwwwww", "wwwwwwwwwwwwww"]
-    : ["....kkkkkk....", "...hhhhhhhh...", "..hssssssssh..", "..sBBssssBBs..", "..seessssees..", "..rssssssssr..", "..smWWWWWWms..",
-       "...smmmmmms...", "....ssssss....", "...bbbwwbbb...", "..sbbbxwbbbs..", "..sbbbxwbbbs..", "..sbbbbbbbbs..", "..sbbbbbbbbs..",
-       "...bbbbbbbb...", "...bbb..bbb...", "...bbb..bbb...", "...ddd..ddd..."];
-  const C = { H: "#3b2a20", h: "#3a2a1e", s: r === "bride" ? "#efc8ad" : "#e8b896", e: "#2b2b2b", m: "#a85b4b", W: "#ffffff", p: "#eba798", r: "#e08a78",
-              w: "#fbfaf6", q: "#f4efe0", f: "#f2a7c3", k: "#ffffff", B: "#2e2118", v: "#e3e9ef",
+    ? ["....HHHHHH....", "...HHHHHHHH...", "..HHHHHHHHHH..", "..HssssssssH..", "..HsessssesH..", "..ssessssess..", "..srsmssmsrs..", "...sssmmsss...", "....ssssss....", "vvv.wqqqqw.vvv", "vv.wwwffwww.vv", "v..swwffwws..v", "...wwwwwwww...", "..wwwwwwwwww..", ".wwwwwwwwwwww.", "wwwwwwwwwwwwww", "wwwwwwwwwwwwww"]
+    : ["....kkkkkk....", "...hhhhhhhh...", "..hhhhhhhhhh..", "..hssssssssh..", "..ssessssess..", "..ssessssess..", "..srsmssmsrs..", "...sssmmsss...", "....ssssss....", "...bbbwwbbb...", "..sbbbxwbbbs..", "..sbbbxwbbbs..", "..sbbbbbbbbs..", "...bbbbbbbb...", "...bbb..bbb...", "...bbb..bbb...", "...ddd..ddd..."];
+  const C = { H: "#3b2a20", h: "#3a2a1e", s: r === "bride" ? "#f2cdb4" : "#e8b896", e: "#2b211b", m: "#b5555c", W: "#ffffff", r: "#f0a08f",
+              w: "#fffdf8", q: "#efe6cf", f: "#f2a7c3", k: "#ffffff", B: "#2e2118", v: "#eef3f8",
               b: "#1c1f2b", d: "#0d0d0d", x: "#111111" };
-  const px = Math.floor(cv.width / 14);
+  const px = Math.floor(Math.min(cv.width / 16, cv.height / (P0.length + 2)));
+  const ox = Math.floor((cv.width - 14 * px) / 2), oy = cv.height - (P0.length + 1) * px;
   g.clearRect(0, 0, cv.width, cv.height);
-  P0.forEach((row, y) => [...row].forEach((ch, x) => { if (C[ch]) { g.fillStyle = C[ch]; g.fillRect(x * px, y * px, px, px); } }));
+  g.fillStyle = "#cfe7fb"; g.fillRect(0, 0, cv.width, cv.height);                      // a little sky…
+  g.fillStyle = "#a8d58f"; g.fillRect(0, Math.round(cv.height * .72), cv.width, cv.height);   // …and grass
+  const filled = (x, y) => y >= 0 && y < P0.length && x >= 0 && x < 14 && !!C[P0[y][x]];
+  g.fillStyle = "rgba(20,33,61,.45)";                                                  // outline round the figure
+  for (let y = -1; y <= P0.length; y++) for (let x = -1; x <= 14; x++)
+    if (!filled(x, y) && (filled(x - 1, y) || filled(x + 1, y) || filled(x, y - 1) || filled(x, y + 1))) g.fillRect(ox + x * px, oy + y * px, px, px);
+  P0.forEach((row, y) => [...row].forEach((ch, x) => { if (C[ch]) { g.fillStyle = C[ch]; g.fillRect(ox + x * px, oy + y * px, px, px); } }));
 }
 document.querySelectorAll(".pick canvas").forEach(cv => portrait(cv, cv.dataset.role));
 applyLang();
