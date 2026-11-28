@@ -1,7 +1,7 @@
 // Wedding hide-and-seek — a small blocky (voxel-style) 3D game.
 // All textures are generated in code; no external assets.
-import * as THREE from "./lib/three.module.min.js?v=202611281042";
-import { TUNES, nf, wavBlob, LOOP_SECONDS } from "./klezmer.js?v=202611281042";
+import * as THREE from "./lib/three.module.min.js?v=202611281054";
+import { TUNES, nf, wavBlob, LOOP_SECONDS } from "./klezmer.js?v=202611281054";
 
 // ------------------------------------------------------------------ i18n
 const STR = {
@@ -421,6 +421,62 @@ function makePartner(r) {
   if (partner) scene.remove(partner);
   partner = r === "bride" ? makeGroom() : makeBride();
 }
+// the player's own body, seen in first person (head hidden so it never blocks the view)
+let meBody = null, hands = null;
+scene.add(camera);
+function makeMe() {
+  if (meBody) scene.remove(meBody);
+  meBody = role === "groom" ? makeGroom() : role === "bride" ? makeBride()
+    : person({ skin: "#f1c9a5", hair: "#bdbdbd", top: "#151515", sleeve: "#151515", dress: "#151515", dressW: .74, book: true, tallit: true });
+  const u = meBody.userData;
+  for (const c of meBody.children) if (c !== u.armL && c !== u.armR && c !== u.legL && c !== u.legR && c.position.y > 1.25) c.visible = false;
+  u.armL.visible = u.armR.visible = false;            // the arms you see are the ones in front of the camera
+  meBody.visible = false;
+  // first-person arms, held in front of the camera like in any 3D game
+  if (hands) camera.remove(hands);
+  const LOOK3 = { groom: ["#1c1f2b", GROOM_PAL.s], bride: ["#fbfaf6", BRIDE_PAL.s], rabbi: ["#151515", "#f1c9a5"] }[role];
+  hands = new THREE.Group(); camera.add(hands);
+  for (const sx of [-1, 1]) {
+    const arm = new THREE.Group();
+    const sleeve = new THREE.Mesh(new THREE.BoxGeometry(.13, .13, .46), col(LOOK3[0])); sleeve.position.z = -.1; arm.add(sleeve);
+    const cuff = new THREE.Mesh(new THREE.BoxGeometry(.135, .135, .04), col(role === "groom" ? "#ffffff" : LOOK3[0])); cuff.position.z = -.33; arm.add(cuff);
+    const hand = new THREE.Mesh(new THREE.BoxGeometry(.12, .12, .12), col(LOOK3[1])); hand.position.z = -.41; arm.add(hand);
+    if (role === "bride" && sx > 0) { const b = new THREE.Mesh(new THREE.BoxGeometry(.2, .2, .16), MAT.flowers); b.position.set(0, .1, -.46); arm.add(b); }
+    if (role === "rabbi" && sx < 0) { const b = new THREE.Mesh(new THREE.BoxGeometry(.2, .26, .05), col("#3b2a1a")); b.position.set(.04, .1, -.44); b.rotation.x = -.5; arm.add(b); }
+    arm.position.set(sx * .3, -.33, -.22); arm.rotation.set(.18, -sx * .16, 0);
+    arm.userData.sx = sx; hands.add(arm);
+  }
+  hands.visible = false;
+}
+function poseMe(now, dt) {
+  const show = !!meBody && (state === "play" || (state === "won" && cer.phase === "found"));
+  if (!meBody) return; meBody.visible = show; hands.visible = show; if (!show) return;
+  const fx = -Math.sin(P.yaw), fz = -Math.cos(P.yaw), u = meBody.userData;
+  meBody.position.set(P.x - fx * .3, P.moving ? Math.abs(Math.sin(P.bob)) * .03 : 0, P.z - fz * .3);
+  meBody.rotation.y = P.yaw + Math.PI;
+  const k = Math.min(1, dt * 10), to = (o, ax, v) => { o.rotation[ax] += (v - o.rotation[ax]) * k; };
+  const armScale = Math.min(1, .45 + camera.aspect * .4);          // slimmer arms on a narrow phone screen
+  for (const a of hands.children) {                    // the arms bob with your steps, and reach out when you find someone
+    const sx = a.userData.sx, step = P.moving ? Math.sin(P.bob + (sx > 0 ? 0 : Math.PI)) : 0;
+    const reach = state === "won" ? 1 : 0;
+    a.position.y += ((-.33 + step * .025 + reach * .12) - a.position.y) * k;
+    a.position.z += ((-.22 + step * .03 - reach * .1) - a.position.z) * k;
+    a.rotation.y += ((-sx * (.16 - reach * .1)) - a.rotation.y) * k;
+    a.position.x = sx * Math.min(.3, Math.tan(camera.fov * Math.PI / 360) * camera.aspect * .36);   // keep both hands on screen, phone or desktop
+    a.scale.setScalar(armScale);
+  }
+  if (state === "won") {                               // reach out to the one you found
+    to(u.armL, "x", -1.45); to(u.armR, "x", -1.45); to(u.armL, "z", .35); to(u.armR, "z", -.35);
+    if (u.legL) { to(u.legL, "x", 0); to(u.legR, "x", 0); }
+    return;
+  }
+  const sw = P.moving ? Math.sin(P.bob) : 0;
+  if (u.legL) { to(u.legL, "x", sw * .6); to(u.legR, "x", -sw * .6); }
+  // arms swing at your sides as you walk; the bride holds her bouquet and the rabbi his book in front of the chest
+  const hold = -.85;
+  to(u.armL, "x", role === "rabbi" ? hold : -.12 - sw * .45); to(u.armR, "x", role === "bride" ? hold : -.12 + sw * .45);
+  to(u.armL, "z", role === "rabbi" ? .3 : .06); to(u.armR, "z", role === "bride" ? -.3 : -.06);
+}
 // everyone who is hiding: the partner, or – when you play the rabbi – both the groom and the bride
 let hiders = [];
 const WAIT_AT = { groom: [-1.3, -10.5], bride: [1.3, -10.5] };        // where a found one waits, by the chuppah
@@ -601,7 +657,7 @@ addEventListener("mousemove", e => {
 function look(dx, dy) {
   const rtlFlip = 1;
   P.yaw -= dx * LOOK * rtlFlip;
-  P.pitch = Math.max(-1.2, Math.min(1.2, P.pitch - dy * LOOK));
+  P.pitch = Math.max(-1.45, Math.min(1.2, P.pitch - dy * LOOK));
 }
 // touch: joystick on one side, look-drag on the other
 const joy = { id: null, ox: 0, oy: 0, dx: 0, dy: 0 }, lookT = { id: null, x: 0, y: 0 };
@@ -777,7 +833,7 @@ const toggleMusic = () => { musicOn = !musicOn; store.set("wed_music", musicOn ?
 $("#music").onclick = toggleMusic; $("#musicHud").onclick = toggleMusic;
 $("#startBtn").onclick = startGame;
 $("#againBtn").onclick = () => { $("#win").hidden = true; startGame(); };
-$("#menuBtn").onclick = () => { if (document.pointerLockElement) document.exitPointerLock(); resetCeremony(); state = "menu"; $("#menu").hidden = false; $("#hud").hidden = true; };
+$("#menuBtn").onclick = () => { if (document.pointerLockElement) document.exitPointerLock(); resetCeremony(); state = "menu"; if (meBody) { meBody.visible = false; hands.visible = false; } $("#menu").hidden = false; $("#hud").hidden = true; };
 
 function startGame() {
   if (!role) return;
@@ -785,6 +841,7 @@ function startGame() {
   resetCeremony();
   P.x = START.x; P.z = START.z; P.yaw = START.yaw; P.pitch = -0.05;
   setupHiders();
+  makeMe();
   rabbi.visible = role !== "rabbi";                     // when you are the rabbi, he is you
   rabbiCool = 0; rabbiTalk = 0;
   $("#who").hidden = role !== "rabbi";
@@ -1051,6 +1108,7 @@ function frame() {
     if (keys.has("ArrowRight")) P.yaw -= 2.2 * dt;
     if (joy.id !== null) { fx += joy.dx; fz += -joy.dy; }
     const m = Math.hypot(fx, fz);
+    P.moving = m > 0;
     if (m > 0) {
       if (m > 1) { fx /= m; fz /= m; }
       const sp = (keys.has("ShiftLeft") || keys.has("ShiftRight") || Math.hypot(joy.dx, joy.dy) > .95 ? 5.6 : 3.4) * dt;
@@ -1137,6 +1195,7 @@ function frame() {
     confetti.instanceMatrix.needsUpdate = true;
   }
 
+  poseMe(now, dt);
   // camera
   const bob = state === "play" ? Math.sin(P.bob) * .04 : 0;
   camera.position.set(P.x, 1.62 + bob, P.z);
