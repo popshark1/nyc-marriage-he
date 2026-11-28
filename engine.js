@@ -231,6 +231,23 @@
     return out;
   }
 
+
+  /** "*" / "?" wildcard match in O(len·pattern) – no backtracking RegExp, so a crafted pattern can't hang the tab */
+  function globTest(pat) {
+    pat = pat.replace(/\*+/g, "*");
+    return s => {
+      let i = 0, j = 0, star = -1, mark = 0;
+      while (i < s.length) {
+        if (j < pat.length && (pat[j] === "?" || pat[j] === s[i])) { i++; j++; }
+        else if (j < pat.length && pat[j] === "*") { star = j++; mark = i; }
+        else if (star >= 0) { j = star + 1; i = ++mark; }
+        else return false;
+      }
+      while (j < pat.length && pat[j] === "*") j++;
+      return j === pat.length;
+    };
+  }
+
   // ------------------------------------------------------------ first names
   const HEB_FIRST = {
     "אברהם": "ABRAHAM ABE AVRAHAM", "יצחק": "ISAAC IRVING ITZHAK YITZCHAK", "יעקב": "JACOB JACK YAAKOV",
@@ -436,7 +453,7 @@
       const pre = pattern.split(/[*?]/)[0];
       if (pre.length < 2) return null;
       const t = await this._cached(`${this.base}${part === "last" ? "p" : "pf"}/${pre.slice(0, 2)}.gz`);
-      const re = new RegExp("^" + pattern.replace(/\*/g, ".*").replace(/\?/g, ".") + "$");
+      const re = { test: globTest(pattern) };
       const out = [];
       for (const line of t.split("\n")) {
         if (!line) continue;
@@ -472,7 +489,7 @@
         const pat = value.toUpperCase().replace(/[^A-Z*?]/g, "");
         const list = await this.namesByPattern(part, pat);
         if (list) return finish(list.slice(0, 300));
-        const re = new RegExp("^" + pat.replace(/\*/g, ".*").replace(/\?/g, ".") + "$");
+        const re = { test: globTest(pat) };
         return { test: x => re.test(x) ? 0 : null, list: null, total: Infinity };
       }
       if (!heb) {
