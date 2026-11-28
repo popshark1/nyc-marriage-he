@@ -19,7 +19,7 @@ html,body{margin:0;height:100%;overflow:hidden;background:#9fd3ff;font-family:He
 h1{font-family:"Frank Ruhl Libre",serif;font-weight:900;font-size:clamp(28px,6vw,40px);margin:0 0 6px;line-height:1.05}
 .sub{margin:0 0 16px;color:#4b4a45;font-size:15px}
 .lbl{font-size:13px;color:#6c6a63;margin:14px 0 6px;font-weight:500}
-.picks{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.picks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .pick{font:inherit;font-weight:700;font-size:17px;border:3px solid var(--line);background:#fff;border-radius:6px;padding:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink)}
 .pick canvas{width:84px;height:108px;image-rendering:pixelated}
 .pick.on{border-color:var(--ink);background:#fff8e6;box-shadow:3px 3px 0 var(--gold)}
@@ -62,6 +62,10 @@ a.back{color:var(--ink);font-size:14px}
 #win h1{font-size:clamp(40px,10vw,64px);color:var(--gold)}
 #winText{font-size:18px;margin:6px 0}
 #winBest{font-weight:700;color:var(--ink)}
+#who{display:flex;gap:6px;align-items:center;padding:4px 8px}
+#who[hidden]{display:none}
+.whoc{width:24px;height:31px;image-rendering:pixelated;opacity:.35;filter:grayscale(1);transition:opacity .3s,filter .3s}
+.whoc.got{opacity:1;filter:none}
 #fade{position:fixed;inset:0;background:#05070f;opacity:0;pointer-events:none;transition:opacity .5s;z-index:4}
 #fade.on{opacity:1}
 #cap{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);text-align:center;color:#f7f3ea;text-shadow:0 2px 8px rgba(0,0,0,.8);z-index:5;pointer-events:none;width:min(92vw,720px)}
@@ -79,11 +83,12 @@ a.back{color:var(--ink);font-size:14px}
       <span style="display:flex;gap:4px"><button id="music" data-t="music"></button><button id="sound" data-t="sound"></button></span>
     </div>
     <h1 data-t="title" style="margin-top:12px"></h1>
-    <p class="sub" data-t="sub"></p>
+    <p class="sub"><span data-t="sub"></span> <span data-t="subR"></span></p>
     <div class="lbl" data-t="choose"></div>
     <div class="picks">
       <button class="pick" data-role="bride"><canvas width="84" height="108" data-role="bride"></canvas><span data-t="bride"></span></button>
       <button class="pick" data-role="groom"><canvas width="84" height="108" data-role="groom"></canvas><span data-t="groom"></span></button>
+      <button class="pick" data-role="rabbi"><canvas width="84" height="108" data-role="rabbi"></canvas><span data-t="rabbi"></span></button>
     </div>
     <p id="story"></p>
     <div class="diffs">
@@ -103,6 +108,7 @@ a.back{color:var(--ink);font-size:14px}
   <div class="hudbar">
     <span style="display:flex;gap:6px"><button class="chip" id="menuBtn" data-t="menu"></button><button class="chip" id="musicHud" title="♪">♪</button></span>
     <div class="chip" id="time">0:00</div>
+    <div class="chip" id="who" hidden><canvas class="whoc" id="who_groom" width="28" height="36" data-role="groom"></canvas><canvas class="whoc" id="who_bride" width="28" height="36" data-role="bride"></canvas></div>
     <div class="chip" id="heat"><span id="heatLbl"></span><div class="bar"><div id="heatFill"></div></div></div>
   </div>
   <div class="cross"></div>

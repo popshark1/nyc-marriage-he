@@ -17,6 +17,7 @@ const STR = {
     win: "מזל טוב!", foundG: "מצאת את החתן תוך {t} שניות", foundB: "מצאת את הכלה תוך {t} שניות",
     best: "השיא שלך: {t} שנ׳", newBest: "שיא חדש!", again: "שחקו שוב", back: "חזרה לחיפוש",
     procession: "ההורים של שני הצדדים מלווים את החתן והכלה אל החופה", skip: "לחיצה לדילוג",
+    rabbi: "רב", storyR: "אתה הרב! החתן והכלה התחבאו שניהם בגן, והחופה מתעכבת. מצא את שניהם – כל מי שתמצא ימתין לך ליד החופה.", foundOneG: "מצאת את החתן! הוא ממתין ליד החופה. עכשיו מצא את הכלה", foundOneB: "מצאת את הכלה! היא ממתינה ליד החופה. עכשיו מצא את החתן", foundBoth: "מצאת את החתן והכלה תוך {t} שניות", tipR: "טיפ: חפשו מאחורי העוגה, העצים והבמה, ובין האורחים. במצב קל, המד מראה כמה חם ביחס למי שעוד מתחבא", subR: "או היו הרב, ומצאו את שניהם!",
     home: "חזרה לאתר", fledG: "החתן ברח ממך!", fledB: "הכלה ברחה ממך!", music: "מוזיקה", musicNote: "מוזיקה: לחנים מקוריים בסגנון כליזמר (פריילעכס ובולגר)", rabbiHint: "הרב: „נדמה לי שראיתי {who} ליד {place}…”", whoG: "את החתן", whoB: "את הכלה", sound: "צלילים", menu: "תפריט", tip: "טיפ: לכו אל הרב שמתחת לחופה והוא ייתן לכם רמז. חפשו גם מאחורי העוגה, העצים והבמה, ובין האורחים",
   },
   en: {
@@ -31,6 +32,7 @@ const STR = {
     win: "Mazel Tov!", foundG: "You found the groom in {t} seconds", foundB: "You found the bride in {t} seconds",
     best: "Your best: {t}s", newBest: "New record!", again: "Play again", back: "Back to search",
     procession: "Both sets of parents walk the groom and the bride to the chuppah", skip: "Tap to skip",
+    rabbi: "Rabbi", storyR: "You're the rabbi! The bride and groom are both hiding in the garden and the ceremony is running late. Find them both — each one you find will wait for you by the chuppah.", foundOneG: "You found the groom! He's waiting by the chuppah. Now find the bride", foundOneB: "You found the bride! She's waiting by the chuppah. Now find the groom", foundBoth: "You found the bride and the groom in {t} seconds", tipR: "Tip: look behind the cake, the trees and the stage, and among the guests. On Easy, the meter shows how close you are to whoever is still hiding", subR: "Or be the rabbi and find them both!",
     home: "Back to the site", fledG: "The groom ran away!", fledB: "The bride ran away!", music: "Music", musicNote: "Music: original klezmer-style tunes (a freylekhs and a bulgar)", rabbiHint: "Rabbi: “I think I saw {who} near {place}…”", whoG: "the groom", whoB: "the bride", sound: "Sound", menu: "Menu", tip: "Tip: walk up to the rabbi under the chuppah for a hint. Also look behind the cake, the trees, the stage and among the guests",
   },
   yi: {
@@ -45,6 +47,7 @@ const STR = {
     win: "מזל־טובֿ!", foundG: "דו האָסט געפֿונען דעם חתן אין {t} סעקונדעס", foundB: "דו האָסט געפֿונען די כּלה אין {t} סעקונדעס",
     best: "דײַן רעקאָרד: {t} סעק׳", newBest: "אַ נײַער רעקאָרד!", again: "נאָך אַ מאָל", back: "צוריק צום זוכן",
     procession: "די עלטערן פֿון ביידע צדדים פֿירן דעם חתן און די כּלה צו דער חופּה", skip: "דריקט צו איבערשפּרינגען",
+    rabbi: "רבֿ", storyR: "דו ביסט דער רבֿ! דער חתן און די כּלה האָבן זיך ביידע באַהאַלטן אינעם גאָרטן, און די חופּה פֿאַרשפּעטיקט זיך. געפֿין זיי ביידע – ווער דו געפֿינסט וועט וואַרטן בײַ דער חופּה.", foundOneG: "דו האָסט געפֿונען דעם חתן! ער וואַרט בײַ דער חופּה. איצט געפֿין די כּלה", foundOneB: "דו האָסט געפֿונען די כּלה! זי וואַרט בײַ דער חופּה. איצט געפֿין דעם חתן", foundBoth: "דו האָסט געפֿונען דעם חתן און די כּלה אין {t} סעקונדעס", tipR: "עצה: זוכט הינטערן טאָרט, די ביימער און די בינע, און צווישן די געסט", subR: "אָדער זײַט דער רבֿ און געפֿינט זיי ביידע!",
     home: "צוריק צום וועבזײַטל", fledG: "דער חתן איז אַנטלאָפֿן!", fledB: "די כּלה איז אַנטלאָפֿן!", music: "מוזיק", musicNote: "מוזיק: אָריגינעלע ניגונים אין קלעזמער־סטיל (אַ פֿריילעכס און אַ בולגאַר)", rabbiHint: "דער רבֿ: „מיר דאַכט זיך, אַז איך האָב געזען {who} לעבן {place}…“", whoG: "דעם חתן", whoB: "די כּלה", sound: "קלאַנגען", menu: "מעניו", tip: "עצה: גייט צום רבֿ אונטער דער חופּה, ער וועט אײַך געבן אַ רמז. קוקט אויך הינטער דעם טאָרט, די ביימער, די בינע און צווישן די געסט",
   },
   fr: {
@@ -59,6 +62,7 @@ const STR = {
     win: "Mazel Tov !", foundG: "Vous avez trouvé le marié en {t} secondes", foundB: "Vous avez trouvé la mariée en {t} secondes",
     best: "Votre record : {t} s", newBest: "Nouveau record !", again: "Rejouer", back: "Retour à la recherche",
     procession: "Les parents des deux familles accompagnent le marié et la mariée jusqu’à la houppa", skip: "Toucher pour passer",
+    rabbi: "Rabbin", storyR: "Vous êtes le rabbin ! Les mariés se cachent tous les deux dans le jardin et la cérémonie prend du retard. Trouvez-les — chacun attendra près de la houppa.", foundOneG: "Vous avez trouvé le marié ! Il attend près de la houppa. Trouvez maintenant la mariée", foundOneB: "Vous avez trouvé la mariée ! Elle attend près de la houppa. Trouvez maintenant le marié", foundBoth: "Vous avez trouvé les mariés en {t} secondes", tipR: "Astuce : cherchez derrière le gâteau, les arbres et la scène, et parmi les invités. En mode facile, la jauge indique si vous approchez de celui qui se cache encore", subR: "Ou jouez le rabbin et trouvez-les tous les deux !",
     home: "Retour au site", fledG: "Le marié s'est enfui !", fledB: "La mariée s'est enfuie !", music: "Musique", musicNote: "Musique : airs originaux dans le style klezmer (un freylekhs et un bulgar)", rabbiHint: "Le rabbin : « Il me semble avoir vu {who} près de {place}… »", whoG: "le marié", whoB: "la mariée", sound: "Son", menu: "Menu", tip: "Astuce : allez voir le rabbin sous la houppa pour un indice. Regardez aussi derrière le gâteau, les arbres, la scène et parmi les invités",
   },
   ru: {
@@ -75,6 +79,7 @@ const STR = {
     best: "Ваш рекорд: {t} сек.", newBest: "Новый рекорд!", again: "Играть ещё", back: "Назад к поиску",
     rabbiHint: "Раввин: «Кажется, я видел {who} возле {place}…»", whoG: "жениха", whoB: "невесту",
     procession: "Родители с обеих сторон ведут жениха и невесту к хупе", skip: "Нажмите, чтобы пропустить",
+    rabbi: "Раввин", storyR: "Вы раввин! Жених и невеста оба спрятались в саду, и церемония задерживается. Найдите обоих — каждый найденный будет ждать у хупы.", foundOneG: "Вы нашли жениха! Он ждёт у хупы. Теперь найдите невесту", foundOneB: "Вы нашли невесту! Она ждёт у хупы. Теперь найдите жениха", foundBoth: "Вы нашли жениха и невесту за {t} сек.", tipR: "Совет: ищите за тортом, деревьями и сценой, и среди гостей. На лёгком уровне шкала показывает, насколько вы близко к тому, кто ещё прячется", subR: "Или сыграйте раввина и найдите обоих!",
     home: "Назад на сайт", music: "Музыка", musicNote: "Музыка: оригинальные мелодии в стиле клезмер (фрейлехс и булгар)", sound: "Звуки", menu: "Меню",
     tip: "Совет: подойдите к раввину под хупой — он даст подсказку. Ищите также за тортом, деревьями, сценой и среди гостей",
   },
@@ -416,28 +421,41 @@ function makePartner(r) {
   if (partner) scene.remove(partner);
   partner = r === "bride" ? makeGroom() : makeBride();
 }
+// everyone who is hiding: the partner, or – when you play the rabbi – both the groom and the bride
+let hiders = [];
+const WAIT_AT = { groom: [-1.3, -10.5], bride: [1.3, -10.5] };        // where a found one waits, by the chuppah
+function newHider(obj, who, spot) {
+  const [x, z] = SPOTS[spot];
+  obj.position.set(x, 0, z); obj.rotation.y = Math.atan2(START.x - x, START.z - z);
+  return { obj, who, spot, found: false, ai: { mover: { obj, path: [], speed: 1.6 }, mode: "hide", until: performance.now() + hideTime() * (who === "bride" ? .8 : 1), fleeCool: 0 } };
+}
+function setupHiders() {
+  for (const h of hiders) if (h.obj !== partner) scene.remove(h.obj);
+  if (partner) { scene.remove(partner); partner = null; }
+  const last = +store.get("wed_last"), avoid = Number.isFinite(last) ? [last] : [];
+  if (role === "rabbi") {
+    const a = pickSpot(avoid), b = pickSpot([...avoid, a], 12);
+    store.set("wed_last", String(a));
+    hiders = [newHider(makeGroom(), "groom", a), newHider(makeBride(), "bride", b)];
+    partner = null;
+  } else {
+    makePartner(role);
+    const i = pickSpot(avoid); store.set("wed_last", String(i)); partnerSpot = i;
+    hiders = [newHider(partner, role === "bride" ? "groom" : "bride", i)];
+  }
+}
 function pickSpot(exclude = [], minFromPlayer = 12) {
   const ok = SPOTS.map((s, i) => i).filter(i => !exclude.includes(i) && Math.hypot(SPOTS[i][0] - P.x, SPOTS[i][1] - P.z) >= minFromPlayer);
   const pool = ok.length ? ok : SPOTS.map((s, i) => i).filter(i => !exclude.includes(i));
   return pool[(Math.random() * pool.length) | 0];
 }
-function placePartner() {
-  const last = +store.get("wed_last");
-  const i = pickSpot(Number.isFinite(last) ? [last] : []);      // a different hiding place every game
-  store.set("wed_last", String(i));
-  partnerSpot = i;
-  const [x, z] = SPOTS[i];
-  partner.position.set(x, 0, z);
-  partner.rotation.y = Math.atan2(START.x - x, START.z - z);
-}
 // partner AI: hide for a while, then sneak to another spot; in hard mode, run away when you get close
-const AI = { mover: null, mode: "hide", until: 0, fleeCool: 0 };
 const hideTime = () => (difficulty === "easy" ? 20 + Math.random() * 15 : 10 + Math.random() * 8) * 1000;
-function sneakTo(i, speed) {
+function sneakTo(h, i, speed) {
   const [x, z] = SPOTS[i];
-  const path = findPath(partner.position.x, partner.position.z, x, z);
+  const path = findPath(h.obj.position.x, h.obj.position.z, x, z);
   if (!path) return false;
-  partnerSpot = i; AI.mover.path = path; AI.mover.speed = speed; AI.mode = "move";
+  h.spot = i; h.ai.mover.path = path; h.ai.mover.speed = speed; h.ai.mode = "move";
   return true;
 }
 const wanderers = [];
@@ -449,7 +467,7 @@ function collides(x, z, r = .3) {
   if (staticHit(x, z, r)) return true;
   for (const p of hora) if (Math.hypot(p.position.x - x, p.position.z - z) < r + .3) return true;
   for (const w of wanderers) if (Math.hypot(w.obj.position.x - x, w.obj.position.z - z) < r + .3) return true;
-  if (partner && Math.hypot(partner.position.x - x, partner.position.z - z) < r + .35) return true;
+  for (const h of hiders) if (Math.hypot(h.obj.position.x - x, h.obj.position.z - z) < r + .35) return true;
   return false;
 }
 
@@ -750,7 +768,7 @@ function applyLang() {
 document.querySelectorAll(".pick").forEach(b => b.onclick = () => {
   role = b.dataset.role;
   document.querySelectorAll(".pick").forEach(x => x.classList.toggle("on", x === b));
-  $("#story").textContent = role === "bride" ? T("storyB") : T("storyG");
+  $("#story").textContent = T(role === "bride" ? "storyB" : role === "groom" ? "storyG" : "storyR");
   $("#startBtn").disabled = false;
 });
 document.querySelectorAll(".diff").forEach(b => b.onclick = () => { difficulty = b.dataset.d; store.set("wed_diff", difficulty); applyLang(); });
@@ -765,19 +783,20 @@ function startGame() {
   if (!role) return;
   ac(); if (actx && actx.state === "suspended") actx.resume();
   resetCeremony();
-  makePartner(role);
   P.x = START.x; P.z = START.z; P.yaw = START.yaw; P.pitch = -0.05;
-  placePartner();
+  setupHiders();
+  rabbi.visible = role !== "rabbi";                     // when you are the rabbi, he is you
   rabbiCool = 0; rabbiTalk = 0;
-  AI.mover = { obj: partner, path: [], speed: 1.6 }; AI.mode = "hide"; AI.until = performance.now() + hideTime(); AI.fleeCool = 0;
+  $("#who").hidden = role !== "rabbi";
+  for (const h of hiders) { const c = $("#who_" + h.who); if (c) c.classList.remove("got"); }
   startMusic();
   confetti.visible = false;
   state = "play"; t0 = performance.now(); lastMove = t0; elapsed = 0;
   $("#menu").hidden = true; $("#win").hidden = true; $("#hud").hidden = false;
   $("#heat").hidden = difficulty !== "easy";
   $("#joy").hidden = !touch;
-  showMsg(role === "bride" ? T("storyB") : T("storyG"), 4500);
-  setTimeout(() => showMsg(T("tip"), 4000), 5200);
+  showMsg(T(role === "bride" ? "storyB" : role === "groom" ? "storyG" : "storyR"), 5000);
+  setTimeout(() => { if (state === "play") showMsg(T(role === "rabbi" ? "tipR" : "tip"), 4500); }, 5600);
 }
 function showMsg(s, ms = 3000) { const m = $("#msg"); m.textContent = s; m.classList.add("on"); clearTimeout(msgTimer); msgTimer = setTimeout(() => m.classList.remove("on"), ms); }
 
@@ -802,14 +821,24 @@ const LMARKS = [
   { p: [11, -12], he: "העץ שליד הכיסאות של החופה", en: "the tree by the ceremony chairs", yi: "דעם בוים לעבן די חופּה־שטולן", fr: "l'arbre près des chaises de la cérémonie", ru: "дерева у стульев для церемонии" },
   { p: [-22, 7], he: "העץ שליד שולחן העוגה", en: "the tree by the cake table", yi: "דעם בוים לעבן דעם טאָרט־טיש", fr: "l'arbre près de la table du gâteau", ru: "дерева у стола с тортом" },
 ];
+function found(h) {
+  if (role !== "rabbi") { win(); return; }
+  h.found = true; h.ai.mode = "toChuppah";
+  const c = $("#who_" + h.who); if (c) c.classList.add("got");
+  if (hiders.every(x => x.found)) { partner = h.obj; win(); return; }
+  burst(h.obj.position.x, h.obj.position.z); tone(523, 0, .15, "triangle", .08); tone(659, .12, .15, "triangle", .08); tone(784, .24, .3, "triangle", .08);
+  showMsg(T(h.who === "groom" ? "foundOneG" : "foundOneB"), 4500);
+  const [x, z] = WAIT_AT[h.who], path = findPath(h.obj.position.x, h.obj.position.z, x, z);
+  if (path) { h.ai.mover.path = path; h.ai.mover.speed = 3.1; } else { h.obj.position.set(x, 0, z); h.ai.mover.path = []; }
+}
 function win() {
   state = "won"; winAt = performance.now();
   if (document.pointerLockElement) document.exitPointerLock();
   const secs = Math.round(elapsed);
-  const key = "wed_best_" + difficulty, best = +store.get(key) || 0, isBest = !best || secs < best;
+  const key = "wed_best_" + (role === "rabbi" ? "rabbi_" : "") + difficulty, best = +store.get(key) || 0, isBest = !best || secs < best;
   if (isBest) store.set(key, String(secs));
   winFanfare(); burst(partner.position.x, partner.position.z);
-  $("#winText").textContent = role === "bride" ? T("foundG", { t: secs }) : T("foundB", { t: secs });
+  $("#winText").textContent = T(role === "bride" ? "foundG" : role === "groom" ? "foundB" : "foundBoth", { t: secs });
   $("#winBest").textContent = isBest ? T("newBest") : T("best", { t: best });
   $("#hud").hidden = true;
   startCeremony();
@@ -858,12 +887,15 @@ const UNDER = { gF: [-1.7, -13.0], gM: [-1.45, -14.5], groom: [-.55, -13.7], bri
 const AISLE0 = 1.2, WALK = 1.4, GAP = 3.2;
 function startCeremony() {
   cer.phase = "found"; cer.t0 = performance.now();
-  cer.me = role === "groom" ? makeGroom() : makeBride(); cer.me.visible = false;
+  rabbi.visible = true;
+  if (role === "rabbi") { cer.me = null; cer.groom = hiders.find(h => h.who === "groom").obj; cer.bride = hiders.find(h => h.who === "bride").obj; }
+  else { cer.me = role === "groom" ? makeGroom() : makeBride(); cer.me.visible = false; cer.groom = role === "groom" ? cer.me : partner; cer.bride = role === "groom" ? partner : cer.me; }
+  for (const h of hiders) h.ai.mode = "ceremony";
   makeParents();
 }
 function beginProcession() {
   const now = performance.now();
-  const groom = role === "groom" ? cer.me : partner, bride = role === "groom" ? partner : cer.me;
+  const groom = cer.groom, bride = cer.bride;
   const P0 = cer.parents;
   const line = (obj, x, end, delay, via) => ({ obj, delay, path: [[x, AISLE0], [x, -11.2], ...(via ? [via] : []), end], face: null, s: 0 });
   cer.actors = [
@@ -896,7 +928,7 @@ function placeActor(a, t, dt, ts) {
   const sw = moving ? Math.sin(ts * 7 + (a.delay ? 1 : 0)) : 0;
   if (u.legL) { u.legL.rotation.x = sw * .55; u.legR.rotation.x = -sw * .55; }
   u.armL.rotation.x = -sw * .35; u.armR.rotation.x = sw * .35;
-  if (o.userData === (role === "groom" ? partner : cer.me).userData && u.armR.children[0]) u.armR.rotation.x = -.5;   // the bride holds her bouquet up
+  if (o === cer.bride && u.armR.children[0]) u.armR.rotation.x = -.5;   // the bride holds her bouquet up
   o.position.y = moving ? Math.abs(sw) * .03 : 0;
   return s >= a.len;
 }
@@ -1029,29 +1061,43 @@ function frame() {
       if (!collides(P.x, nz)) P.z = nz;
       P.bob += dt * 9;
     }
-    // partner AI
-    const d = Math.hypot(partner.position.x - P.x, partner.position.z - P.z);
-    const u = partner.userData;
-    if (AI.mode === "move") {
-      if (!stepMover(AI.mover, dt, ts)) { AI.mode = "hide"; AI.until = now + hideTime(); partner.position.y = 0; if (u.legL) u.legL.rotation.x = u.legR.rotation.x = 0; }
-    } else {
-      // hiding: peeks and waves now and then, looks at you when you're close
-      u.armL.rotation.x = u.armR.rotation.x = 0;
-      u.armR.rotation.z = Math.sin(ts * 3) > .92 ? 2.6 + Math.sin(ts * 18) * .3 : 0;
-      u.head.rotation.y = Math.sin(ts * .9) * .6;
-      if (d < 7) partner.rotation.y = Math.atan2(P.x - partner.position.x, P.z - partner.position.z);
-      const flee = difficulty === "hard" && d < 6.5 && now > AI.fleeCool;
-      if (flee || now > AI.until) {
-        const i = pickSpot([partnerSpot], flee ? 14 : 10);
-        if (sneakTo(i, flee ? 3.3 : (difficulty === "hard" ? 2.3 : 1.5))) {
-          if (soundOn && d < 22) giggle();
-          if (flee) { AI.fleeCool = now + 9000; showMsg(role === "bride" ? T("fledG") : T("fledB"), 2500); }
-          else if (difficulty === "easy") showMsg(role === "bride" ? T("movedG") : T("movedB"), 2500);
-        } else AI.until = now + 3000;
+    // hiders' AI
+    let dNear = Infinity;
+    for (const h of hiders) {
+      const o = h.obj, u = o.userData, A = h.ai, d = Math.hypot(o.position.x - P.x, o.position.z - P.z);
+      if (h.found) {                                    // walk to the chuppah, then wait there and wave the rabbi on
+        if (A.mode === "toChuppah") { if (!stepMover(A.mover, dt, ts)) { A.mode = "waiting"; o.position.y = 0; if (u.legL) u.legL.rotation.x = u.legR.rotation.x = 0; } }
+        else {
+          let dy = Math.atan2(P.x - o.position.x, P.z - o.position.z) - o.rotation.y; dy = Math.atan2(Math.sin(dy), Math.cos(dy)); o.rotation.y += dy * Math.min(1, dt * 3);
+          u.armL.rotation.x = 0; u.armR.rotation.z = Math.sin(ts * 2.2 + (h.who === "bride" ? 1.5 : 0)) > .6 ? 2.6 + Math.sin(ts * 14) * .3 : 0;
+        }
+        continue;
       }
+      dNear = Math.min(dNear, d);
+      if (A.mode === "move") {
+        if (!stepMover(A.mover, dt, ts)) { A.mode = "hide"; A.until = now + hideTime(); o.position.y = 0; if (u.legL) u.legL.rotation.x = u.legR.rotation.x = 0; }
+      } else {
+        // hiding: peeks and waves now and then, looks at you when you're close
+        u.armL.rotation.x = u.armR.rotation.x = 0;
+        u.armR.rotation.z = Math.sin(ts * 3 + (h.who === "bride" ? 2 : 0)) > .92 ? 2.6 + Math.sin(ts * 18) * .3 : 0;
+        u.head.rotation.y = Math.sin(ts * .9) * .6;
+        if (d < 7) o.rotation.y = Math.atan2(P.x - o.position.x, P.z - o.position.z);
+        const flee = difficulty === "hard" && d < 6.5 && now > A.fleeCool;
+        if (flee || now > A.until) {
+          const i = pickSpot([h.spot, ...hiders.filter(x => x !== h).map(x => x.spot)], flee ? 14 : 10);
+          if (sneakTo(h, i, flee ? 3.3 : (difficulty === "hard" ? 2.3 : 1.5))) {
+            if (soundOn && d < 22) giggle();
+            const g = h.who === "groom";
+            if (flee) { A.fleeCool = now + 9000; showMsg(T(g ? "fledG" : "fledB"), 2500); }
+            else if (difficulty === "easy") showMsg(T(g ? "movedG" : "movedB"), 2500);
+          } else A.until = now + 3000;
+        }
+      }
+      if (d < 2.1 && state === "play") found(h);
     }
+    const d = dNear;
     // ask the rabbi: walk up to him for a hint
-    if (Math.hypot(P.x - RABBI.x, P.z - RABBI.z) < 2.7 && now > rabbiCool) {
+    if (role !== "rabbi" && Math.hypot(P.x - RABBI.x, P.z - RABBI.z) < 2.7 && now > rabbiCool) {
       rabbiCool = now + (difficulty === "easy" ? 10000 : 20000); rabbiTalk = now + 2500;
       const pp = partner.position;
       let best = LMARKS[0], bd = Infinity;
@@ -1059,10 +1105,9 @@ function frame() {
       showMsg(T("rabbiHint", { who: role === "bride" ? T("whoG") : T("whoB"), place: best[lang] }), 5500);
       tone(196, 0, .18, "triangle", .07); tone(247, .16, .25, "triangle", .07);
     }
-    if (d < 2.1) win();
     // HUD
     $("#time").textContent = Math.floor(elapsed / 60) + ":" + String(Math.floor(elapsed % 60)).padStart(2, "0");
-    if (difficulty === "easy") {
+    if (difficulty === "easy" && d < Infinity) {
       const heat = Math.max(0, Math.min(1, 1 - (d - 2) / 30));
       const idx = Math.min(4, Math.floor(heat * 5));
       $("#heatFill").style.width = (heat * 100).toFixed(0) + "%";
@@ -1073,7 +1118,6 @@ function frame() {
   let ceremonyCam = false;
   if (state === "won") ceremonyCam = ceremonyFrame(now, dt, ts);
   if (state === "won" && cer.phase === "found") {
-    AI.mode = "hide";
     // turn to face the partner; partner raises both arms
     const ty = Math.atan2(-(partner.position.x - P.x), -(partner.position.z - P.z));
     let dy = ty - P.yaw; dy = Math.atan2(Math.sin(dy), Math.cos(dy)); P.yaw += dy * Math.min(1, dt * 4);
@@ -1107,12 +1151,12 @@ function frame() {
 }
 // menu portraits — small original pixel-art figures
 function portrait(cv, r) {
-  const g = cv.getContext("2d"), P0 = r === "bride"
+  const g = cv.getContext("2d"), P0 = r === "rabbi" ? ["....dddddd....", "...dddddddd...", ".dddddddddddd.", "..gssssssssg..", "..gsessssesg..", "..gsessssesg..", "..grsmssmsrg..", "..gggsmmsggg..", "...gggggggg...", "....gggggg....", "...bbbggbbb...", "..sbbbggbbbs..", "..sbbbbbbbbs..", "..sbbbbbbbbs..", "...bbbbbbbb...", "...bbbbbbbb...", "...bbb..bbb...", "...ddd..ddd..."] : r === "bride"
     ? ["....HHHHHH....", "...HHHHHHHH...", "..HHHHHHHHHH..", "..HssssssssH..", "..HsessssesH..", "..ssessssess..", "..srsmssmsrs..", "...sssmmsss...", "....ssssss....", "vvv.wqqqqw.vvv", "vv.wwwffwww.vv", "v..swwffwws..v", "...wwwwwwww...", "..wwwwwwwwww..", ".wwwwwwwwwwww.", "wwwwwwwwwwwwww", "wwwwwwwwwwwwww"]
     : ["....kkkkkk....", "...hhhhhhhh...", "..hhhhhhhhhh..", "..hssssssssh..", "..ssessssess..", "..ssessssess..", "..srsmssmsrs..", "...sssmmsss...", "....ssssss....", "...bbbwwbbb...", "..sbbbxwbbbs..", "..sbbbxwbbbs..", "..sbbbbbbbbs..", "...bbbbbbbb...", "...bbb..bbb...", "...bbb..bbb...", "...ddd..ddd..."];
   const C = { H: "#3b2a20", h: "#3a2a1e", s: r === "bride" ? "#f2cdb4" : "#e8b896", e: "#2b211b", m: "#b5555c", W: "#ffffff", r: "#f0a08f",
               w: "#fffdf8", q: "#efe6cf", f: "#f2a7c3", k: "#ffffff", B: "#2e2118", v: "#eef3f8",
-              b: "#1c1f2b", d: "#0d0d0d", x: "#111111" };
+              b: r === "rabbi" ? "#15171d" : "#1c1f2b", d: "#0d0d0d", x: "#111111", g: "#ecebe4" };
   const px = Math.floor(Math.min(cv.width / 16, cv.height / (P0.length + 2)));
   const ox = Math.floor((cv.width - 14 * px) / 2), oy = cv.height - (P0.length + 1) * px;
   g.clearRect(0, 0, cv.width, cv.height);
@@ -1124,7 +1168,7 @@ function portrait(cv, r) {
     if (!filled(x, y) && (filled(x - 1, y) || filled(x + 1, y) || filled(x, y - 1) || filled(x, y + 1))) g.fillRect(ox + x * px, oy + y * px, px, px);
   P0.forEach((row, y) => [...row].forEach((ch, x) => { if (C[ch]) { g.fillStyle = C[ch]; g.fillRect(ox + x * px, oy + y * px, px, px); } }));
 }
-document.querySelectorAll(".pick canvas").forEach(cv => portrait(cv, cv.dataset.role));
+document.querySelectorAll(".pick canvas, .whoc").forEach(cv => portrait(cv, cv.dataset.role));
 applyLang();
 requestAnimationFrame(frame);
-window.__wedding = { get state() { return state; }, cer, skipCeremony, win: () => win(), P, get partner() { return partner; }, SPOTS, collides, staticHit, findPath, AI, music, wanderers, RABBI, LMARKS };
+window.__wedding = { get state() { return state; }, cer, skipCeremony, win: () => win(), P, get partner() { return partner; }, get hiders() { return hiders; }, SPOTS, collides, staticHit, findPath, music, wanderers, RABBI, LMARKS };
